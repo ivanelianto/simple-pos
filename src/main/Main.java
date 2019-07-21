@@ -1,9 +1,12 @@
 package main;
 
+import app.model.User;
 import app.view.LoginFrame;
 
 public class Main
 {
+	public static User currentUser = null;
+	
 	public Main()
 	{
 		LoginFrame loginFrame = new LoginFrame();
