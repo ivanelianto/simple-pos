@@ -1,9 +1,20 @@
 package app.model;
 
+import app.annotation.Table;
+
 public class User
 {
+	@Table(columnName = "id")
 	private int id;
-	private String name, username, password;
+	
+	@Table(columnName = "name")
+	private String name;
+	
+	@Table(columnName = "username")
+	private String username;
+	
+	@Table(columnName = "password")
+	private String password;
 
 	public int getId()
 	{

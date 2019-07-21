@@ -23,6 +23,11 @@ import util.FilePathHelper;
 
 public class LoginFrame extends MyFrame implements ILoginFrame
 {
+	JButton btnLogin;
+	JLabel lblTitle, lblUsername, lblPassword;
+	JTextField txtUsername;
+	JPasswordField txtPassword;
+
 	public LoginFrame()
 	{
 		setSize(500, 300);
@@ -94,41 +99,60 @@ public class LoginFrame extends MyFrame implements ILoginFrame
 	@Override
 	public JButton getLoginButton()
 	{
-		JButton btnLogin = ButtonFactory.getInstance().create("Login");
-		btnLogin.addActionListener(LoginFrameController.getInstance(this).onLoginButtonClick());
+		if (btnLogin == null)
+		{
+			btnLogin = ButtonFactory.getInstance().create("Login");
+			btnLogin.addActionListener(LoginFrameController.getInstance(this).onLoginButtonClick());
+		}
 		return btnLogin;
 	}
 
 	@Override
 	public JLabel getTitleLabel()
 	{
-		JLabel lblTitle = new JLabel();
-		lblTitle.setIcon(new ImageIcon(FilePathHelper.getAssetsPath() + "/logo.png"));
+		if (lblTitle == null)
+		{
+			lblTitle = new JLabel();
+			lblTitle.setIcon(new ImageIcon(FilePathHelper.getAssetsPath() + "/logo.png"));
+		}
+
 		return lblTitle;
 	}
 
 	@Override
 	public JLabel getUsernameLabel()
 	{
-		return LabelFactory.getInstance().create("Username");
+		if (lblUsername == null)
+			lblUsername = LabelFactory.getInstance().create("Username");
+
+		return lblUsername;
 	}
 
 	@Override
 	public JLabel getPasswordLabel()
 	{
-		return LabelFactory.getInstance().create("Password");
+		if (lblPassword == null)
+			lblPassword = LabelFactory.getInstance().create("Password");
+
+		return lblPassword;
 	}
 
 	@Override
 	public JTextField getUsernameField()
 	{
-		return TextFieldFactory.getInstance().create();
+		if (txtUsername == null)
+			txtUsername = TextFieldFactory.getInstance().create();
+		
+		return txtUsername;
 	}
 
 	@Override
 	public JPasswordField getPasswordField()
 	{
-		return (JPasswordField) TextFieldFactory.getInstance().create(true);
+		if (txtPassword == null)
+			txtPassword = (JPasswordField) TextFieldFactory.getInstance().create(true);
+		
+		return txtPassword;
 	}
 
 }

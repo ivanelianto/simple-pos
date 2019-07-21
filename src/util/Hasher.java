@@ -6,12 +6,12 @@ import java.security.NoSuchAlgorithmException;
 
 public class Hasher
 {
-	public Hasher() 
+	private Hasher() 
 	{
 		
 	}
 	
-	public String hash(String plainText)
+	public static String hash(String plainText)
 	{
 		try
 		{
