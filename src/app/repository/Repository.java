@@ -11,7 +11,7 @@ import com.mysql.jdbc.Driver;
 
 import app.annotation.Table;
 
-public class Repository<T>
+public abstract class Repository<T>
 {
 	private final static String DB_SERVER = "localhost";
 	private final static int DB_PORT = 3306;
@@ -21,7 +21,7 @@ public class Repository<T>
 	private static String connectionString = String.format("jdbc:mysql://%s:%d/%s", DB_SERVER, DB_PORT, DB_NAME);
 
 	private static Connection conn;
-
+	
 	private static Connection getConnection()
 	{
 		if (conn == null)
@@ -51,7 +51,7 @@ public class Repository<T>
 			{
 				statement.setString(i, params[i - 1]);
 			}
-
+			
 			return statement.executeQuery();
 		}
 		catch (Exception e)
@@ -62,21 +62,21 @@ public class Repository<T>
 		return null;
 	}
 
-	public static ResultSet getAll(String tableName)
+	protected static ResultSet getAll(String tableName)
 	{
-		String query = "SELECT * FROM ?";
+		String query = String.format("SELECT * FROM %s", tableName);
 
-		return executeStatement(query, tableName);
+		return executeStatement(query);
 	}
 
-	public static ResultSet get(String tableName, String id)
+	protected static ResultSet get(String tableName, String id)
 	{
-		String query = "SELECT * FROM ? WHERE id=?";
+		String query = String.format("SELECT * FROM %s WHERE id=?", tableName);
 
-		return executeStatement(query, tableName, id);
+		return executeStatement(query, id);
 	}
 
-	public static <T> ArrayList<T> toModel(Class<T> type, ResultSet resultSet)
+	protected static <T> ArrayList<T> toModel(Class<T> type, ResultSet resultSet)
 	{
 		ArrayList<T> models = new ArrayList<>();
 

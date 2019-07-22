@@ -75,6 +75,7 @@ public class MyImageButton extends JButton
 	public void setImageSize(int width, int height)
 	{
 		this.image = this.image.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+		this.setImage(this.image);
 	}
 
 }

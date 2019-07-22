@@ -20,7 +20,7 @@ public interface IMainFrame
 
 	MyImageButton getLogoutButton();
 
-	MyImageButton getCastToCustomerViewScreenButton();
-
-	MyImageButton getRestorePendingTransactionButton();
+	SidePanel getSidePanel();
+	
+	ContentPanel getContentPanel();
 }

@@ -1,27 +1,25 @@
 package app.view.main;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.security.InvalidParameterException;
 
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import app.factory.ButtonFactory;
 import app.view.custom_component.MyImageButton;
 import util.FilePathHelper;
 
-public class HomePanel extends JPanel implements IHomePanel {
+public class HomePanel extends JPanel implements ActionListener, IHomePanel {
 	private MyImageButton btnCastToCustomerViewScreen, btnRestorePendingTransaction;
 
 	public HomePanel() {
@@ -48,6 +46,19 @@ public class HomePanel extends JPanel implements IHomePanel {
 	}
 
 	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == btnCastToCustomerViewScreen)
+		{
+			
+		}
+		else if (e.getSource() == btnRestorePendingTransaction)
+		{
+			
+		}
+	}
+
+	@Override
 	public MyImageButton getCastToCustomerViewScreenButton() {
 		if (btnCastToCustomerViewScreen == null)
 		{
@@ -63,6 +74,8 @@ public class HomePanel extends JPanel implements IHomePanel {
 				btnCastToCustomerViewScreen.setText(
 						setButtonStyle(btnCastToCustomerViewScreen.getText())
 					);
+				
+				btnCastToCustomerViewScreen.addActionListener(this);
 				
 			} catch (InvalidParameterException e) {
 				e.printStackTrace();
@@ -90,6 +103,8 @@ public class HomePanel extends JPanel implements IHomePanel {
 				btnRestorePendingTransaction.setText(
 						setButtonStyle(btnRestorePendingTransaction.getText())
 					);
+				
+				btnRestorePendingTransaction.addActionListener(this);
 				
 			} catch (InvalidParameterException e) {
 				e.printStackTrace();

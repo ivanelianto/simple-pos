@@ -3,30 +3,25 @@ package app.view.main;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
-import app.controller.MainFrameController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
-import app.view.custom_component.MyColor;
 import app.view.custom_component.MyFrame;
 import app.view.custom_component.MyImageButton;
+import main.Main;
 import util.FilePathHelper;
 
-public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
+public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 {
 	private JLabel lblTitle;
 	private MyImageButton btnHome;
@@ -35,14 +30,13 @@ public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
 	private MyImageButton btnPOS;
 	private MyImageButton btnReport;
 	private MyImageButton btnLogout;
-	private MyImageButton btnCastToCustomerViewScreen;
-	private MyImageButton btnRestorePendingTransaction;
-	private JPanel sidePanel;
-	private JPanel contentPanel;
+	private SidePanel sidePanel;
+	private ContentPanel contentPanel;
 
 	public MainFrame()
 	{
-		setSize(800, 600);
+		setResizable(false);
+		setSize(825, 600);
 		setLocationRelativeTo(null);
 		initializeComponent();
 	}
@@ -52,16 +46,52 @@ public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
 	{
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setBackground(Color.WHITE);
-		
+
 		sidePanel = getSidePanel();
 		sidePanel.setBackground(Color.WHITE);
 		panel.add(sidePanel, BorderLayout.WEST);
-		
+
 		contentPanel = getContentPanel();
 		contentPanel.setBackground(Color.WHITE);
 		panel.add(contentPanel, BorderLayout.CENTER);
-		
+
 		this.add(panel, BorderLayout.CENTER);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		CardLayout layout = this.getContentPanel().getCardLayout();
+		
+		if (e.getSource() == btnHome)
+		{
+			layout.show(getContentPanel(), ContentPanel.HOME_PANEL);
+		}
+		else if (e.getSource() == btnManageUser)
+		{
+			layout.show(getContentPanel(), ContentPanel.MANAGE_USER_PANEL);
+		}
+		else if (e.getSource() == btnManageUser)
+		{
+			
+		}
+		else if (e.getSource() == btnManageProduct)
+		{
+			
+		}
+		else if (e.getSource() == btnPOS)
+		{
+			
+		}
+		else if (e.getSource() == btnReport)
+		{
+			
+		}
+		else if (e.getSource() == btnLogout)
+		{
+			Main.currentUser = null;
+			// TODO: Close Frame and Trigger Reshow Login Frame
+		}
 	}
 
 	@Override
@@ -73,7 +103,7 @@ public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
 			lblTitle.setIcon(new ImageIcon(FilePathHelper.getAssetsPath() + "/logo.png"));
 			lblTitle.setHorizontalAlignment(JButton.CENTER);
 		}
-		
+
 		return lblTitle;
 	}
 
@@ -82,22 +112,23 @@ public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
 	{
 		if (btnHome == null)
 		{
-			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath()  + "/home-icon.png"));
-				
-				btnHome = (MyImageButton) ButtonFactory.getInstance().create("Home",
-						MyImageButton.LEFT,
-						image);
-				
+			try
+			{
+				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/home-icon.png"));
+
+				btnHome = (MyImageButton) ButtonFactory.getInstance().create("Home", MyImageButton.LEFT, image);
+
 				btnHome.setText(setLeftButtonStyle(btnHome.getText()));
-				
-				btnHome.addActionListener(MainFrameController.getInstance(this).onHomeButtonClick());
-				
-			} catch (Exception e) {
+
+				btnHome.addActionListener(this);
+
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return btnHome;
 	}
 
@@ -106,19 +137,23 @@ public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
 	{
 		if (btnManageUser == null)
 		{
-			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath()  + "/user-icon.png"));
-				
-				btnManageUser = (MyImageButton) ButtonFactory.getInstance().create("Manage User",
-						MyImageButton.LEFT,
+			try
+			{
+				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/user-icon.png"));
+
+				btnManageUser = (MyImageButton) ButtonFactory.getInstance().create("Manage User", MyImageButton.LEFT,
 						image);
 
 				btnManageUser.setText(setLeftButtonStyle(btnManageUser.getText()));
-			} catch (Exception e) {
+
+				btnManageUser.addActionListener(this);
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return btnManageUser;
 	}
 
@@ -127,19 +162,23 @@ public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
 	{
 		if (btnManageProduct == null)
 		{
-			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath()  + "/home-icon.png"));
-				
+			try
+			{
+				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/home-icon.png"));
+
 				btnManageProduct = (MyImageButton) ButtonFactory.getInstance().create("Manage Product",
-						MyImageButton.LEFT,
-						image);
+						MyImageButton.LEFT, image);
 
 				btnManageProduct.setText(setLeftButtonStyle(btnManageProduct.getText()));
-			} catch (Exception e) {
+				
+				btnManageProduct.addActionListener(this);
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return btnManageProduct;
 	}
 
@@ -148,19 +187,22 @@ public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
 	{
 		if (btnPOS == null)
 		{
-			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath()  + "/pos-icon.png"));
-				
-				btnPOS = (MyImageButton) ButtonFactory.getInstance().create("POS",
-						MyImageButton.LEFT,
-						image);
+			try
+			{
+				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/pos-icon.png"));
+
+				btnPOS = (MyImageButton) ButtonFactory.getInstance().create("POS", MyImageButton.LEFT, image);
 
 				btnPOS.setText(setLeftButtonStyle(btnPOS.getText()));
-			} catch (Exception e) {
+				
+				btnPOS.addActionListener(this);
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return btnPOS;
 	}
 
@@ -169,19 +211,23 @@ public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
 	{
 		if (btnReport == null)
 		{
-			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath()  + "/report-icon.png"));
-				
-				btnReport = (MyImageButton) ButtonFactory.getInstance().create("Transaction Report",
-						MyImageButton.LEFT,
+			try
+			{
+				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/report-icon.png"));
+
+				btnReport = (MyImageButton) ButtonFactory.getInstance().create("Transaction Report", MyImageButton.LEFT,
 						image);
 
 				btnReport.setText(setLeftButtonStyle(btnReport.getText()));
-			} catch (Exception e) {
+				
+				btnReport.addActionListener(this);
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return btnReport;
 	}
 
@@ -190,80 +236,46 @@ public class MainFrame extends MyFrame implements IMainFrame, IMainFramePanel
 	{
 		if (btnLogout == null)
 		{
-			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath()  + "/logout-icon.png"));
-				
-				btnLogout = (MyImageButton) ButtonFactory.getInstance().create("Logout",
-						MyImageButton.LEFT,
-						image);
+			try
+			{
+				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/logout-icon.png"));
+
+				btnLogout = (MyImageButton) ButtonFactory.getInstance().create("Logout", MyImageButton.LEFT, image);
 
 				btnLogout.setText(setLeftButtonStyle(btnLogout.getText()));
-			} catch (Exception e) {
+				
+				btnLogout.addActionListener(this);
+			}
+			catch (Exception e)
+			{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return btnLogout;
 	}
 
 	@Override
-	public MyImageButton getCastToCustomerViewScreenButton()
+	public SidePanel getSidePanel()
 	{
-		if (btnCastToCustomerViewScreen == null)
-		{
-			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath()  + "/add-icon.png"));
-				btnCastToCustomerViewScreen = (MyImageButton) ButtonFactory.getInstance().create("Cast To Customer View Screen",
-						MyImageButton.TOP,
-						image);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return btnCastToCustomerViewScreen;
-	}
-
-	@Override
-	public MyImageButton getRestorePendingTransactionButton()
-	{
-		if (btnRestorePendingTransaction == null)
-		{
-			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath()  + "/restore-icon.png"));
-				btnRestorePendingTransaction = (MyImageButton) ButtonFactory.getInstance().create("Home",
-						MyImageButton.TOP,
-						image);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return btnRestorePendingTransaction;
-	}
-
-	@Override
-	public JPanel getSidePanel() {
 		if (sidePanel == null)
 			sidePanel = new SidePanel(this);
-		
+
 		return sidePanel;
 	}
 
 	@Override
-	public JPanel getContentPanel() {
+	public ContentPanel getContentPanel()
+	{
 		if (contentPanel == null)
 			contentPanel = new ContentPanel(this);
-		
+
 		return contentPanel;
 	}
 
 	private String setLeftButtonStyle(String text)
 	{
-		return String.format("<html>"
-				+ "<p style='width: 150px; padding-left: 10px'>"
-				+ "%s"
-				+ "</p>"
-				+ "</html>", text);
+		return String.format("<html>" + "<p style='width: 150px; padding-left: 10px'>" + "%s" + "</p>" + "</html>",
+				text);
 	}
 }

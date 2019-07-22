@@ -1,23 +1,19 @@
 package app.validator.rule.loginframe;
 
-import javax.swing.JTextField;
-
 import app.validator.rule.IRule;
 
 public class UsernameRule implements IRule
 {
-	private JTextField usernameField;
+	private String username;
 
-	public UsernameRule(JTextField usernameField)
+	public UsernameRule(String username)
 	{
-		this.usernameField = usernameField;
+		this.username = username;
 	}
 
 	@Override
 	public String validate()
 	{
-		String username = this.usernameField.getText();
-		
 		if (username.isEmpty())
 			return "Username must be filled.";
 		

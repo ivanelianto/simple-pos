@@ -1,24 +1,20 @@
 package app.validator.rule.loginframe;
 
-import javax.swing.JPasswordField;
-
 import app.validator.rule.IRule;
 
 public class PasswordRule implements IRule
 {
-	private JPasswordField passwordField;
+	private String hashedPassword;
 
-	public PasswordRule(JPasswordField usernameField)
+	public PasswordRule(String hashedPassword)
 	{
-		this.passwordField = usernameField;
+		this.hashedPassword = hashedPassword;
 	}
 
 	@Override
 	public String validate()
 	{
-		String password = new String(this.passwordField.getPassword());
-		
-		if (password.isEmpty())
+		if (hashedPassword.isEmpty())
 			return "Password must be filled.";
 		
 		return "";
