@@ -5,11 +5,14 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -20,9 +23,10 @@ import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.factory.TextFieldFactory;
 import app.view.custom_component.MyFrame;
+import app.view.main.MainFrame;
 import util.FilePathHelper;
 
-public class LoginFrame extends MyFrame implements ILoginFrame
+public class LoginFrame extends MyFrame implements ActionListener, ILoginFrame
 {
 	JButton btnLogin;
 	JLabel lblTitle, lblUsername, lblPassword;
@@ -90,6 +94,33 @@ public class LoginFrame extends MyFrame implements ILoginFrame
 
 		this.add(panel, BorderLayout.CENTER);
 	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == btnLogin)
+		{
+			String errorMessage = LoginFrameController.login(txtUsername.getText(),
+					new String(txtPassword.getPassword()));
+			
+			if (errorMessage.isEmpty())
+			{
+				this.setVisible(false);
+				txtUsername.setText("");
+				txtPassword.setText("");
+				
+				MainFrame frame = new MainFrame();
+				frame.setVisible(true);
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null, 
+						errorMessage, 
+						"Stop", 
+						JOptionPane.ERROR_MESSAGE);	
+			}
+		}
+	}
 
 	@Override
 	public JButton getLoginButton()
@@ -97,7 +128,7 @@ public class LoginFrame extends MyFrame implements ILoginFrame
 		if (btnLogin == null)
 		{
 			btnLogin = ButtonFactory.getInstance().create("Login");
-			btnLogin.addActionListener(LoginFrameController.getInstance(this).onLoginButtonClick());
+			btnLogin.addActionListener(this);
 		}
 		return btnLogin;
 	}
