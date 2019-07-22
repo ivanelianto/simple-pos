@@ -1,13 +1,12 @@
 package app.factory;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
 
-import app.view.MyColor;
+import app.view.custom_component.MyColor;
 
 public class TextFieldFactory
 {
@@ -30,7 +29,7 @@ public class TextFieldFactory
 
 	private void setDefaultStyle(JTextField textField)
 	{
-		textField.setBorder(new MatteBorder(0, 0, 2, 0, Color.decode(MyColor.ACCENT_BACKGROUND)));
+		textField.setBorder(new MatteBorder(0, 0, 2, 0, MyColor.getAccentBackground()));
 		textField.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 	}
 

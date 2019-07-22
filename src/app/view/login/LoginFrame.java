@@ -1,4 +1,4 @@
-package app.view;
+package app.view.login;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,6 +19,7 @@ import app.controller.LoginFrameController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.factory.TextFieldFactory;
+import app.view.custom_component.MyFrame;
 import util.FilePathHelper;
 
 public class LoginFrame extends MyFrame implements ILoginFrame
@@ -61,11 +62,8 @@ public class LoginFrame extends MyFrame implements ILoginFrame
 		 */
 		JPanel usernamePanel = new JPanel(new BorderLayout());
 		usernamePanel.setBackground(Color.WHITE);
-
 		usernamePanel.add(getUsernameLabel(), BorderLayout.NORTH);
-
 		usernamePanel.add(Box.createVerticalStrut(5));
-
 		usernamePanel.add(getUsernameField(), BorderLayout.SOUTH);
 
 		c.gridx = 1;
@@ -76,11 +74,8 @@ public class LoginFrame extends MyFrame implements ILoginFrame
 
 		JPanel passwordPanel = new JPanel(new BorderLayout());
 		passwordPanel.setBackground(Color.WHITE);
-
 		passwordPanel.add(getPasswordLabel(), BorderLayout.NORTH);
-
 		passwordPanel.add(Box.createVerticalStrut(5));
-
 		passwordPanel.add(getPasswordField(), BorderLayout.SOUTH);
 
 		c.gridx = 1;

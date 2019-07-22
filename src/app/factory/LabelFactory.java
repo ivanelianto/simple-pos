@@ -4,7 +4,7 @@ import java.awt.Color;
 
 import javax.swing.JLabel;
 
-import app.view.MyColor;
+import app.view.custom_component.MyColor;
 
 public class LabelFactory
 {
@@ -25,7 +25,7 @@ public class LabelFactory
 	private void setDefaultStyle(JLabel label)
 	{
 		label.setBackground(Color.WHITE);
-		label.setForeground(Color.decode(MyColor.ACCENT_BACKGROUND));
+		label.setForeground(MyColor.getAccentBackground());
 		label.setOpaque(true);
 	}
 	

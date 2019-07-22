@@ -1,4 +1,6 @@
-package app.view;
+package app.view.custom_component;
+
+import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
@@ -11,8 +13,9 @@ public abstract class MyFrame extends JFrame
 		setSize(500, 500);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		setLayout(new BorderLayout());
 	}
 
-	abstract void initializeComponent();
+	public abstract void initializeComponent();
 
 }
