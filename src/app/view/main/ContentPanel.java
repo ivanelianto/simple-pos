@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 
 import javax.swing.JPanel;
 
+import app.view.manage.product.ManageProductPanel;
 import app.view.manage.user.ManageUserPanel;
 
 public class ContentPanel extends JPanel {
@@ -24,6 +25,7 @@ public class ContentPanel extends JPanel {
 		this.setLayout(cardLayout);
 		this.add(new HomePanel(), HOME_PANEL);
 		this.add(new ManageUserPanel(), MANAGE_USER_PANEL);
+		this.add(new ManageProductPanel(), MANAGE_PRODUCT_PANEL);
 	}
 	
 	public CardLayout getCardLayout()

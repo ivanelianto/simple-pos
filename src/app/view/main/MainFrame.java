@@ -71,13 +71,9 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 		{
 			layout.show(getContentPanel(), ContentPanel.MANAGE_USER_PANEL);
 		}
-		else if (e.getSource() == btnManageUser)
-		{
-			
-		}
 		else if (e.getSource() == btnManageProduct)
 		{
-			
+			layout.show(getContentPanel(), ContentPanel.MANAGE_PRODUCT_PANEL);
 		}
 		else if (e.getSource() == btnPOS)
 		{
