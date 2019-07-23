@@ -15,7 +15,12 @@ public class Main
 //		loginFrame.setVisible(true);
 		
 //		new MainFrame().setVisible(true);
-		new UserDialog().setVisible(true);
+		User user = new User();
+		user.setId(2);
+		user.setName("William");
+		user.setUsername("AM18-2");
+		user.setPassword("3fc9b689459d738f8c88a3a48aa9e33542016b7a4052e001aaa536fca74813cb");
+		new UserDialog(user).setVisible(true);
 	}
 
 	public static void main(String[] args)

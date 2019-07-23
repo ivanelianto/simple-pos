@@ -24,8 +24,14 @@ public class UserController
 		UserRepository.add(user);
 	}
 	
-	public static void update(int id, User user)
+	public static void update(int id, String name, String username, String newPassword)
 	{
+		String hashedPassword = Hasher.hash(newPassword);
 		
+		User user = new User();
+		user.setName(name);
+		user.setUsername(username);
+		user.setPassword(hashedPassword);
+		UserRepository.update(id, user);
 	}
 }

@@ -8,6 +8,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,11 +25,14 @@ import app.factory.LabelFactory;
 import app.factory.TextFieldFactory;
 import app.model.User;
 import app.validator.Validator;
+import app.validator.rule.IRule;
 import app.validator.rule.user.NameRule;
+import app.validator.rule.user.PasswordConfirmRule;
 import app.validator.rule.user.PasswordRule;
 import app.validator.rule.user.UniqueUsernameRule;
 import app.validator.rule.user.UsernameRule;
 import app.view.custom_component.MyColor;
+import util.Hasher;
 
 public class UserDialog extends JDialog implements ActionListener, AutoCloseable, IUserDialog {
 	public final static int INSERT_MODE = 0;
@@ -59,6 +63,8 @@ public class UserDialog extends JDialog implements ActionListener, AutoCloseable
 		this.user = user;
 		currentMode = UPDATE_MODE;
 		initializeComponent();
+		getNameField().setText(user.getName());
+		getUsernameField().setText(user.getUsername());
 	}
 
 	private void initializeComponent() {
@@ -122,24 +128,46 @@ public class UserDialog extends JDialog implements ActionListener, AutoCloseable
 						new UsernameRule(getUsernameField().getText()),
 						new UniqueUsernameRule(getUsernameField().getText()),
 						new PasswordRule(getNewPasswordField().getText()));
-				
-				if (isValid)
-				{
+
+				if (isValid) {
 					String name = getNameField().getText();
 					String username = getUsernameField().getText();
 					String password = getNewPasswordField().getText();
 
 					UserController.add(name, username, password);
 					message = "New user added.";
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop",
+							JOptionPane.INFORMATION_MESSAGE);
 					return;
 				}
 			} else {
-				UserController.update(user.getId(), user);
-				message = "User data updated.";
+
+				ArrayList<IRule> rules = new ArrayList<>();
+
+				rules.add(new NameRule(getNameField().getText()));
+				rules.add(new UsernameRule(getUsernameField().getText()));
+
+				if (!getNewPasswordField().getText().isEmpty() 
+					|| !getOldPasswordField().getText().isEmpty()) {
+					rules.add(new PasswordRule(getOldPasswordField().getText()));
+					rules.add(new PasswordConfirmRule(user.getId(), 
+							getOldPasswordField().getText(),
+							getNewPasswordField().getText()));
+					rules.add(new PasswordRule(getNewPasswordField().getText()));
+				}
+
+				boolean isValid = Validator.validate(rules.toArray(new IRule[rules.size()]));
+
+				if (isValid) {
+					UserController.update(user.getId(), getNameField().getText(), getUsernameField().getText(),
+							getNewPasswordField().getText());
+					message = "User data updated.";
+				} else {
+					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop",
+							JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
 			}
 
 			JOptionPane.showMessageDialog(null, message, "Success", JOptionPane.INFORMATION_MESSAGE);
