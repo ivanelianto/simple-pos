@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
 
-import app.controller.ManageProductController;
+import app.controller.ProductController;
 import app.factory.ButtonFactory;
 import app.model.Product;
 import app.view.custom_component.MyImageButton;
@@ -56,7 +56,7 @@ public class ManageProductPanel extends JPanel implements IManageProductPanel
 		c.gridx = 0;
 		c.fill = GridBagConstraints.BOTH;
 		
-		ArrayList<Product> Products = ManageProductController.getAllProducts();
+		ArrayList<Product> Products = ProductController.getAllProducts();
 		
 		NumberFormat formatter = NumberFormat.getCurrencyInstance();
 		

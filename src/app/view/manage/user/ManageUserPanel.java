@@ -7,6 +7,8 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,13 +19,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
-import app.controller.ManageUserController;
+import app.controller.UserController;
 import app.factory.ButtonFactory;
 import app.model.User;
 import app.view.custom_component.MyImageButton;
+import app.view.dialog.user.UserDialog;
 import util.FilePathHelper;
 
-public class ManageUserPanel extends JPanel implements IManageUserPanel
+public class ManageUserPanel extends JPanel implements ActionListener, IManageUserPanel
 {
 	private MyImageButton btnAdd;
 	
@@ -54,7 +57,7 @@ public class ManageUserPanel extends JPanel implements IManageUserPanel
 		c.gridx = 0;
 		c.fill = GridBagConstraints.BOTH;
 		
-		ArrayList<User> users = ManageUserController.getAllUsers();
+		ArrayList<User> users = UserController.getAllUsers();
 		
 		for (int i = 0; i < users.size(); i++)
 		{
@@ -73,6 +76,22 @@ public class ManageUserPanel extends JPanel implements IManageUserPanel
 	}
 
 	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == btnAdd)
+		{
+			try (UserDialog dialog = new UserDialog())
+			{
+				dialog.setVisible(true);
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	@Override
 	public MyImageButton getAddButton()
 	{
 		if (btnAdd == null)
@@ -87,6 +106,9 @@ public class ManageUserPanel extends JPanel implements IManageUserPanel
 						image);
 				
 				btnAdd.setPreferredSize(new Dimension(100, 50));
+				
+				btnAdd.addActionListener(this);
+				
 			}
 			catch (IOException e)
 			{

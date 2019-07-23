@@ -10,7 +10,7 @@ import app.validator.rule.loginframe.UsernameRule;
 import main.Main;
 import util.Hasher;
 
-public class LoginController
+public class AuthController
 {
 	public static String login(String username, String password)
 	{

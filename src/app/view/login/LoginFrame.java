@@ -18,7 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import app.controller.LoginController;
+import app.controller.AuthController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.factory.TextFieldFactory;
@@ -100,7 +100,7 @@ public class LoginFrame extends MyFrame implements ActionListener, ILoginFrame
 	{
 		if (e.getSource() == btnLogin)
 		{
-			String errorMessage = LoginController.login(txtUsername.getText(),
+			String errorMessage = AuthController.login(txtUsername.getText(),
 					new String(txtPassword.getPassword()));
 			
 			if (errorMessage.isEmpty())
