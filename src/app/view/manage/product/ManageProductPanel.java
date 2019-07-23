@@ -26,6 +26,7 @@ import app.controller.ProductController;
 import app.factory.ButtonFactory;
 import app.model.Product;
 import app.view.custom_component.MyImageButton;
+import app.view.dialog.product.ProductDialog;
 import util.FilePathHelper;
 
 public class ManageProductPanel extends JPanel implements ActionListener, IManageProductPanel {
@@ -51,7 +52,13 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == getAddButton())
 		{
-			
+			try (ProductDialog dialog = new ProductDialog()) {
+				dialog.setVisible(true);
+				this.refreshData();
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 
@@ -108,7 +115,7 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 		for (int i = 0; i < Products.size(); i++) {
 			Product product = Products.get(i);
 
-			ProductComponent productItem = new ProductComponent(ManageProductPanel.this);
+			ProductComponent productItem = new ProductComponent(product, ManageProductPanel.this);
 			productItem.setPreferredSize(new Dimension(500, 100));
 
 			productItem.getIDButton().setText(product.getId() + "");

@@ -20,8 +20,10 @@ import javax.swing.border.EmptyBorder;
 import app.controller.ProductController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
+import app.model.Product;
 import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
+import app.view.dialog.product.ProductDialog;
 import app.view.manage.user.IManageUserPanel;
 import util.FilePathHelper;
 
@@ -30,8 +32,10 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	private JLabel lblName, lblStock, lblPrice;
 	private MyImageButton btnEdit, btnDelete;
 	private IManageProductPanel manageProductPanel;
+	private Product product;
 
-	public ProductComponent(IManageProductPanel panel) {
+	public ProductComponent(Product product, IManageProductPanel panel) {
+		this.product = product;
 		this.manageProductPanel = panel;
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
@@ -59,7 +63,12 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == getEditButton()) {
-
+			try (ProductDialog dialog = new ProductDialog(this.product)) {
+				dialog.setVisible(true);
+				manageProductPanel.refreshData();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		} else if (e.getSource() == getDeleteButton()) {
 			int confirmationResult = JOptionPane.showConfirmDialog(null, "Are you sure ?", "Confirmation",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);

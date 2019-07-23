@@ -2,7 +2,9 @@ package main;
 
 import javax.swing.SwingUtilities;
 
+import app.model.Product;
 import app.model.User;
+import app.view.dialog.product.ProductDialog;
 import app.view.dialog.user.UserDialog;
 import app.view.main.MainFrame;
 
