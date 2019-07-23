@@ -1,4 +1,4 @@
-package app.validator.rule.loginframe;
+package app.validator.rule.user;
 
 import app.validator.rule.IRule;
 
@@ -14,10 +14,14 @@ public class PasswordRule implements IRule
 	@Override
 	public String validate()
 	{
-		if (hashedPassword.isEmpty())
+		if (isEmpty())
 			return "Password must be filled.";
 		
 		return "";
 	}
 
+	private boolean isEmpty()
+	{
+		return hashedPassword.isEmpty();
+	}
 }

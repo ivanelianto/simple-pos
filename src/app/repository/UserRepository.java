@@ -15,11 +15,26 @@ public class UserRepository extends Repository<User>
 		return Repository.toModel(User.class, result);
 	}
 	
+	public static ArrayList<User> findUserByUsername(String username)
+	{
+		String query = String.format("SELECT * FROM %s WHERE username=?", TABLE_NAME);
+		ResultSet result = UserRepository.executeQuery(query, username);
+		
+		return toModel(User.class, result);
+	}
+	
+	
 	public static ArrayList<User> findUserByUsernameAndPassword(String username, String password)
 	{
 		String query = String.format("SELECT * FROM %s WHERE username=? AND password=?", TABLE_NAME);
-		ResultSet result = UserRepository.executeStatement(query, username, password);
+		ResultSet result = UserRepository.executeQuery(query, username, password);
 		
 		return toModel(User.class, result);
+	}
+	
+	public static void add(User user)
+	{
+		String query = String.format("INSERT INTO User (name, username, password) VALUES(?, ?, ?)");
+		UserRepository.executeUpdate(query, user.getName(), user.getUsername(), user.getPassword());
 	}
 }

@@ -1,4 +1,4 @@
-package app.validator.rule.loginframe;
+package app.validator.rule.user;
 
 import app.validator.rule.IRule;
 

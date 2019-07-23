@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import app.model.User;
 import app.repository.UserRepository;
 import app.validator.Validator;
-import app.validator.rule.loginframe.PasswordRule;
-import app.validator.rule.loginframe.UsernameRule;
+import app.validator.rule.user.PasswordRule;
+import app.validator.rule.user.UsernameRule;
 import main.Main;
 import util.Hasher;
 

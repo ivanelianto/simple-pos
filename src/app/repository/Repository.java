@@ -41,7 +41,7 @@ public abstract class Repository<T>
 		return conn;
 	}
 
-	protected static ResultSet executeStatement(String query, String... params)
+	protected static ResultSet executeQuery(String query, String... params)
 	{
 		try
 		{
@@ -62,18 +62,37 @@ public abstract class Repository<T>
 		return null;
 	}
 
+	protected static void executeUpdate(String query, String... params)
+	{
+		try
+		{
+			PreparedStatement statement = getConnection().prepareStatement(query);
+
+			for (int i = 1; i <= params.length; i++)
+			{
+				statement.setString(i, params[i - 1]);
+			}
+			
+			statement.executeUpdate();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+
 	protected static ResultSet getAll(String tableName)
 	{
 		String query = String.format("SELECT * FROM %s", tableName);
 
-		return executeStatement(query);
+		return executeQuery(query);
 	}
 
 	protected static ResultSet get(String tableName, String id)
 	{
 		String query = String.format("SELECT * FROM %s WHERE id=?", tableName);
 
-		return executeStatement(query, id);
+		return executeQuery(query, id);
 	}
 
 	protected static <T> ArrayList<T> toModel(Class<T> type, ResultSet resultSet)
