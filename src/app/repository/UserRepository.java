@@ -43,4 +43,11 @@ public class UserRepository extends Repository<User> {
 
 		UserRepository.executeUpdate(query, user.getName(), user.getUsername(), user.getPassword(), id + "");
 	}
+	
+	public static void delete(int id)
+	{
+		String query = String.format("DELETE FROM User WHERE ID=?");
+		
+		UserRepository.executeUpdate(query, id + "");
+	}
 }

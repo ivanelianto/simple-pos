@@ -26,106 +26,100 @@ import app.view.custom_component.MyImageButton;
 import app.view.dialog.user.UserDialog;
 import util.FilePathHelper;
 
-public class ManageUserPanel extends JPanel implements ActionListener, IManageUserPanel
-{
+public class ManageUserPanel extends JPanel implements ActionListener, IManageUserPanel {
+	private JPanel mainPanel;
+
 	private MyImageButton btnAdd;
-	
-	private ArrayList<UserComponent> userComponents;
-	
-	public ManageUserPanel()
-	{
+
+	public ManageUserPanel() {
 		this.setLayout(new BorderLayout());
-		
+
 		JPanel addButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		addButtonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 10));
 		addButtonPanel.setOpaque(false);
 		addButtonPanel.add(getAddButton());
 		this.add(addButtonPanel, BorderLayout.NORTH);
-		
-		JPanel mainPanel = new JPanel(new GridBagLayout());
-		mainPanel.setOpaque(false);
-		JScrollPane scrollPane = new JScrollPane(mainPanel,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,  
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.getVerticalScrollBar().setUnitIncrement(5);
-		scrollPane.setBackground(Color.WHITE);
-		scrollPane.getViewport().setBackground(Color.WHITE);
-		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-		this.add(scrollPane, BorderLayout.CENTER);
-		
+
 		this.setBackground(Color.WHITE);
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.fill = GridBagConstraints.BOTH;
-		
-		ArrayList<User> users = UserController.getAllUsers();
-		
-		for (int i = 0; i < users.size(); i++)
-		{
-			User user = users.get(i);
-			
-			UserComponent userItem = new UserComponent();
-			
-			userItem.getIDButton().setText(user.getId() + "");
-			userItem.getNameLabel().setText(user.getName());
-			userItem.getUsernameLabel().setText(user.getUsername());
-			
-			getUserComponents().add(userItem);
-			c.gridy = i; 
-			mainPanel.add(userItem, c);
-		}
+
+		this.refreshData();
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		if (e.getSource() == btnAdd)
-		{
-			try (UserDialog dialog = new UserDialog())
-			{
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnAdd) {
+			try (UserDialog dialog = new UserDialog()) {
 				dialog.setVisible(true);
-			}
-			catch (Exception ex)
-			{
+				this.refreshData();
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
 	}
 
 	@Override
-	public MyImageButton getAddButton()
-	{
-		if (btnAdd == null)
-		{
-			try
-			{
+	public JPanel getMainPanel() {
+		if (mainPanel == null) {
+			mainPanel = new JPanel(new GridBagLayout());
+			mainPanel.setOpaque(false);
+			JScrollPane scrollPane = new JScrollPane(mainPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollPane.getVerticalScrollBar().setUnitIncrement(5);
+			scrollPane.setBackground(Color.WHITE);
+			scrollPane.getViewport().setBackground(Color.WHITE);
+			scrollPane.setBorder(BorderFactory.createEmptyBorder());
+			this.add(scrollPane, BorderLayout.CENTER);
+		}
+		
+		return mainPanel;
+	}
+
+	@Override
+	public MyImageButton getAddButton() {
+		if (btnAdd == null) {
+			try {
 				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/add-icon.png"));
+
+				btnAdd = ButtonFactory.getInstance().create("Add", MyImageButton.LEFT, image);
+
+				btnAdd.setPreferredSize(new Dimension(80, 35));
 				
-				btnAdd = ButtonFactory.getInstance().create(
-						"Add", 
-						MyImageButton.LEFT, 
-						image);
-				
-				btnAdd.setPreferredSize(new Dimension(100, 50));
-				
+				btnAdd.setImageSize(20, 20);
+
 				btnAdd.addActionListener(this);
-				
-			}
-			catch (IOException e)
-			{
+
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return btnAdd;
 	}
 
 	@Override
-	public ArrayList<UserComponent> getUserComponents()
-	{
-		if (userComponents == null)
-			this.userComponents = new ArrayList<>();
+	public void refreshData() {
+		getMainPanel().removeAll();
 		
-		return userComponents;
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.fill = GridBagConstraints.BOTH;
+
+		ArrayList<User> users = UserController.getAllUsers();
+
+		for (int i = 0; i < users.size(); i++) {
+			User user = users.get(i);
+
+			UserComponent userItem = new UserComponent(user, this);
+			userItem.setPreferredSize(new Dimension(500, 80));
+
+			userItem.getIDButton().setText(user.getId() + "");
+			userItem.getNameLabel().setText(user.getName());
+			userItem.getUsernameLabel().setText(user.getUsername());
+
+			c.gridy = i;
+			getMainPanel().add(userItem, c);
+		}
+		getMainPanel().revalidate();
+		getMainPanel().repaint();
 	}
-	
 }

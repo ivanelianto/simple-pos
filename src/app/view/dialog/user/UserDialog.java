@@ -171,6 +171,13 @@ public class UserDialog extends JDialog implements ActionListener, AutoCloseable
 			}
 
 			JOptionPane.showMessageDialog(null, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+			
+			try {
+				this.close();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			
 		} else if (e.getSource() == getCancelButton()) {
 			try {
 				this.close();

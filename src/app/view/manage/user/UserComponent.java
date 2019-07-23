@@ -6,28 +6,38 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import app.controller.UserController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
+import app.model.User;
 import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
+import app.view.dialog.user.UserDialog;
 import util.FilePathHelper;
 
-public class UserComponent extends JPanel implements IUserComponent
+public class UserComponent extends JPanel implements ActionListener, IUserComponent
 {
 	private JButton btnID;
 	private JLabel lblName, lblUsername;
 	private MyImageButton btnEdit, btnDelete;
+	private IManageUserPanel manageUserPanel;
+	private User user;
 
-	public UserComponent()
+	public UserComponent(User user, IManageUserPanel panel)
 	{
+		this.user = user;
+		this.manageUserPanel = panel;
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		this.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -47,6 +57,35 @@ public class UserComponent extends JPanel implements IUserComponent
 		actionButtonPanel.add(getDeleteButton());
 		
 		this.add(actionButtonPanel, BorderLayout.EAST);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == getEditButton())
+		{
+			try(UserDialog dialog = new UserDialog(this.user))
+			{
+				dialog.setVisible(true);
+				manageUserPanel.refreshData();
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+		else if (e.getSource() == getDeleteButton())
+		{
+			int confirmationResult = JOptionPane.showConfirmDialog(null, "Are you sure ?",
+					"Confirmation",
+					JOptionPane.YES_NO_OPTION,
+					JOptionPane.QUESTION_MESSAGE);
+			
+			if (confirmationResult == JOptionPane.YES_OPTION)
+			{
+				UserController.delete(Integer.parseInt(getIDButton().getText()));
+				manageUserPanel.refreshData();
+			}
+		}
 	}
 
 	@Override
@@ -100,6 +139,7 @@ public class UserComponent extends JPanel implements IUserComponent
 				btnEdit.setBackground(MyColor.getAccentBackground());
 				btnEdit.setImageSize(24, 24);
 				btnEdit.setPreferredSize(new Dimension(50, 50));
+				btnEdit.addActionListener(this);
 			}
 			catch (Exception ex)
 			{
@@ -121,6 +161,7 @@ public class UserComponent extends JPanel implements IUserComponent
 				btnDelete = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image);
 				btnDelete.setImageSize(24, 24);
 				btnDelete.setPreferredSize(new Dimension(50, 50));
+				btnDelete.addActionListener(this);
 			}
 			catch (Exception ex)
 			{

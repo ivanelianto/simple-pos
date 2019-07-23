@@ -2,10 +2,14 @@ package app.view.manage.product;
 
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
 import app.view.custom_component.MyImageButton;
 
 public interface IManageProductPanel {
 	MyImageButton getAddButton();
 	
-	ArrayList<ProductComponent> getProductComponents();
+	JPanel getMainPanel();
+	
+	void refreshData();
 }

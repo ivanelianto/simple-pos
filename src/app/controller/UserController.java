@@ -34,4 +34,9 @@ public class UserController
 		user.setPassword(hashedPassword);
 		UserRepository.update(id, user);
 	}
+	
+	public static void delete(int id)
+	{
+		UserRepository.delete(id);
+	}
 }
