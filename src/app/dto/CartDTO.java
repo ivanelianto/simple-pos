@@ -2,6 +2,12 @@ package app.dto;
 
 public class CartDTO
 {
+	public static final int ID_INDEX = 0;
+	public static final int NAME_INDEX = 1;
+	public static final int QUANTITY_INDEX = 2;
+	public static final int PRICE_INDEX = 3;
+	public static final int SUBTOTAL_INDEX = 4;
+	
 	private int id;
 
 	private String name;
@@ -10,6 +16,8 @@ public class CartDTO
 
 	private double price;
 	
+	public CartDTO(){}
+
 	public CartDTO(int id, String name, int quantity, double price)
 	{
 		this.id = id;

@@ -20,6 +20,7 @@ import app.dto.TransactionDTO;
 import app.factory.ButtonFactory;
 import app.view.dialog.MyDialog;
 import main.Main;
+import util.Formatter;
 
 public class PendingTransactionDialog extends MyDialog
 		implements IPendingTransactionDialog, AutoCloseable, ActionListener
@@ -66,7 +67,7 @@ public class PendingTransactionDialog extends MyDialog
 		for (TransactionDTO dto : Main.subject.getPendingTransactions())
 		{
 			Vector<String> pendingTransactionInfo = new Vector<>();
-			pendingTransactionInfo.add(dto.getOccurrence().toString());
+			pendingTransactionInfo.add(Formatter.formatToHumanReadableDate(dto.getOccurrence()));
 			pendingTransactionInfo.add(dto.getTransaction().getRowCount() + "");
 			transactionBriefs.add(pendingTransactionInfo);
 		}

@@ -8,11 +8,15 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
+import app.controller.TransactionController;
+import app.dto.CartDTO;
 import app.factory.ButtonFactory;
 import app.view.custom_component.MyImageButton;
 import app.view.pos.datapanel.DataPanel;
@@ -49,7 +53,24 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 				return;
 			}
 			
-			// TODO: Insert Into DB
+			ArrayList<CartDTO> carts = new ArrayList<>();
+			DefaultTableModel tableData = Main.subject.getData();
+			for (int i = 0; i < tableData.getRowCount(); i++)
+			{
+				CartDTO dto = new CartDTO();
+				dto.setId(Integer.valueOf(tableData.getValueAt(i, CartDTO.ID_INDEX).toString()));
+				dto.setName(tableData.getValueAt(i, CartDTO.NAME_INDEX).toString());
+				dto.setQuantity(Integer.valueOf(tableData.getValueAt(i, CartDTO.QUANTITY_INDEX).toString()));
+				dto.setPrice(Double.valueOf(tableData.getValueAt(i, CartDTO.PRICE_INDEX).toString()));
+				carts.add(dto);
+			}
+			
+			TransactionController.add(carts);
+			
+			JOptionPane.showMessageDialog(null, "Transaction completed.", "Success",
+					JOptionPane.INFORMATION_MESSAGE);
+			
+			Main.subject.setData(null);
 		}
 		else if (e.getSource() == getPendingButton())
 		{

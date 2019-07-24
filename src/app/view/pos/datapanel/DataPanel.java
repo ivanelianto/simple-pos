@@ -28,11 +28,6 @@ import util.Formatter;
 
 public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 {
-	private static final int ID_INDEX = 0;
-	private static final int NAME_INDEX = 1;
-	private static final int QUANTITY_INDEX = 2;
-	private static final int PRICE_INDEX = 3;
-	private static final int SUBTOTAL_INDEX = 4;
 	private JTable table;
 	private IPOSPanel POSPanel;
 
@@ -91,8 +86,8 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 						DefaultTableModel data = subscribedSubject.getData();
 						for (int i = 0; i < data.getRowCount(); i++)
 						{
-							int idInRow = Integer.parseInt(data.getValueAt(i, ID_INDEX).toString());
-							int qtyInRow = Integer.parseInt(data.getValueAt(i, QUANTITY_INDEX).toString());
+							int idInRow = Integer.parseInt(data.getValueAt(i, CartDTO.ID_INDEX).toString());
+							int qtyInRow = Integer.parseInt(data.getValueAt(i, CartDTO.QUANTITY_INDEX).toString());
 
 							if (dto.getId() == idInRow)
 							{
@@ -106,12 +101,12 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 									return false;
 								}
 
-								data.setValueAt(++qtyInRow, i, QUANTITY_INDEX);
+								data.setValueAt(++qtyInRow, i, CartDTO.QUANTITY_INDEX);
 
 								String subtotalWithCurrencies = Formatter
 										.formatToCurrency(getSubtotal(qtyInRow, dto.getPrice()));
 								
-								data.setValueAt(subtotalWithCurrencies, i, SUBTOTAL_INDEX);
+								data.setValueAt(subtotalWithCurrencies, i, CartDTO.SUBTOTAL_INDEX);
 
 								isExist = true;
 								break;
@@ -203,8 +198,8 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 		}
 
 		String[] encodedProductFields = lines.get(0).split("#");
-		return new CartDTO(Integer.valueOf(encodedProductFields[ID_INDEX]), encodedProductFields[NAME_INDEX],
-				Integer.valueOf(encodedProductFields[QUANTITY_INDEX]),
-				Double.valueOf(encodedProductFields[PRICE_INDEX]));
+		return new CartDTO(Integer.valueOf(encodedProductFields[CartDTO.ID_INDEX]), encodedProductFields[CartDTO.NAME_INDEX],
+				Integer.valueOf(encodedProductFields[CartDTO.QUANTITY_INDEX]),
+				Double.valueOf(encodedProductFields[CartDTO.PRICE_INDEX]));
 	}
 }
