@@ -11,7 +11,7 @@ import app.repository.UserRepository;
 import app.validator.Validator;
 import app.validator.rule.loginframe.PasswordRule;
 import app.validator.rule.loginframe.UsernameRule;
-import app.view.ILoginFrame;
+import app.view.login.ILoginFrame;
 import main.Main;
 import util.Hasher;
 

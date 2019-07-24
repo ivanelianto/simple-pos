@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import app.factory.ButtonFactory;
 import app.view.custom_component.MyImageButton;
+import app.view.dialog.transaction.PendingTransactionDialog;
 import app.view.pos.datapanel.TransactionUserScreenFrame;
 import main.Main;
 import util.FileHelper;
@@ -51,7 +52,14 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel
 		}
 		else if (e.getSource() == btnRestorePendingTransaction)
 		{
-
+			try (PendingTransactionDialog dialog = new PendingTransactionDialog())
+			{
+				dialog.setVisible(true);
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
 		}
 	}
 

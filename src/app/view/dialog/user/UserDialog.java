@@ -2,7 +2,6 @@ package app.view.dialog.user;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -31,8 +29,9 @@ import app.validator.rule.user.PasswordConfirmRule;
 import app.validator.rule.user.PasswordRule;
 import app.validator.rule.user.UniqueUsernameRule;
 import app.validator.rule.user.UsernameRule;
+import app.view.dialog.MyDialog;
 
-public class UserDialog extends JDialog implements ActionListener, AutoCloseable, IUserDialog {
+public class UserDialog extends MyDialog implements ActionListener, AutoCloseable, IUserDialog {
 	public final static int INSERT_MODE = 0;
 	public final static int UPDATE_MODE = 1;
 
@@ -66,13 +65,6 @@ public class UserDialog extends JDialog implements ActionListener, AutoCloseable
 	}
 
 	private void initializeComponent() {
-		this.setTitle("SIVle POS");
-		this.setLayout(new BorderLayout());
-		this.setModalityType(DEFAULT_MODALITY_TYPE);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(new Dimension(350, 350));
-		this.setLocationRelativeTo(null);
-
 		mainPanel = new JPanel(new GridBagLayout());
 		mainPanel.setBackground(Color.WHITE);
 		this.add(mainPanel, BorderLayout.CENTER);

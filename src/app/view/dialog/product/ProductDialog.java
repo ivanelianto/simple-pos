@@ -2,7 +2,6 @@ package app.view.dialog.product;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,7 +11,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,8 +25,9 @@ import app.validator.Validator;
 import app.validator.rule.product.PriceRule;
 import app.validator.rule.product.StockRule;
 import app.validator.rule.user.NameRule;
+import app.view.dialog.MyDialog;
 
-public class ProductDialog extends JDialog implements ActionListener, AutoCloseable, IProductDialog {
+public class ProductDialog extends MyDialog implements ActionListener, AutoCloseable, IProductDialog {
 	public final static int INSERT_MODE = 0;
 	public final static int UPDATE_MODE = 1;
 
@@ -61,13 +60,6 @@ public class ProductDialog extends JDialog implements ActionListener, AutoClosea
 	}
 
 	private void initializeComponent() {
-		this.setTitle("SIVle POS");
-		this.setLayout(new BorderLayout());
-		this.setModalityType(DEFAULT_MODALITY_TYPE);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setSize(new Dimension(350, 350));
-		this.setLocationRelativeTo(null);
-
 		mainPanel = new JPanel(new GridBagLayout());
 		mainPanel.setBackground(Color.WHITE);
 		this.add(mainPanel, BorderLayout.CENTER);

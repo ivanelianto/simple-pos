@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import app.dto.TransactionDTO;
 import app.view.pos.datapanel.ObservableTransactionPanel;
 
 public class Cart implements ICartSubject
@@ -14,19 +15,19 @@ public class Cart implements ICartSubject
 
 	private DefaultTableModel data;
 
-	private ArrayList<Transaction> pendingTransactions = new ArrayList<>();
+	private ArrayList<TransactionDTO> pendingTransactions = new ArrayList<>();
 
-	public ArrayList<Transaction> getPendingTransactions()
+	public ArrayList<TransactionDTO> getPendingTransactions()
 	{
 		return this.pendingTransactions;
 	}
 
 	public void pendingTransaction(DefaultTableModel data)
 	{
-		Transaction transaction = new Transaction();
-		transaction.setOccurrence(new Date());
-		transaction.setTransaction(data);
-		pendingTransactions.add(transaction);
+		TransactionDTO dto = new TransactionDTO();
+		dto.setOccurrence(new Date());
+		dto.setTransaction(data);
+		pendingTransactions.add(dto);
 	}
 
 	private DefaultTableModel getDefaultTableModel()
@@ -83,32 +84,6 @@ public class Cart implements ICartSubject
 		for (ObservableTransactionPanel panel : getObservablePanels())
 		{
 			panel.update();
-		}
-	}
-
-	class Transaction
-	{
-		private Date occurrence;
-		private DefaultTableModel transaction;
-
-		public Date getOccurrence()
-		{
-			return occurrence;
-		}
-
-		public void setOccurrence(Date occurrence)
-		{
-			this.occurrence = occurrence;
-		}
-
-		public DefaultTableModel getTransaction()
-		{
-			return transaction;
-		}
-
-		public void setTransaction(DefaultTableModel transaction)
-		{
-			this.transaction = transaction;
 		}
 	}
 }
