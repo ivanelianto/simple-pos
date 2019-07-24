@@ -2,6 +2,7 @@ package app.view.dialog.product;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -27,7 +28,8 @@ import app.validator.rule.product.StockRule;
 import app.validator.rule.user.NameRule;
 import app.view.dialog.MyDialog;
 
-public class ProductDialog extends MyDialog implements ActionListener, AutoCloseable, IProductDialog {
+public class ProductDialog extends MyDialog implements ActionListener, AutoCloseable, IProductDialog
+{
 	public final static int INSERT_MODE = 0;
 	public final static int UPDATE_MODE = 1;
 
@@ -46,11 +48,13 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 
 	private int currentMode = INSERT_MODE;
 
-	public ProductDialog() {
+	public ProductDialog()
+	{
 		initializeComponent();
 	}
 
-	public ProductDialog(Product product) {
+	public ProductDialog(Product product)
+	{
 		this.product = product;
 		currentMode = UPDATE_MODE;
 		initializeComponent();
@@ -59,7 +63,8 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 		getPriceField().setText(String.valueOf(product.getPrice()));
 	}
 
-	private void initializeComponent() {
+	private void initializeComponent()
+	{
 		mainPanel = new JPanel(new GridBagLayout());
 		mainPanel.setBackground(Color.WHITE);
 		this.add(mainPanel, BorderLayout.CENTER);
@@ -85,7 +90,8 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 		mainPanel.add(actionButtonPanel, c);
 	}
 
-	private JPanel getWrappedInput(JComponent labelComponent, JComponent fieldComponent) {
+	private JPanel getWrappedInput(JComponent labelComponent, JComponent fieldComponent)
+	{
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setOpaque(false);
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -95,66 +101,85 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == getSaveButton()) {
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == getSaveButton())
+		{
 			String message = "";
-			
+
 			boolean isValid = Validator.validate(new NameRule(getNameField().getText()),
-					new StockRule(getStockField().getText()),
-					new PriceRule(getPriceField().getText()));
-			
-			if (currentMode == INSERT_MODE) {
-				if (isValid) {
+					new StockRule(getStockField().getText()), new PriceRule(getPriceField().getText()));
+
+			if (currentMode == INSERT_MODE)
+			{
+				if (isValid)
+				{
 					String name = getNameField().getText();
 					int stock = Integer.parseInt(getStockField().getText());
 					double price = Double.parseDouble(getPriceField().getText());
 
 					ProductController.add(name, stock, price);
 					message = "New product added.";
-				} else {
+				}
+				else
+				{
 					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop",
-							JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-			} else {
-				if (isValid) {
-					ProductController.update(product.getId(), 
-							getNameField().getText(), 
-							Integer.parseInt(getStockField().getText()),
-							Double.parseDouble(getPriceField().getText()));
+			}
+			else
+			{
+				if (isValid)
+				{
+					ProductController.update(product.getId(), getNameField().getText(),
+							Integer.parseInt(getStockField().getText()), Double.parseDouble(getPriceField().getText()));
 					message = "Product data updated.";
-				} else {
+				}
+				else
+				{
 					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop",
-							JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 			}
 
 			JOptionPane.showMessageDialog(null, message, "Success", JOptionPane.INFORMATION_MESSAGE);
 
-			try {
+			try
+			{
 				this.close();
-			} catch (Exception e1) {
+			}
+			catch (Exception e1)
+			{
 				e1.printStackTrace();
 			}
 
-		} else if (e.getSource() == getCancelButton()) {
-			try {
+		}
+		else if (e.getSource() == getCancelButton())
+		{
+			try
+			{
 				this.close();
-			} catch (Exception e1) {
+			}
+			catch (Exception e1)
+			{
 				e1.printStackTrace();
 			}
 		}
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() throws Exception
+	{
 		this.dispose();
 	}
 
 	@Override
-	public JLabel getNameLabel() {
-		if (lblName == null) {
+	public JLabel getNameLabel()
+	{
+		if (lblName == null)
+		{
 			lblName = LabelFactory.getInstance().create("Name");
 		}
 
@@ -162,8 +187,10 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 	}
 
 	@Override
-	public JLabel getStockLabel() {
-		if (lblStock == null) {
+	public JLabel getStockLabel()
+	{
+		if (lblStock == null)
+		{
 			lblStock = LabelFactory.getInstance().create("Stock");
 		}
 
@@ -171,34 +198,42 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 	}
 
 	@Override
-	public JLabel getPriceLabel() {
-		if (lblPrice == null) {
-			lblPrice= LabelFactory.getInstance().create("Price");
+	public JLabel getPriceLabel()
+	{
+		if (lblPrice == null)
+		{
+			lblPrice = LabelFactory.getInstance().create("Price");
 		}
 
 		return lblPrice;
 	}
 
 	@Override
-	public JTextField getStockField() {
-		if (txtStock == null) {
+	public JTextField getStockField()
+	{
+		if (txtStock == null)
+		{
 			txtStock = TextFieldFactory.getInstance().create();
 		}
-		
+
 		return txtStock;
 	}
 
 	@Override
-	public JTextField getPriceField() {
-		if (txtPrice == null) {
+	public JTextField getPriceField()
+	{
+		if (txtPrice == null)
+		{
 			txtPrice = TextFieldFactory.getInstance().create();
 		}
-		
+
 		return txtPrice;
 	}
 
-	public JTextField getNameField() {
-		if (txtName == null) {
+	public JTextField getNameField()
+	{
+		if (txtName == null)
+		{
 			txtName = TextFieldFactory.getInstance().create(150, 25);
 		}
 
@@ -206,9 +241,12 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 	}
 
 	@Override
-	public JButton getCancelButton() {
-		if (btnCancel == null) {
+	public JButton getCancelButton()
+	{
+		if (btnCancel == null)
+		{
 			btnCancel = ButtonFactory.getInstance().create("Cancel", ButtonFactory.INVERTED_ACCENT_STYLE);
+			btnCancel.setPreferredSize(new Dimension(100, 35));
 			btnCancel.addActionListener(this);
 		}
 
@@ -216,9 +254,12 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 	}
 
 	@Override
-	public JButton getSaveButton() {
-		if (btnSave == null) {
+	public JButton getSaveButton()
+	{
+		if (btnSave == null)
+		{
 			btnSave = ButtonFactory.getInstance().create("Save", ButtonFactory.PRIMARY_STYLE);
+			btnSave.setPreferredSize(new Dimension(100, 35));
 			btnSave.addActionListener(this);
 		}
 

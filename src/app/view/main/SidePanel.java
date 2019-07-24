@@ -4,12 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 
 import javax.swing.JPanel;
-import javax.swing.border.MatteBorder;
-
-import app.view.custom_component.MyColor;
 
 public class SidePanel extends JPanel {
 	
@@ -17,7 +13,7 @@ public class SidePanel extends JPanel {
 	
 	public SidePanel(IMainDialog components)
 	{
-		this.setBorder(new MatteBorder(new Insets(0, 0, 0, 1), MyColor.getDarkBlueGrayBackground()));
+//		this.setBorder(new MatteBorder(new Insets(0, 0, 0, 1), MyColor.getDarkBlueGrayBackground()));
 		
 		this.setBackground(Color.WHITE);
 		

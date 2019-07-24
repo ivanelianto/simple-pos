@@ -1,6 +1,7 @@
 package app.view.pos.datapanel;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -22,6 +23,7 @@ import app.controller.ProductController;
 import app.dto.CartDTO;
 import app.model.Product;
 import app.view.pos.Cart;
+import app.view.pos.IPOSPanel;
 import util.Formatter;
 
 public class DataPanel extends ObservableTransactionPanel implements IDataPanel
@@ -32,13 +34,18 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 	private static final int PRICE_INDEX = 3;
 	private static final int SUBTOTAL_INDEX = 4;
 	private JTable table;
+	private IPOSPanel POSPanel;
 
-	public DataPanel(Cart transaction)
+	public DataPanel(Cart transaction, IPOSPanel panel)
 	{
 		super(transaction);
+		
+		this.POSPanel = panel;
 
 		this.setLayout(new BorderLayout());
 		JScrollPane scrollPane = new JScrollPane(getMainTable());
+		
+		scrollPane.getViewport().setBackground(Color.WHITE);
 		this.add(scrollPane, BorderLayout.CENTER);
 
 		initializeComponent();
@@ -124,7 +131,7 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 							
 							data.addRow(fields);
 						}
-
+						
 						setTableView(data);
 					}
 				}

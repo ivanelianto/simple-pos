@@ -29,6 +29,11 @@ public class Cart implements ICartSubject
 		dto.setTransaction(data);
 		pendingTransactions.add(dto);
 	}
+	
+	public void reopenPendingTrasaction(TransactionDTO transaction)
+	{
+		getPendingTransactions().remove(transaction);
+	}
 
 	private DefaultTableModel getDefaultTableModel()
 	{

@@ -43,10 +43,22 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 	{
 		if (e.getSource() == getProcessButton())
 		{
+			if (Main.subject.getData().getRowCount() < 1)
+			{
+				JOptionPane.showMessageDialog(null, "You don\'t add any item yet.", "Stop", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
 			// TODO: Insert Into DB
 		}
 		else if (e.getSource() == getPendingButton())
 		{
+			if (Main.subject.getData().getRowCount() < 1)
+			{
+				JOptionPane.showMessageDialog(null, "You don\'t add any item yet.", "Stop", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+
 			int confirmationResult = JOptionPane.showConfirmDialog(null,
 					"Are you sure want to pending this transaction ?", "Confirmation", JOptionPane.YES_NO_OPTION,
 					JOptionPane.QUESTION_MESSAGE);
@@ -55,10 +67,8 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 			{
 				Main.subject.pendingTransaction(Main.subject.getData());
 				Main.subject.setData(null);
-				
-				JOptionPane.showMessageDialog(null, 
-						"Transaction postponed.",
-						"Success",
+
+				JOptionPane.showMessageDialog(null, "Transaction postponed.", "Success",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
@@ -72,7 +82,8 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 			try
 			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/done-icon.png"));
-				btnProcess = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image, ButtonFactory.INVERTED_PRIMARY_STYLE);
+				btnProcess = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnProcess.setPreferredSize(new Dimension(50, 50));
 				btnProcess.addActionListener(this);
 			}
@@ -93,7 +104,8 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 			try
 			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/pending-icon.png"));
-				btnPending = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image, ButtonFactory.INVERTED_PRIMARY_STYLE);
+				btnPending = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnPending.setPreferredSize(new Dimension(50, 50));
 				btnPending.addActionListener(this);
 			}
@@ -111,7 +123,7 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 	{
 		if (dataPanel == null)
 		{
-			dataPanel = new DataPanel(Main.subject);
+			dataPanel = new DataPanel(Main.subject, this);
 		}
 
 		return dataPanel;

@@ -2,6 +2,7 @@ package app.view.dialog.user;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,7 +32,8 @@ import app.validator.rule.user.UniqueUsernameRule;
 import app.validator.rule.user.UsernameRule;
 import app.view.dialog.MyDialog;
 
-public class UserDialog extends MyDialog implements ActionListener, AutoCloseable, IUserDialog {
+public class UserDialog extends MyDialog implements ActionListener, AutoCloseable, IUserDialog
+{
 	public final static int INSERT_MODE = 0;
 	public final static int UPDATE_MODE = 1;
 
@@ -52,11 +54,13 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 
 	private int currentMode = INSERT_MODE;
 
-	public UserDialog() {
+	public UserDialog()
+	{
 		initializeComponent();
 	}
 
-	public UserDialog(User user) {
+	public UserDialog(User user)
+	{
 		this.user = user;
 		currentMode = UPDATE_MODE;
 		initializeComponent();
@@ -64,7 +68,8 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 		getUsernameField().setText(user.getUsername());
 	}
 
-	private void initializeComponent() {
+	private void initializeComponent()
+	{
 		mainPanel = new JPanel(new GridBagLayout());
 		mainPanel.setBackground(Color.WHITE);
 		this.add(mainPanel, BorderLayout.CENTER);
@@ -82,10 +87,13 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 
 		JLabel passwordLabel = getNewPasswordLabel();
 
-		if (currentMode == UPDATE_MODE) {
+		if (currentMode == UPDATE_MODE)
+		{
 			JPanel oldPasswordPanel = getWrappedInput(getOldPasswordLabel(), getOldPasswordField());
 			mainPanel.add(oldPasswordPanel, c);
-		} else {
+		}
+		else
+		{
 			passwordLabel.setText("Password");
 		}
 
@@ -99,7 +107,8 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 		mainPanel.add(actionButtonPanel, c);
 	}
 
-	private JPanel getWrappedInput(JComponent labelComponent, JComponent fieldComponent) {
+	private JPanel getWrappedInput(JComponent labelComponent, JComponent fieldComponent)
+	{
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.setOpaque(false);
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -109,82 +118,103 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == getSaveButton()) {
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == getSaveButton())
+		{
 			String message = "";
 
-			if (currentMode == INSERT_MODE) {
+			if (currentMode == INSERT_MODE)
+			{
 				boolean isValid = Validator.validate(new NameRule(getNameField().getText()),
 						new UsernameRule(getUsernameField().getText()),
 						new UniqueUsernameRule(getUsernameField().getText()),
 						new PasswordRule(getNewPasswordField().getText()));
 
-				if (isValid) {
+				if (isValid)
+				{
 					String name = getNameField().getText();
 					String username = getUsernameField().getText();
 					String password = getNewPasswordField().getText();
 
 					UserController.add(name, username, password);
 					message = "New user added.";
-				} else {
+				}
+				else
+				{
 					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop",
-							JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
-			} else {
+			}
+			else
+			{
 
 				ArrayList<IRule> rules = new ArrayList<>();
 
 				rules.add(new NameRule(getNameField().getText()));
 				rules.add(new UsernameRule(getUsernameField().getText()));
 
-				if (!getNewPasswordField().getText().isEmpty() 
-					|| !getOldPasswordField().getText().isEmpty()) {
+				if (!getNewPasswordField().getText().isEmpty() || !getOldPasswordField().getText().isEmpty())
+				{
 					rules.add(new PasswordRule(getOldPasswordField().getText()));
-					rules.add(new PasswordConfirmRule(user.getId(), 
-							getOldPasswordField().getText(),
+					rules.add(new PasswordConfirmRule(user.getId(), getOldPasswordField().getText(),
 							getNewPasswordField().getText()));
 					rules.add(new PasswordRule(getNewPasswordField().getText()));
 				}
 
 				boolean isValid = Validator.validate(rules.toArray(new IRule[rules.size()]));
 
-				if (isValid) {
+				if (isValid)
+				{
 					UserController.update(user.getId(), getNameField().getText(), getUsernameField().getText(),
 							getNewPasswordField().getText());
 					message = "User data updated.";
-				} else {
+				}
+				else
+				{
 					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop",
-							JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 			}
 
 			JOptionPane.showMessageDialog(null, message, "Success", JOptionPane.INFORMATION_MESSAGE);
-			
-			try {
+
+			try
+			{
 				this.close();
-			} catch (Exception e1) {
+			}
+			catch (Exception e1)
+			{
 				e1.printStackTrace();
 			}
-			
-		} else if (e.getSource() == getCancelButton()) {
-			try {
+
+		}
+		else if (e.getSource() == getCancelButton())
+		{
+			try
+			{
 				this.close();
-			} catch (Exception e1) {
+			}
+			catch (Exception e1)
+			{
 				e1.printStackTrace();
 			}
 		}
 	}
 
 	@Override
-	public void close() throws Exception {
+	public void close() throws Exception
+	{
 		this.dispose();
 	}
 
 	@Override
-	public JLabel getNameLabel() {
-		if (lblName == null) {
+	public JLabel getNameLabel()
+	{
+		if (lblName == null)
+		{
 			lblName = LabelFactory.getInstance().create("Name");
 		}
 
@@ -192,8 +222,10 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public JLabel getUsernameLabel() {
-		if (lblUsername == null) {
+	public JLabel getUsernameLabel()
+	{
+		if (lblUsername == null)
+		{
 			lblUsername = LabelFactory.getInstance().create("Username");
 		}
 
@@ -201,8 +233,10 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public JLabel getOldPasswordLabel() {
-		if (lblOldPassword == null) {
+	public JLabel getOldPasswordLabel()
+	{
+		if (lblOldPassword == null)
+		{
 			lblOldPassword = LabelFactory.getInstance().create("Old Password");
 		}
 
@@ -210,8 +244,10 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public JLabel getNewPasswordLabel() {
-		if (lblNewPassword == null) {
+	public JLabel getNewPasswordLabel()
+	{
+		if (lblNewPassword == null)
+		{
 			lblNewPassword = LabelFactory.getInstance().create("New Password");
 		}
 
@@ -219,8 +255,10 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public JTextField getNameField() {
-		if (txtName == null) {
+	public JTextField getNameField()
+	{
+		if (txtName == null)
+		{
 			txtName = TextFieldFactory.getInstance().create(150, 25);
 		}
 
@@ -228,8 +266,10 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public JTextField getUsernameField() {
-		if (txtUsername == null) {
+	public JTextField getUsernameField()
+	{
+		if (txtUsername == null)
+		{
 			txtUsername = TextFieldFactory.getInstance().create(150, 25);
 		}
 
@@ -237,8 +277,10 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public JTextField getOldPasswordField() {
-		if (txtOldPassword == null) {
+	public JTextField getOldPasswordField()
+	{
+		if (txtOldPassword == null)
+		{
 			txtOldPassword = TextFieldFactory.getInstance().create(true, 150, 25);
 		}
 
@@ -246,8 +288,10 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public JTextField getNewPasswordField() {
-		if (txtNewPassword == null) {
+	public JTextField getNewPasswordField()
+	{
+		if (txtNewPassword == null)
+		{
 			txtNewPassword = TextFieldFactory.getInstance().create(true, 150, 25);
 		}
 
@@ -255,9 +299,12 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public JButton getCancelButton() {
-		if (btnCancel == null) {
+	public JButton getCancelButton()
+	{
+		if (btnCancel == null)
+		{
 			btnCancel = ButtonFactory.getInstance().create("Cancel", ButtonFactory.INVERTED_ACCENT_STYLE);
+			btnCancel.setPreferredSize(new Dimension(100, 35));
 			btnCancel.addActionListener(this);
 		}
 
@@ -265,9 +312,12 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	}
 
 	@Override
-	public JButton getSaveButton() {
-		if (btnSave == null) {
+	public JButton getSaveButton()
+	{
+		if (btnSave == null)
+		{
 			btnSave = ButtonFactory.getInstance().create("Save", ButtonFactory.PRIMARY_STYLE);
+			btnSave.setPreferredSize(new Dimension(100, 35));
 			btnSave.addActionListener(this);
 		}
 
