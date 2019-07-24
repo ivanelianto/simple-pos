@@ -3,7 +3,7 @@ package app.validator.rule.user;
 import app.model.User;
 import app.repository.UserRepository;
 import app.validator.rule.IRule;
-import util.Hasher;
+import util.Encryptor;
 
 public class PasswordConfirmRule implements IRule
 {
@@ -27,7 +27,7 @@ public class PasswordConfirmRule implements IRule
 
 	private boolean isValidOldPassword()
 	{
-		String hashedOldPassword = Hasher.hash(oldPassword);
+		String hashedOldPassword = Encryptor.hashSHA256(oldPassword);
 
 		User user = UserRepository.findUserById(userId);
 

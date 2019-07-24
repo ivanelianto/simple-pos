@@ -13,7 +13,7 @@ import app.validator.rule.loginframe.PasswordRule;
 import app.validator.rule.loginframe.UsernameRule;
 import app.view.login.ILoginFrame;
 import main.Main;
-import util.Hasher;
+import util.Encryptor;
 
 public class LoginFrameController
 {
@@ -52,8 +52,8 @@ public class LoginFrameController
 				else
 				{
 					String username = loginFrameComponents.getUsernameField().getText();
-					String hashedPassword = Hasher
-							.hash(new String(loginFrameComponents.getPasswordField().getPassword()));
+					String hashedPassword = Encryptor
+							.hashSHA256(new String(loginFrameComponents.getPasswordField().getPassword()));
 					ArrayList<User> users = UserRepository.findUserByUsernameAndPassword(username, hashedPassword);
 
 					if (users.size() < 1)

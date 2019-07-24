@@ -1,5 +1,8 @@
 package app.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import app.model.Product;
@@ -42,8 +45,9 @@ public class ProductController
 		product.setPrice(price);
 		int generatedId = ProductRepository.add(product);
 		
-		String data = String.format("%d#%s#%d#%f", generatedId, name, stock, price);
-		FileHelper.writeFile(FileHelper.getProductsPath(), data);
+		String data = String.format("%d#%s#%d#%f", generatedId, name, 1, price);
+		
+		FileHelper.writeFile(FileHelper.getProductsPath(), data, true);
 		
 		isChanged = true;
 	}
@@ -60,6 +64,17 @@ public class ProductController
 
 	public static void delete(int id)
 	{
+		String fileLocation = String.format("%s/%d.iv", FileHelper.getProductsPath(), id);
+		
+		try
+		{
+			Files.deleteIfExists(Paths.get(fileLocation));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
 		ProductRepository.delete(id);
 		isChanged = true;
 	}

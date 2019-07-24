@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import app.model.User;
 import app.repository.UserRepository;
-import util.Hasher;
+import util.Encryptor;
 
 public class UserController
 {
@@ -15,7 +15,7 @@ public class UserController
 
 	public static void add(String name, String username, String password)
 	{
-		String hashedPassword = Hasher.hash(password);
+		String hashedPassword = Encryptor.hashSHA256(password);
 
 		User user = new User();
 		user.setName(name);
@@ -26,7 +26,7 @@ public class UserController
 
 	public static void update(int id, String name, String username, String newPassword)
 	{
-		String hashedPassword = Hasher.hash(newPassword);
+		String hashedPassword = Encryptor.hashSHA256(newPassword);
 
 		User user = new User();
 		user.setName(name);

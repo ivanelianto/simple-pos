@@ -41,14 +41,9 @@ public class Product
 		return stock;
 	}
 
-	public boolean setStock(int stock)
+	public void setStock(int stock)
 	{
-		if (stock < 1)
-			return false;
-
 		this.stock = stock;
-
-		return true;
 	}
 
 	public double getPrice()
@@ -59,6 +54,11 @@ public class Product
 	public void setPrice(double price)
 	{
 		this.price = price;
+	}
+	
+	public boolean isAvailableStock(int quantity)
+	{
+		return quantity <= getStock();
 	}
 
 }

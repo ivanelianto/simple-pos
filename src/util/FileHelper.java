@@ -17,7 +17,7 @@ public class FileHelper
 		return System.getProperty("user.dir") + "/products";
 	}
 
-	public static void writeFile(String path, String data)
+	public static void writeFile(String path, String data, boolean encodeToBase64String)
 	{
 		try
 		{
@@ -29,6 +29,10 @@ public class FileHelper
 			String id = data.split("#")[CartDTO.ID_INDEX];
 			
 			FileWriter writer = new FileWriter(String.format("%s/%s.iv", path, id));
+			
+			if (encodeToBase64String)
+				data = Encryptor.encodeBase64(data);
+			
 			writer.write(data);
 			writer.close();
 		}

@@ -8,13 +8,13 @@ import app.validator.Validator;
 import app.validator.rule.user.PasswordRule;
 import app.validator.rule.user.UsernameRule;
 import main.Main;
-import util.Hasher;
+import util.Encryptor;
 
 public class AuthController
 {
 	public static String login(String username, String password)
 	{
-		String hashedPassword = Hasher.hash(password);
+		String hashedPassword = Encryptor.hashSHA256(password);
 
 		boolean isValid = Validator.validate(new UsernameRule(username), new PasswordRule(hashedPassword));
 
