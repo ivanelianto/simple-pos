@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import app.model.Product;
 import app.repository.ProductRepository;
+import util.FileHelper;
 
 public class ProductController
 {
@@ -39,7 +40,11 @@ public class ProductController
 		product.setName(name);
 		product.setStock(stock);
 		product.setPrice(price);
-		ProductRepository.add(product);
+		int generatedId = ProductRepository.add(product);
+		
+		String data = String.format("%d#%s#%d#%f", generatedId, name, stock, price);
+		FileHelper.writeFile(FileHelper.getProductsPath(), data);
+		
 		isChanged = true;
 	}
 

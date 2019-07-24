@@ -1,6 +1,7 @@
 package app.repository;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import app.model.Product;
@@ -13,11 +14,26 @@ public class ProductRepository extends Repository<Product>
 		return Repository.toModel(Product.class, result);
 	}
 
-	public static void add(Product product)
+	public static Integer add(Product product)
 	{
 		String query = String.format("INSERT INTO Product (name, stock, price) VALUES(?, ?, ?)");
-		ProductRepository.executeUpdate(query, product.getName(), String.valueOf(product.getStock()),
+
+		ResultSet generatedKeys = ProductRepository.executeUpdate(true, query, product.getName(), String.valueOf(product.getStock()),
 				String.valueOf(product.getPrice()));
+		
+		try
+		{
+			if (generatedKeys.next())
+			{
+				return generatedKeys.getInt(1);
+			}
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	public static void update(int id, Product product)
