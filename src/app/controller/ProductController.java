@@ -3,16 +3,23 @@ package app.controller;
 import java.util.ArrayList;
 
 import app.model.Product;
-import app.model.User;
 import app.repository.ProductRepository;
-import app.repository.UserRepository;
-import util.Hasher;
 
 public class ProductController
 {
+	private static ArrayList<Product> products;
+	
+	private static boolean isChanged = false;
+	
 	public static ArrayList<Product> getAllProducts()
 	{
-		return ProductRepository.getAllProducts();
+		if (products == null || isChanged)
+		{
+			products = ProductRepository.getAllProducts();
+			isChanged = false;
+		}
+		
+		return products;
 	}
 	
 	public static void add(String name, int stock, double price)
@@ -22,6 +29,7 @@ public class ProductController
 		product.setStock(stock);
 		product.setPrice(price);
 		ProductRepository.add(product);
+		isChanged = true;
 	}
 	
 	public static void update(int id, String name, int stock, double price)
@@ -31,10 +39,12 @@ public class ProductController
 		product.setStock(stock);
 		product.setPrice(price);
 		ProductRepository.update(id, product);
+		isChanged = true;
 	}
 	
 	public static void delete(int id)
 	{
 		ProductRepository.delete(id);
+		isChanged = true;
 	}
 }

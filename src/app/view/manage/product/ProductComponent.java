@@ -1,7 +1,6 @@
 package app.view.manage.product;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -22,7 +21,6 @@ import app.controller.ProductController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.model.Product;
-import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
 import app.view.dialog.product.ProductDialog;
 import util.FileHelper;
@@ -83,9 +81,7 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	@Override
 	public JButton getIDButton() {
 		if (this.btnID == null) {
-			btnID = ButtonFactory.getInstance().create("");
-			btnID.setBackground(MyColor.getAccentBackground());
-			btnID.setForeground(Color.WHITE);
+			btnID = ButtonFactory.getInstance().create("", ButtonFactory.ACCENT_STYLE);
 			btnID.setPreferredSize(new Dimension(70, 50));
 			
 			String currentText = btnID.getText();
@@ -133,7 +129,7 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 		if (btnEdit == null) {
 			try {
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/edit-icon.png"));
-				btnEdit = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image);
+				btnEdit = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image, ButtonFactory.INVERTED_ACCENT_STYLE);
 				btnEdit.setImageSize(24, 24);
 				btnEdit.setPreferredSize(new Dimension(50, 50));
 				btnEdit.addActionListener(this);
@@ -150,7 +146,7 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 		if (btnDelete == null) {
 			try {
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/delete-icon.png"));
-				btnDelete = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image);
+				btnDelete = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image, ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnDelete.setImageSize(24, 24);
 				btnDelete.setPreferredSize(new Dimension(50, 50));
 				btnDelete.addActionListener(this);

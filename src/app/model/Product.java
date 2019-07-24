@@ -41,9 +41,14 @@ public class Product
 		return stock;
 	}
 
-	public void setStock(int stock)
+	public boolean setStock(int stock)
 	{
+		if (stock < 1)
+			return false;
+		
 		this.stock = stock;
+		
+		return true;
 	}
 
 	public double getPrice()

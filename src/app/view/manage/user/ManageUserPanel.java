@@ -26,12 +26,14 @@ import app.view.custom_component.MyImageButton;
 import app.view.dialog.user.UserDialog;
 import util.FileHelper;
 
-public class ManageUserPanel extends JPanel implements ActionListener, IManageUserPanel {
+public class ManageUserPanel extends JPanel implements ActionListener, IManageUserPanel
+{
 	private JPanel mainPanel;
 
 	private MyImageButton btnAdd;
 
-	public ManageUserPanel() {
+	public ManageUserPanel()
+	{
 		this.setLayout(new BorderLayout());
 
 		JPanel addButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -46,20 +48,27 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnAdd) {
-			try (UserDialog dialog = new UserDialog()) {
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == btnAdd)
+		{
+			try (UserDialog dialog = new UserDialog())
+			{
 				dialog.setVisible(true);
 				this.refreshData();
-			} catch (Exception ex) {
+			}
+			catch (Exception ex)
+			{
 				ex.printStackTrace();
 			}
 		}
 	}
 
 	@Override
-	public JPanel getMainPanel() {
-		if (mainPanel == null) {
+	public JPanel getMainPanel()
+	{
+		if (mainPanel == null)
+		{
 			mainPanel = new JPanel(new GridBagLayout());
 			mainPanel.setOpaque(false);
 			JScrollPane scrollPane = new JScrollPane(mainPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -70,25 +79,26 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 			scrollPane.setBorder(BorderFactory.createEmptyBorder());
 			this.add(scrollPane, BorderLayout.CENTER);
 		}
-		
+
 		return mainPanel;
 	}
 
 	@Override
-	public MyImageButton getAddButton() {
-		if (btnAdd == null) {
-			try {
+	public MyImageButton getAddButton()
+	{
+		if (btnAdd == null)
+		{
+			try
+			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/add-icon.png"));
-
-				btnAdd = ButtonFactory.getInstance().create("Add", MyImageButton.LEFT, image);
-
+				btnAdd = ButtonFactory.getInstance().create("Add", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnAdd.setPreferredSize(new Dimension(80, 35));
-				
 				btnAdd.setImageSize(20, 20);
-
 				btnAdd.addActionListener(this);
-
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 		}
@@ -97,16 +107,18 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 	}
 
 	@Override
-	public void refreshData() {
+	public void refreshData()
+	{
 		getMainPanel().removeAll();
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.fill = GridBagConstraints.BOTH;
 
 		ArrayList<User> users = UserController.getAllUsers();
 
-		for (int i = 0; i < users.size(); i++) {
+		for (int i = 0; i < users.size(); i++)
+		{
 			User user = users.get(i);
 
 			UserComponent userItem = new UserComponent(user, this);

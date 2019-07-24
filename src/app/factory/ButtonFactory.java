@@ -10,58 +10,113 @@ import javax.swing.JButton;
 import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
 
-public class ButtonFactory {
+public class ButtonFactory
+{
 	private final static int DEFAULT_WIDTH = 150;
 	private final static int DEFAULT_HEIGHT = 25;
+	public final static int PRIMARY_STYLE = 12;
+	public final static int INVERTED_PRIMARY_STYLE = 21;
+	public final static int ACCENT_STYLE = 13;
+	public final static int INVERTED_ACCENT_STYLE = 31;
 
 	private static ButtonFactory instance;
 
-	private ButtonFactory() {
+	private ButtonFactory()
+	{
 	}
 
-	public static ButtonFactory getInstance() {
+	public static ButtonFactory getInstance()
+	{
 		if (instance == null)
 			instance = new ButtonFactory();
 
 		return instance;
 	}
 
-	private void setDefaultStyle(JButton button) {
+	private void setPrimaryDefaultStyle(JButton button)
+	{
 		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setBackground(MyColor.getPrimaryBackground());
+		button.setForeground(Color.WHITE);
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
+		button.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+	}
+
+	private void setInvertedPrimaryStyle(JButton button)
+	{
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setBackground(Color.WHITE);
 		button.setForeground(MyColor.getPrimaryBackground());
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
+		button.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+	}
+
+	private void setAccentDefaultStyle(JButton button)
+	{
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setForeground(Color.WHITE);
+		button.setBackground(MyColor.getAccentBackground());
+		button.setFocusPainted(false);
+		button.setBorderPainted(false);
+		button.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+	}
+
+	private void setInvertedAccentStyle(JButton button)
+	{
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		button.setForeground(MyColor.getAccentBackground());
 		button.setBackground(Color.WHITE);
 		button.setFocusPainted(false);
 		button.setBorderPainted(false);
 		button.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 	}
 
-	private void setInvertedStyle(JButton button) {
-		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		button.setBackground(Color.WHITE);
-		button.setForeground(MyColor.getPrimaryBackground());
-		button.setFocusPainted(false);
-		button.setBorderPainted(false);
-		button.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+	private void setStyle(JButton button, int style)
+	{
+		switch (style)
+		{
+			case PRIMARY_STYLE:
+				setPrimaryDefaultStyle(button);
+				break;
+			case INVERTED_PRIMARY_STYLE:
+				setInvertedPrimaryStyle(button);
+				break;
+			case ACCENT_STYLE:
+				setAccentDefaultStyle(button);
+				break;
+			case INVERTED_ACCENT_STYLE:
+				setInvertedAccentStyle(button);
+				break;
+		}
 	}
 
-	public JButton create(String text) {
+	public JButton create(String text)
+	{
 		JButton btn = new JButton(text);
-		setDefaultStyle(btn);
+		setPrimaryDefaultStyle(btn);
 		return btn;
 	}
 
-	public MyImageButton create(String text, int position, Image image) {
-		MyImageButton btn = new MyImageButton(text, position, image);
-		setDefaultStyle(btn);
+	public JButton create(String text, int style)
+	{
+		JButton btn = create(text);
+		setStyle(btn, style);
 		return btn;
 	}
-	
-	public MyImageButton create(String text, int position, Image image, boolean withInvertedStyle) {
+
+	public MyImageButton create(String text, int position, Image image)
+	{
+		MyImageButton btn = new MyImageButton(text, position, image);
+		setPrimaryDefaultStyle(btn);
+		return btn;
+	}
+
+	public MyImageButton create(String text, int position, Image image, int style)
+	{
 		MyImageButton btn = create(text, position, image);
-		
-		if (withInvertedStyle)
-			setInvertedStyle(btn);
-		
+		setStyle(btn, style);
 		return btn;
 	}
 }

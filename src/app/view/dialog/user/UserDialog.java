@@ -31,8 +31,6 @@ import app.validator.rule.user.PasswordConfirmRule;
 import app.validator.rule.user.PasswordRule;
 import app.validator.rule.user.UniqueUsernameRule;
 import app.validator.rule.user.UsernameRule;
-import app.view.custom_component.MyColor;
-import util.Hasher;
 
 public class UserDialog extends JDialog implements ActionListener, AutoCloseable, IUserDialog {
 	public final static int INSERT_MODE = 0;
@@ -267,8 +265,7 @@ public class UserDialog extends JDialog implements ActionListener, AutoCloseable
 	@Override
 	public JButton getCancelButton() {
 		if (btnCancel == null) {
-			btnCancel = ButtonFactory.getInstance().create("Cancel");
-			btnCancel.setBackground(MyColor.getDarkBlueGrayBackground());
+			btnCancel = ButtonFactory.getInstance().create("Cancel", ButtonFactory.INVERTED_ACCENT_STYLE);
 			btnCancel.addActionListener(this);
 		}
 
@@ -278,7 +275,7 @@ public class UserDialog extends JDialog implements ActionListener, AutoCloseable
 	@Override
 	public JButton getSaveButton() {
 		if (btnSave == null) {
-			btnSave = ButtonFactory.getInstance().create("Save");
+			btnSave = ButtonFactory.getInstance().create("Save", ButtonFactory.PRIMARY_STYLE);
 			btnSave.addActionListener(this);
 		}
 

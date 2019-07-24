@@ -125,12 +125,10 @@ public class MainDialog extends JDialog implements ActionListener, IMainDialog
 			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/home-icon.png"));
 
-				btnHome = (MyImageButton) ButtonFactory.getInstance().create("Home", MyImageButton.LEFT, image);
-
+				btnHome = (MyImageButton) ButtonFactory.getInstance().create("Home", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnHome.setText(setLeftButtonStyle(btnHome.getText()));
-
 				btnHome.addActionListener(this);
-
 			}
 			catch (Exception e)
 			{
@@ -151,10 +149,8 @@ public class MainDialog extends JDialog implements ActionListener, IMainDialog
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/user-icon.png"));
 
 				btnManageUser = (MyImageButton) ButtonFactory.getInstance().create("Manage User", MyImageButton.LEFT,
-						image);
-
+						image, ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnManageUser.setText(setLeftButtonStyle(btnManageUser.getText()));
-
 				btnManageUser.addActionListener(this);
 			}
 			catch (Exception e)
@@ -176,10 +172,8 @@ public class MainDialog extends JDialog implements ActionListener, IMainDialog
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/home-icon.png"));
 
 				btnManageProduct = (MyImageButton) ButtonFactory.getInstance().create("Manage Product",
-						MyImageButton.LEFT, image);
-
+						MyImageButton.LEFT, image, ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnManageProduct.setText(setLeftButtonStyle(btnManageProduct.getText()));
-
 				btnManageProduct.addActionListener(this);
 			}
 			catch (Exception e)
@@ -200,10 +194,9 @@ public class MainDialog extends JDialog implements ActionListener, IMainDialog
 			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/pos-icon.png"));
 
-				btnPOS = (MyImageButton) ButtonFactory.getInstance().create("POS", MyImageButton.LEFT, image);
-
+				btnPOS = (MyImageButton) ButtonFactory.getInstance().create("POS", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnPOS.setText(setLeftButtonStyle(btnPOS.getText()));
-
 				btnPOS.addActionListener(this);
 			}
 			catch (Exception e)
@@ -225,10 +218,8 @@ public class MainDialog extends JDialog implements ActionListener, IMainDialog
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/report-icon.png"));
 
 				btnReport = (MyImageButton) ButtonFactory.getInstance().create("Transaction Report", MyImageButton.LEFT,
-						image);
-
+						image, ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnReport.setText(setLeftButtonStyle(btnReport.getText()));
-
 				btnReport.addActionListener(this);
 			}
 			catch (Exception e)
@@ -249,10 +240,9 @@ public class MainDialog extends JDialog implements ActionListener, IMainDialog
 			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/logout-icon.png"));
 
-				btnLogout = (MyImageButton) ButtonFactory.getInstance().create("Logout", MyImageButton.LEFT, image);
-
+				btnLogout = (MyImageButton) ButtonFactory.getInstance().create("Logout", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnLogout.setText(setLeftButtonStyle(btnLogout.getText()));
-
 				btnLogout.addActionListener(this);
 			}
 			catch (Exception e)

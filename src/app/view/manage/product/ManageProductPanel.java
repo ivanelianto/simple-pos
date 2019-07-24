@@ -67,12 +67,9 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 			try {
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/add-icon.png"));
 
-				btnAdd = ButtonFactory.getInstance().create("Add", MyImageButton.LEFT, image);
-
+				btnAdd = ButtonFactory.getInstance().create("Add", MyImageButton.LEFT, image, ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnAdd.setPreferredSize(new Dimension(80, 35));
-
 				btnAdd.setImageSize(20, 20);
-				
 				btnAdd.addActionListener(this);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -107,10 +104,10 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 		c.gridx = 0;
 		c.fill = GridBagConstraints.BOTH;
 		
-		ArrayList<Product> Products = ProductController.getAllProducts();
+		ArrayList<Product> products = ProductController.getAllProducts();
 
-		for (int i = 0; i < Products.size(); i++) {
-			Product product = Products.get(i);
+		for (int i = 0; i < products.size(); i++) {
+			Product product = products.get(i);
 
 			ProductComponent productItem = new ProductComponent(product, ManageProductPanel.this);
 			productItem.setPreferredSize(new Dimension(500, 100));

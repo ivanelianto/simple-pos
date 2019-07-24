@@ -21,10 +21,10 @@ public class ContentPanel extends JPanel {
 	{
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
-		this.add(new POSPanel(), POS_PANEL);
 		this.add(new HomePanel(), HOME_PANEL);
 		this.add(new ManageUserPanel(), MANAGE_USER_PANEL);
 		this.add(new ManageProductPanel(), MANAGE_PRODUCT_PANEL);
+		this.add(new POSPanel(), POS_PANEL);
 	}
 	
 	public CardLayout getCardLayout()

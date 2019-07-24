@@ -16,25 +16,26 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import app.factory.ButtonFactory;
-import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
 import app.view.pos.datapanel.TransactionUserScreenFrame;
 import main.Main;
 import util.FileHelper;
 
-public class HomePanel extends JPanel implements ActionListener, IHomePanel {
+public class HomePanel extends JPanel implements ActionListener, IHomePanel
+{
 	private MyImageButton btnCastToCustomerViewScreen, btnRestorePendingTransaction;
 
-	public HomePanel() {
+	public HomePanel()
+	{
 		this.setBackground(Color.WHITE);
-		
+
 		GridBagConstraints c = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
-		
+
 		c.gridx = 0;
 		c.insets = new Insets(0, 0, 0, 5);
 		this.add(getCastToCustomerViewScreenButton(), c);
-		
+
 		c.gridx = 1;
 		c.insets = new Insets(0, 5, 0, 0);
 		this.add(getRestorePendingTransactionButton(), c);
@@ -50,80 +51,69 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel {
 		}
 		else if (e.getSource() == btnRestorePendingTransaction)
 		{
-			
+
 		}
 	}
 
 	@Override
-	public MyImageButton getCastToCustomerViewScreenButton() {
+	public MyImageButton getCastToCustomerViewScreenButton()
+	{
 		if (btnCastToCustomerViewScreen == null)
 		{
-			try {
+			try
+			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/add-icon-white.png"));
-				
-				btnCastToCustomerViewScreen = ButtonFactory.getInstance().create("Cast To Customer View Screen", 
-						MyImageButton.TOP, 
-						image);
-				
-				btnCastToCustomerViewScreen.setBackground(MyColor.getAccentBackground());
-				btnCastToCustomerViewScreen.setForeground(Color.WHITE);
-				
+
+				btnCastToCustomerViewScreen = ButtonFactory.getInstance().create("Cast To Customer View Screen",
+						MyImageButton.TOP, image, ButtonFactory.ACCENT_STYLE);
 				btnCastToCustomerViewScreen.setPreferredSize(new Dimension(200, 150));
-				
-				btnCastToCustomerViewScreen.setText(
-						setButtonStyle(btnCastToCustomerViewScreen.getText())
-					);
-				
+				btnCastToCustomerViewScreen.setText(setButtonStyle(btnCastToCustomerViewScreen.getText()));
 				btnCastToCustomerViewScreen.addActionListener(this);
-				
-			} catch (InvalidParameterException e) {
+			}
+			catch (InvalidParameterException e)
+			{
 				e.printStackTrace();
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return btnCastToCustomerViewScreen;
 	}
 
 	@Override
-	public MyImageButton getRestorePendingTransactionButton() {
+	public MyImageButton getRestorePendingTransactionButton()
+	{
 		if (btnRestorePendingTransaction == null)
 		{
-			try {
+			try
+			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/restore-icon-white.png"));
-				
-				btnRestorePendingTransaction = ButtonFactory.getInstance().create("Restore Pending Transaction", 
-						MyImageButton.TOP, 
-						image);
-				
-				btnRestorePendingTransaction.setBackground(MyColor.getAccentBackground());
-				btnRestorePendingTransaction.setForeground(Color.WHITE);
-				
+
+				btnRestorePendingTransaction = ButtonFactory.getInstance().create("Restore Pending Transaction",
+						MyImageButton.TOP, image, ButtonFactory.ACCENT_STYLE);
 				btnRestorePendingTransaction.setPreferredSize(new Dimension(200, 150));
-				
-				btnRestorePendingTransaction.setText(
-						setButtonStyle(btnRestorePendingTransaction.getText())
-					);
-				
+				btnRestorePendingTransaction.setText(setButtonStyle(btnRestorePendingTransaction.getText()));
 				btnRestorePendingTransaction.addActionListener(this);
-				
-			} catch (InvalidParameterException e) {
+
+			}
+			catch (InvalidParameterException e)
+			{
 				e.printStackTrace();
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 		}
-		
+
 		return btnRestorePendingTransaction;
 	}
 
 	private String setButtonStyle(String text)
 	{
-		return String.format("<html>"
-				+ "<center style='width: 100px;'>"
-				+ "%s"
-				+ "</center>"
-				+ "</html>", text);
+		return String.format("<html>" + "<center style='width: 100px;'>" + "%s" + "</center>" + "</html>", text);
 	}
 }

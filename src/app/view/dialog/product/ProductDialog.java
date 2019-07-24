@@ -8,7 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,23 +19,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import app.controller.ProductController;
-import app.controller.UserController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.factory.TextFieldFactory;
 import app.model.Product;
-import app.model.User;
 import app.validator.Validator;
-import app.validator.rule.IRule;
 import app.validator.rule.product.PriceRule;
 import app.validator.rule.product.StockRule;
 import app.validator.rule.user.NameRule;
-import app.validator.rule.user.PasswordConfirmRule;
-import app.validator.rule.user.PasswordRule;
-import app.validator.rule.user.UniqueUsernameRule;
-import app.validator.rule.user.UsernameRule;
-import app.view.custom_component.MyColor;
-import util.Hasher;
 
 public class ProductDialog extends JDialog implements ActionListener, AutoCloseable, IProductDialog {
 	public final static int INSERT_MODE = 0;
@@ -226,8 +216,7 @@ public class ProductDialog extends JDialog implements ActionListener, AutoClosea
 	@Override
 	public JButton getCancelButton() {
 		if (btnCancel == null) {
-			btnCancel = ButtonFactory.getInstance().create("Cancel");
-			btnCancel.setBackground(MyColor.getDarkBlueGrayBackground());
+			btnCancel = ButtonFactory.getInstance().create("Cancel", ButtonFactory.INVERTED_ACCENT_STYLE);
 			btnCancel.addActionListener(this);
 		}
 
@@ -237,7 +226,7 @@ public class ProductDialog extends JDialog implements ActionListener, AutoClosea
 	@Override
 	public JButton getSaveButton() {
 		if (btnSave == null) {
-			btnSave = ButtonFactory.getInstance().create("Save");
+			btnSave = ButtonFactory.getInstance().create("Save", ButtonFactory.PRIMARY_STYLE);
 			btnSave.addActionListener(this);
 		}
 

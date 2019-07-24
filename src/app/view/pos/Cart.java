@@ -49,11 +49,14 @@ public class Cart implements ICartSubject
 		return data;
 	}
 
+	
 	@Override
 	public void setData(DefaultTableModel tableModel)
 	{
 		if (tableModel == null)
+		{
 			this.data = getDefaultTableModel();
+		}
 		else
 			this.data = tableModel;
 
