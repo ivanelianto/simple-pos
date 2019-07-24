@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -20,14 +19,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
-import javax.swing.SwingUtilities;
 
 import app.controller.ProductController;
 import app.factory.ButtonFactory;
 import app.model.Product;
 import app.view.custom_component.MyImageButton;
 import app.view.dialog.product.ProductDialog;
-import util.FilePathHelper;
+import util.FileHelper;
+import util.Formatter;
 
 public class ManageProductPanel extends JPanel implements ActionListener, IManageProductPanel {
 	private MyImageButton btnAdd;
@@ -66,7 +65,7 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 	public MyImageButton getAddButton() {
 		if (btnAdd == null) {
 			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/add-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/add-icon.png"));
 
 				btnAdd = ButtonFactory.getInstance().create("Add", MyImageButton.LEFT, image);
 
@@ -110,8 +109,6 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 		
 		ArrayList<Product> Products = ProductController.getAllProducts();
 
-		NumberFormat formatter = NumberFormat.getCurrencyInstance();
-
 		for (int i = 0; i < Products.size(); i++) {
 			Product product = Products.get(i);
 
@@ -120,7 +117,7 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 
 			productItem.getIDButton().setText(product.getId() + "");
 			productItem.getNameLabel().setText(product.getName());
-			productItem.getPriceLabel().setText(formatter.format(product.getPrice()));
+			productItem.getPriceLabel().setText(Formatter.formatToCurrency(product.getPrice()));
 			productItem.getStockLabel().setText("Stock : " + product.getStock());
 
 			c.gridy = i;

@@ -2,11 +2,8 @@ package main;
 
 import javax.swing.SwingUtilities;
 
-import app.model.Product;
 import app.model.User;
-import app.view.dialog.product.ProductDialog;
-import app.view.dialog.user.UserDialog;
-import app.view.main.MainFrame;
+import app.view.login.LoginFrame;
 
 public class Main
 {
@@ -14,10 +11,10 @@ public class Main
 	
 	public Main()
 	{
-//		LoginFrame loginFrame = new LoginFrame();
-//		loginFrame.setVisible(true);
+		LoginFrame loginFrame = new LoginFrame();
+		loginFrame.setVisible(true);
 		
-		new MainFrame().setVisible(true);
+//		new MainDialog().setVisible(true);
 	}
 
 	public static void main(String[] args)

@@ -24,7 +24,7 @@ import app.factory.ButtonFactory;
 import app.model.User;
 import app.view.custom_component.MyImageButton;
 import app.view.dialog.user.UserDialog;
-import util.FilePathHelper;
+import util.FileHelper;
 
 public class ManageUserPanel extends JPanel implements ActionListener, IManageUserPanel {
 	private JPanel mainPanel;
@@ -78,7 +78,7 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 	public MyImageButton getAddButton() {
 		if (btnAdd == null) {
 			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/add-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/add-icon.png"));
 
 				btnAdd = ButtonFactory.getInstance().create("Add", MyImageButton.LEFT, image);
 

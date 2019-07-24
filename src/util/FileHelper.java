@@ -1,6 +1,6 @@
 package util;
 
-public class FilePathHelper
+public class FileHelper
 {
 	public static String getAssetsPath()
 	{

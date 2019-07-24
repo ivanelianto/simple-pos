@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 
 import app.view.custom_component.MyImageButton;
 
-public interface IMainFrame
+public interface IMainDialog
 {
 	JLabel getTitleLabel();
 	

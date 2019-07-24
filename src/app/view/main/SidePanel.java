@@ -13,9 +13,9 @@ import app.view.custom_component.MyColor;
 
 public class SidePanel extends JPanel {
 	
-	private IMainFrame components;
+	private IMainDialog components;
 	
-	public SidePanel(IMainFrame components)
+	public SidePanel(IMainDialog components)
 	{
 		this.setBorder(new MatteBorder(new Insets(0, 0, 0, 1), MyColor.getDarkBlueGrayBackground()));
 		
@@ -58,7 +58,7 @@ public class SidePanel extends JPanel {
 		c.gridy = 7;
 		c.weighty = 3;
 		JPanel blankPanel = new JPanel();
-		blankPanel.setBackground(MyColor.getPrimaryBackground());
+		blankPanel.setOpaque(false);
 		this.add(blankPanel, c);
 	}
 }

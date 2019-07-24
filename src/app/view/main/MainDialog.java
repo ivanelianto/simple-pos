@@ -6,22 +6,24 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
-import app.view.custom_component.MyFrame;
 import app.view.custom_component.MyImageButton;
 import main.Main;
-import util.FilePathHelper;
+import util.FileHelper;
 
-public class MainFrame extends MyFrame implements ActionListener, IMainFrame
+public class MainDialog extends JDialog implements ActionListener, IMainDialog
 {
 	private JLabel lblTitle;
 	private MyImageButton btnHome;
@@ -33,15 +35,17 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 	private SidePanel sidePanel;
 	private ContentPanel contentPanel;
 
-	public MainFrame()
+	public MainDialog()
 	{
+		setTitle("SIVle POS");
+		setModal(true);
 		setResizable(false);
 		setSize(825, 600);
 		setLocationRelativeTo(null);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		initializeComponent();
 	}
 
-	@Override
 	public void initializeComponent()
 	{
 		JPanel panel = new JPanel(new BorderLayout());
@@ -49,20 +53,29 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 
 		sidePanel = getSidePanel();
 		sidePanel.setBackground(Color.WHITE);
-		panel.add(sidePanel, BorderLayout.WEST);
 
 		contentPanel = getContentPanel();
 		contentPanel.setBackground(Color.WHITE);
+
+		panel.add(sidePanel, BorderLayout.WEST);
 		panel.add(contentPanel, BorderLayout.CENTER);
 
 		this.add(panel, BorderLayout.CENTER);
+		this.addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosed(WindowEvent e)
+			{
+				System.exit(0);
+			}
+		});
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		CardLayout layout = this.getContentPanel().getCardLayout();
-		
+
 		if (e.getSource() == btnHome)
 		{
 			layout.show(getContentPanel(), ContentPanel.HOME_PANEL);
@@ -77,16 +90,16 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 		}
 		else if (e.getSource() == btnPOS)
 		{
-			
+			layout.show(getContentPanel(), ContentPanel.POS_PANEL);
 		}
 		else if (e.getSource() == btnReport)
 		{
-			
+
 		}
 		else if (e.getSource() == btnLogout)
 		{
 			Main.currentUser = null;
-			// TODO: Close Frame and Trigger Reshow Login Frame
+			this.dispose();
 		}
 	}
 
@@ -96,7 +109,7 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 		if (lblTitle == null)
 		{
 			lblTitle = LabelFactory.getInstance().create("");
-			lblTitle.setIcon(new ImageIcon(FilePathHelper.getAssetsPath() + "/logo.png"));
+			lblTitle.setIcon(new ImageIcon(FileHelper.getAssetsPath() + "/logo.png"));
 			lblTitle.setHorizontalAlignment(JButton.CENTER);
 		}
 
@@ -110,7 +123,7 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 		{
 			try
 			{
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/home-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/home-icon.png"));
 
 				btnHome = (MyImageButton) ButtonFactory.getInstance().create("Home", MyImageButton.LEFT, image);
 
@@ -135,7 +148,7 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 		{
 			try
 			{
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/user-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/user-icon.png"));
 
 				btnManageUser = (MyImageButton) ButtonFactory.getInstance().create("Manage User", MyImageButton.LEFT,
 						image);
@@ -160,13 +173,13 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 		{
 			try
 			{
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/home-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/home-icon.png"));
 
 				btnManageProduct = (MyImageButton) ButtonFactory.getInstance().create("Manage Product",
 						MyImageButton.LEFT, image);
 
 				btnManageProduct.setText(setLeftButtonStyle(btnManageProduct.getText()));
-				
+
 				btnManageProduct.addActionListener(this);
 			}
 			catch (Exception e)
@@ -185,12 +198,12 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 		{
 			try
 			{
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/pos-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/pos-icon.png"));
 
 				btnPOS = (MyImageButton) ButtonFactory.getInstance().create("POS", MyImageButton.LEFT, image);
 
 				btnPOS.setText(setLeftButtonStyle(btnPOS.getText()));
-				
+
 				btnPOS.addActionListener(this);
 			}
 			catch (Exception e)
@@ -209,13 +222,13 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 		{
 			try
 			{
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/report-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/report-icon.png"));
 
 				btnReport = (MyImageButton) ButtonFactory.getInstance().create("Transaction Report", MyImageButton.LEFT,
 						image);
 
 				btnReport.setText(setLeftButtonStyle(btnReport.getText()));
-				
+
 				btnReport.addActionListener(this);
 			}
 			catch (Exception e)
@@ -234,12 +247,12 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 		{
 			try
 			{
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/logout-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/logout-icon.png"));
 
 				btnLogout = (MyImageButton) ButtonFactory.getInstance().create("Logout", MyImageButton.LEFT, image);
 
 				btnLogout.setText(setLeftButtonStyle(btnLogout.getText()));
-				
+
 				btnLogout.addActionListener(this);
 			}
 			catch (Exception e)
@@ -264,7 +277,7 @@ public class MainFrame extends MyFrame implements ActionListener, IMainFrame
 	public ContentPanel getContentPanel()
 	{
 		if (contentPanel == null)
-			contentPanel = new ContentPanel(this);
+			contentPanel = new ContentPanel();
 
 		return contentPanel;
 	}

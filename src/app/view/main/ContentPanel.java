@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 
 import app.view.manage.product.ManageProductPanel;
 import app.view.manage.user.ManageUserPanel;
+import app.view.pos.POSPanel;
 
 public class ContentPanel extends JPanel {
 	public final static String HOME_PANEL = "Home Panel";
@@ -14,15 +15,13 @@ public class ContentPanel extends JPanel {
 	public final static String POS_PANEL = "POS Panel";
 	public final static String REPORT_PANEL = "Report Panel";
 	
-	private IMainFrame components;
 	private CardLayout cardLayout;
 	
-	public ContentPanel(IMainFrame components)
+	public ContentPanel()
 	{
-		this.components = components;
-		
 		cardLayout = new CardLayout();
 		this.setLayout(cardLayout);
+		this.add(new POSPanel(), POS_PANEL);
 		this.add(new HomePanel(), HOME_PANEL);
 		this.add(new ManageUserPanel(), MANAGE_USER_PANEL);
 		this.add(new ManageProductPanel(), MANAGE_PRODUCT_PANEL);

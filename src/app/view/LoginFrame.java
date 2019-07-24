@@ -1,33 +1,28 @@
-package app.view.login;
+package app.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import app.controller.AuthController;
+import app.controller.LoginFrameController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.factory.TextFieldFactory;
-import app.view.custom_component.MyColor;
-import app.view.main.MainDialog;
+import app.view.custom_component.MyFrame;
 import util.FileHelper;
 
-public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
+public class LoginFrame extends MyFrame implements ILoginFrame
 {
 	JButton btnLogin;
 	JLabel lblTitle, lblUsername, lblPassword;
@@ -36,14 +31,13 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 
 	public LoginFrame()
 	{
-		setTitle("SIVle POS");
 		setSize(500, 300);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		initializeComponent();
 	}
 
+	@Override
 	public void initializeComponent()
 	{
 		GridBagLayout layout = new GridBagLayout();
@@ -96,34 +90,6 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 
 		this.add(panel, BorderLayout.CENTER);
 	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		if (e.getSource() == btnLogin)
-		{
-			String errorMessage = AuthController.login(txtUsername.getText(),
-					new String(txtPassword.getPassword()));
-			
-			if (errorMessage.isEmpty())
-			{
-				this.setVisible(false);
-				txtUsername.setText("");
-				txtPassword.setText("");
-				
-				MainDialog mainDialog = new MainDialog();
-				mainDialog.setVisible(true);
-				this.setVisible(true);
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, 
-						errorMessage, 
-						"Stop", 
-						JOptionPane.ERROR_MESSAGE);	
-			}
-		}
-	}
 
 	@Override
 	public JButton getLoginButton()
@@ -131,9 +97,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		if (btnLogin == null)
 		{
 			btnLogin = ButtonFactory.getInstance().create("Login");
-			btnLogin.setBackground(MyColor.getPrimaryBackground());
-			btnLogin.setForeground(Color.WHITE);
-			btnLogin.addActionListener(this);
+			btnLogin.addActionListener(LoginFrameController.getInstance(this).onLoginButtonClick());
 		}
 		return btnLogin;
 	}

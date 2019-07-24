@@ -28,8 +28,8 @@ public class ButtonFactory {
 
 	private void setDefaultStyle(JButton button) {
 		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		button.setBackground(MyColor.getPrimaryBackground());
-		button.setForeground(Color.WHITE);
+		button.setForeground(MyColor.getPrimaryBackground());
+		button.setBackground(Color.WHITE);
 		button.setFocusPainted(false);
 		button.setBorderPainted(false);
 		button.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));

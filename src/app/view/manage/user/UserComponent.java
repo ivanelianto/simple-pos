@@ -24,7 +24,7 @@ import app.model.User;
 import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
 import app.view.dialog.user.UserDialog;
-import util.FilePathHelper;
+import util.FileHelper;
 
 public class UserComponent extends JPanel implements ActionListener, IUserComponent
 {
@@ -94,7 +94,13 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 		if (this.btnID == null)
 		{
 			btnID = ButtonFactory.getInstance().create("");
+			btnID.setBackground(MyColor.getAccentBackground());
+			btnID.setForeground(Color.WHITE);
 			btnID.setPreferredSize(new Dimension(50, 50));
+			
+			String currentText = btnID.getText();
+			
+			btnID.setText(String.format("<html><center>%s</center></html>", currentText));
 		}
 
 		return btnID;
@@ -134,9 +140,8 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 		{
 			try
 			{
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/edit-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/edit-icon.png"));
 				btnEdit = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image);
-				btnEdit.setBackground(MyColor.getAccentBackground());
 				btnEdit.setImageSize(24, 24);
 				btnEdit.setPreferredSize(new Dimension(50, 50));
 				btnEdit.addActionListener(this);
@@ -157,7 +162,7 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 		{
 			try
 			{
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/delete-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/delete-icon.png"));
 				btnDelete = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image);
 				btnDelete.setImageSize(24, 24);
 				btnDelete.setPreferredSize(new Dimension(50, 50));

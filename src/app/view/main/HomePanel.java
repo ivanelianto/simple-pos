@@ -16,8 +16,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import app.factory.ButtonFactory;
+import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
-import util.FilePathHelper;
+import util.FileHelper;
 
 public class HomePanel extends JPanel implements ActionListener, IHomePanel {
 	private MyImageButton btnCastToCustomerViewScreen, btnRestorePendingTransaction;
@@ -28,12 +29,6 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel {
 		GridBagConstraints c = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		
-		
-		
-//		FlowLayout layout = new FlowLayout();
-//		layout.setAlignment(FlowLayout.CENTER);
-//		JPanel panel = new JPanel(layout);
-		
 		c.gridx = 0;
 		c.insets = new Insets(0, 0, 0, 5);
 		this.add(getCastToCustomerViewScreenButton(), c);
@@ -41,8 +36,6 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel {
 		c.gridx = 1;
 		c.insets = new Insets(0, 5, 0, 0);
 		this.add(getRestorePendingTransactionButton(), c);
-//		
-//		this.add(panel, c);
 	}
 
 	@Override
@@ -63,11 +56,14 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel {
 		if (btnCastToCustomerViewScreen == null)
 		{
 			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/add-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/add-icon-white.png"));
 				
 				btnCastToCustomerViewScreen = ButtonFactory.getInstance().create("Cast To Customer View Screen", 
 						MyImageButton.TOP, 
 						image);
+				
+				btnCastToCustomerViewScreen.setBackground(MyColor.getAccentBackground());
+				btnCastToCustomerViewScreen.setForeground(Color.WHITE);
 				
 				btnCastToCustomerViewScreen.setPreferredSize(new Dimension(200, 150));
 				
@@ -92,11 +88,14 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel {
 		if (btnRestorePendingTransaction == null)
 		{
 			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/restore-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/restore-icon-white.png"));
 				
 				btnRestorePendingTransaction = ButtonFactory.getInstance().create("Restore Pending Transaction", 
 						MyImageButton.TOP, 
 						image);
+				
+				btnRestorePendingTransaction.setBackground(MyColor.getAccentBackground());
+				btnRestorePendingTransaction.setForeground(Color.WHITE);
 				
 				btnRestorePendingTransaction.setPreferredSize(new Dimension(200, 150));
 				

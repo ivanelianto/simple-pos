@@ -1,6 +1,7 @@
 package app.view.manage.product;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -24,8 +25,7 @@ import app.model.Product;
 import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
 import app.view.dialog.product.ProductDialog;
-import app.view.manage.user.IManageUserPanel;
-import util.FilePathHelper;
+import util.FileHelper;
 
 public class ProductComponent extends JPanel implements ActionListener, IProductComponent {
 	private JButton btnID;
@@ -84,7 +84,13 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	public JButton getIDButton() {
 		if (this.btnID == null) {
 			btnID = ButtonFactory.getInstance().create("");
-			btnID.setPreferredSize(new Dimension(65, 50));
+			btnID.setBackground(MyColor.getAccentBackground());
+			btnID.setForeground(Color.WHITE);
+			btnID.setPreferredSize(new Dimension(70, 50));
+			
+			String currentText = btnID.getText();
+			
+			btnID.setText(String.format("<html><center>%s</center></html>", currentText));
 		}
 
 		return btnID;
@@ -126,9 +132,8 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	public MyImageButton getEditButton() {
 		if (btnEdit == null) {
 			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/edit-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/edit-icon.png"));
 				btnEdit = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image);
-				btnEdit.setBackground(MyColor.getAccentBackground());
 				btnEdit.setImageSize(24, 24);
 				btnEdit.setPreferredSize(new Dimension(50, 50));
 				btnEdit.addActionListener(this);
@@ -144,7 +149,7 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	public MyImageButton getDeleteButton() {
 		if (btnDelete == null) {
 			try {
-				Image image = ImageIO.read(new File(FilePathHelper.getAssetsPath() + "/delete-icon.png"));
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/delete-icon.png"));
 				btnDelete = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image);
 				btnDelete.setImageSize(24, 24);
 				btnDelete.setPreferredSize(new Dimension(50, 50));
