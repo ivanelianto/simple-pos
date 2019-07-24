@@ -35,10 +35,14 @@ public class TransactionRepository extends Repository<CartDTO>
 		String detailQuery = String
 				.format("INSERT INTO transaction_detail (header_id, product_id, quantity, price) VALUES(?, ?, ?, ?)");
 
+		String productQuery = String.format("UPDATE Product SET stock=stock-? WHERE id=?");
+
 		for (CartDTO product : products)
 		{
-			ProductRepository.executeUpdate(detailQuery, String.valueOf(headerId), String.valueOf(product.getId()),
+			Repository.executeUpdate(detailQuery, String.valueOf(headerId), String.valueOf(product.getId()),
 					String.valueOf(product.getQuantity()), String.valueOf(product.getPrice()));
+
+			executeUpdate(productQuery, String.valueOf(product.getQuantity()), String.valueOf(product.getId()));
 		}
 	}
 }
