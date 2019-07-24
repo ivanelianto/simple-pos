@@ -3,15 +3,18 @@ package util;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
 
-public class Hasher
+public class Encryptor
 {
-	private Hasher()
+	private Encryptor()
 	{
 
 	}
 
-	public static String hash(String plainText)
+	public static String hashSHA256(String plainText)
 	{
 		try
 		{
@@ -34,5 +37,17 @@ public class Hasher
 		}
 
 		return null;
+	}
+	
+	public static String encodeBase64(String plainText)
+	{
+		Encoder encoder = Base64.getEncoder();
+		return new String(encoder.encode(plainText.getBytes()));
+	}
+	
+	public static String decodeBase64(String encodedText)
+	{
+		Decoder decoder = Base64.getDecoder();
+		return new String(decoder.decode(encodedText));
 	}
 }
