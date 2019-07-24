@@ -2,7 +2,6 @@ package app.view.manage.product;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import app.view.custom_component.MyImageButton;
 
@@ -13,7 +12,7 @@ public interface IProductComponent
 	JLabel getNameLabel();
 
 	JLabel getStockLabel();
-	
+
 	JLabel getPriceLabel();
 
 	MyImageButton getEditButton();

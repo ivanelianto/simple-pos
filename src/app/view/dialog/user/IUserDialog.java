@@ -7,22 +7,22 @@ import javax.swing.JTextField;
 public interface IUserDialog
 {
 	JLabel getNameLabel();
-	
+
 	JLabel getUsernameLabel();
-	
+
 	JLabel getOldPasswordLabel();
-	
+
 	JLabel getNewPasswordLabel();
-	
+
 	JTextField getNameField();
-	
+
 	JTextField getUsernameField();
-	
+
 	JTextField getOldPasswordField();
-	
+
 	JTextField getNewPasswordField();
-	
+
 	JButton getCancelButton();
-	
+
 	JButton getSaveButton();
 }

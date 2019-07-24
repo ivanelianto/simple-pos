@@ -2,7 +2,8 @@ package app.validator.rule.product;
 
 import app.validator.rule.IRule;
 
-public class NameRule implements IRule {
+public class NameRule implements IRule
+{
 	private String name;
 
 	public NameRule(String name)

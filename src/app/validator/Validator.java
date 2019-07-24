@@ -20,9 +20,9 @@ public class Validator
 	public static boolean validate(IRule... rules)
 	{
 		errorMessages.clear();
-		
+
 		boolean isValid = true;
-		
+
 		for (IRule rule : rules)
 		{
 			String errorMessage = rule.validate();

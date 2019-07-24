@@ -25,27 +25,24 @@ public class MyImageButton extends JButton
 			throw new InvalidParameterException();
 
 		this.setText(text);
-		
+
 		this.imagePosition = imagePosition;
 		setImagePosition(imagePosition);
-		
+
 		this.image = image;
 		setImage(image);
 	}
 
 	private boolean isValidPosition(int imagePosition)
 	{
-		return imagePosition == TOP 
-				|| imagePosition == BOTTOM 
-				|| imagePosition == RIGHT 
-				|| imagePosition == LEFT;
+		return imagePosition == TOP || imagePosition == BOTTOM || imagePosition == RIGHT || imagePosition == LEFT;
 	}
 
 	public void setImagePosition(int position) throws InvalidParameterException
 	{
 		if (!isValidPosition(imagePosition))
 			throw new InvalidParameterException();
-		
+
 		switch (position)
 		{
 			case TOP:
@@ -66,7 +63,7 @@ public class MyImageButton extends JButton
 				break;
 		}
 	}
-	
+
 	public void setImage(Image image)
 	{
 		this.setIcon(new ImageIcon(image));

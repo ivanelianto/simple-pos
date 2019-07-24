@@ -6,11 +6,11 @@ import java.security.NoSuchAlgorithmException;
 
 public class Hasher
 {
-	private Hasher() 
+	private Hasher()
 	{
-		
+
 	}
-	
+
 	public static String hash(String plainText)
 	{
 		try
@@ -25,14 +25,14 @@ public class Hasher
 			{
 				hashText = "0" + hashText;
 			}
-			
+
 			return hashText;
 		}
 		catch (NoSuchAlgorithmException e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 }

@@ -45,9 +45,9 @@ public class Product
 	{
 		if (stock < 1)
 			return false;
-		
+
 		this.stock = stock;
-		
+
 		return true;
 	}
 

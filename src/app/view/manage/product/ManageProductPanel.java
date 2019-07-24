@@ -28,12 +28,14 @@ import app.view.dialog.product.ProductDialog;
 import util.FileHelper;
 import util.Formatter;
 
-public class ManageProductPanel extends JPanel implements ActionListener, IManageProductPanel {
+public class ManageProductPanel extends JPanel implements ActionListener, IManageProductPanel
+{
 	private MyImageButton btnAdd;
 
 	private JPanel mainPanel;
 
-	public ManageProductPanel() {
+	public ManageProductPanel()
+	{
 		this.setLayout(new BorderLayout());
 
 		JPanel addButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -48,30 +50,39 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		if (e.getSource() == getAddButton())
 		{
-			try (ProductDialog dialog = new ProductDialog()) {
+			try (ProductDialog dialog = new ProductDialog())
+			{
 				dialog.setVisible(true);
 				this.refreshData();
 			}
-			catch (Exception ex) {
+			catch (Exception ex)
+			{
 				ex.printStackTrace();
 			}
 		}
 	}
 
 	@Override
-	public MyImageButton getAddButton() {
-		if (btnAdd == null) {
-			try {
+	public MyImageButton getAddButton()
+	{
+		if (btnAdd == null)
+		{
+			try
+			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/add-icon.png"));
 
-				btnAdd = ButtonFactory.getInstance().create("Add", MyImageButton.LEFT, image, ButtonFactory.INVERTED_PRIMARY_STYLE);
+				btnAdd = ButtonFactory.getInstance().create("Add", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnAdd.setPreferredSize(new Dimension(80, 35));
 				btnAdd.setImageSize(20, 20);
 				btnAdd.addActionListener(this);
-			} catch (IOException e) {
+			}
+			catch (IOException e)
+			{
 				e.printStackTrace();
 			}
 		}
@@ -80,8 +91,10 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 	}
 
 	@Override
-	public JPanel getMainPanel() {
-		if (mainPanel == null) {
+	public JPanel getMainPanel()
+	{
+		if (mainPanel == null)
+		{
 			mainPanel = new JPanel(new GridBagLayout());
 			mainPanel.setOpaque(false);
 			JScrollPane scrollPane = new JScrollPane(mainPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -97,16 +110,18 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 	}
 
 	@Override
-	public void refreshData() {
+	public void refreshData()
+	{
 		getMainPanel().removeAll();
 
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.fill = GridBagConstraints.BOTH;
-		
+
 		ArrayList<Product> products = ProductController.getAllProducts();
 
-		for (int i = 0; i < products.size(); i++) {
+		for (int i = 0; i < products.size(); i++)
+		{
 			Product product = products.get(i);
 
 			ProductComponent productItem = new ProductComponent(product, ManageProductPanel.this);

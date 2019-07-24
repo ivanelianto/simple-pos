@@ -6,13 +6,13 @@ public class User
 {
 	@Table(columnName = "id")
 	private int id;
-	
+
 	@Table(columnName = "name")
 	private String name;
-	
+
 	@Table(columnName = "username")
 	private String username;
-	
+
 	@Table(columnName = "password")
 	private String password;
 

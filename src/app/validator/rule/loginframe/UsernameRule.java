@@ -17,10 +17,10 @@ public class UsernameRule implements IRule
 	public String validate()
 	{
 		String username = this.usernameField.getText();
-		
+
 		if (username.isEmpty())
 			return "Username must be filled.";
-		
+
 		return "";
 	}
 

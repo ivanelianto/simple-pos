@@ -130,7 +130,7 @@ public class PendingTransactionDialog extends MyDialog
 					JOptionPane.INFORMATION_MESSAGE);
 
 			table.setModel(getRefreshedData());
-			
+
 			getCancelButton().doClick();
 		}
 		else if (e.getSource() == getCancelButton())

@@ -8,15 +8,15 @@ import app.view.manage.product.ManageProductPanel;
 import app.view.manage.user.ManageUserPanel;
 import app.view.pos.POSPanel;
 
-public class ContentPanel extends JPanel {
+public class ContentPanel extends JPanel
+{
 	public final static String HOME_PANEL = "Home Panel";
 	public final static String MANAGE_USER_PANEL = "Manage User Panel";
 	public final static String MANAGE_PRODUCT_PANEL = "Manage Product Panel";
 	public final static String POS_PANEL = "POS Panel";
-	public final static String REPORT_PANEL = "Report Panel";
-	
+
 	private CardLayout cardLayout;
-	
+
 	public ContentPanel()
 	{
 		cardLayout = new CardLayout();
@@ -26,7 +26,7 @@ public class ContentPanel extends JPanel {
 		this.add(new ManageProductPanel(), MANAGE_PRODUCT_PANEL);
 		this.add(new POSPanel(), POS_PANEL);
 	}
-	
+
 	public CardLayout getCardLayout()
 	{
 		return this.cardLayout;

@@ -15,11 +15,9 @@ public class AuthController
 	public static String login(String username, String password)
 	{
 		String hashedPassword = Hasher.hash(password);
-		
-		boolean isValid = Validator.validate(
-				new UsernameRule(username),
-				new PasswordRule(hashedPassword));
-		
+
+		boolean isValid = Validator.validate(new UsernameRule(username), new PasswordRule(hashedPassword));
+
 		if (!isValid)
 		{
 			return Validator.getErrorMessages().get(0);
@@ -30,14 +28,14 @@ public class AuthController
 
 			if (users.size() < 1)
 			{
-				return "Invalid Username or Password.";	
+				return "Invalid Username or Password.";
 			}
 			else
 			{
 				Main.currentUser = users.get(0);
 			}
 		}
-		
+
 		return "";
 	}
 }

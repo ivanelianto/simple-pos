@@ -25,14 +25,16 @@ import app.view.custom_component.MyImageButton;
 import app.view.dialog.product.ProductDialog;
 import util.FileHelper;
 
-public class ProductComponent extends JPanel implements ActionListener, IProductComponent {
+public class ProductComponent extends JPanel implements ActionListener, IProductComponent
+{
 	private JButton btnID;
 	private JLabel lblName, lblStock, lblPrice;
 	private MyImageButton btnEdit, btnDelete;
 	private IManageProductPanel manageProductPanel;
 	private Product product;
 
-	public ProductComponent(Product product, IManageProductPanel panel) {
+	public ProductComponent(Product product, IManageProductPanel panel)
+	{
 		this.product = product;
 		this.manageProductPanel = panel;
 		this.setOpaque(false);
@@ -59,19 +61,27 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == getEditButton()) {
-			try (ProductDialog dialog = new ProductDialog(this.product)) {
+	public void actionPerformed(ActionEvent e)
+	{
+		if (e.getSource() == getEditButton())
+		{
+			try (ProductDialog dialog = new ProductDialog(this.product))
+			{
 				dialog.setVisible(true);
 				manageProductPanel.refreshData();
-			} catch (Exception ex) {
+			}
+			catch (Exception ex)
+			{
 				ex.printStackTrace();
 			}
-		} else if (e.getSource() == getDeleteButton()) {
+		}
+		else if (e.getSource() == getDeleteButton())
+		{
 			int confirmationResult = JOptionPane.showConfirmDialog(null, "Are you sure ?", "Confirmation",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
-			if (confirmationResult == JOptionPane.YES_OPTION) {
+			if (confirmationResult == JOptionPane.YES_OPTION)
+			{
 				ProductController.delete(Integer.parseInt(getIDButton().getText()));
 				manageProductPanel.refreshData();
 			}
@@ -79,13 +89,15 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	}
 
 	@Override
-	public JButton getIDButton() {
-		if (this.btnID == null) {
+	public JButton getIDButton()
+	{
+		if (this.btnID == null)
+		{
 			btnID = ButtonFactory.getInstance().create("", ButtonFactory.ACCENT_STYLE);
 			btnID.setPreferredSize(new Dimension(70, 50));
-			
+
 			String currentText = btnID.getText();
-			
+
 			btnID.setText(String.format("<html><center>%s</center></html>", currentText));
 		}
 
@@ -93,8 +105,10 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	}
 
 	@Override
-	public JLabel getNameLabel() {
-		if (this.lblName == null) {
+	public JLabel getNameLabel()
+	{
+		if (this.lblName == null)
+		{
 			lblName = LabelFactory.getInstance().create("");
 			lblName.setFont(new Font("Arial", Font.BOLD, 14));
 			lblName.setOpaque(false);
@@ -104,8 +118,10 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	}
 
 	@Override
-	public JLabel getStockLabel() {
-		if (this.lblStock == null) {
+	public JLabel getStockLabel()
+	{
+		if (this.lblStock == null)
+		{
 			lblStock = LabelFactory.getInstance().create("");
 			lblStock.setOpaque(false);
 		}
@@ -114,8 +130,10 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	}
 
 	@Override
-	public JLabel getPriceLabel() {
-		if (lblPrice == null) {
+	public JLabel getPriceLabel()
+	{
+		if (lblPrice == null)
+		{
 			lblPrice = LabelFactory.getInstance().create("");
 			lblPrice.setOpaque(false);
 			lblPrice.setBorder(new EmptyBorder(new Insets(5, 0, 5, 10)));
@@ -125,15 +143,21 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	}
 
 	@Override
-	public MyImageButton getEditButton() {
-		if (btnEdit == null) {
-			try {
+	public MyImageButton getEditButton()
+	{
+		if (btnEdit == null)
+		{
+			try
+			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/edit-icon.png"));
-				btnEdit = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image, ButtonFactory.INVERTED_ACCENT_STYLE);
+				btnEdit = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_ACCENT_STYLE);
 				btnEdit.setImageSize(24, 24);
 				btnEdit.setPreferredSize(new Dimension(50, 50));
 				btnEdit.addActionListener(this);
-			} catch (Exception ex) {
+			}
+			catch (Exception ex)
+			{
 				ex.printStackTrace();
 			}
 		}
@@ -142,15 +166,21 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	}
 
 	@Override
-	public MyImageButton getDeleteButton() {
-		if (btnDelete == null) {
-			try {
+	public MyImageButton getDeleteButton()
+	{
+		if (btnDelete == null)
+		{
+			try
+			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/delete-icon.png"));
-				btnDelete = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image, ButtonFactory.INVERTED_PRIMARY_STYLE);
+				btnDelete = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_PRIMARY_STYLE);
 				btnDelete.setImageSize(24, 24);
 				btnDelete.setPreferredSize(new Dimension(50, 50));
 				btnDelete.addActionListener(this);
-			} catch (Exception ex) {
+			}
+			catch (Exception ex)
+			{
 				ex.printStackTrace();
 			}
 

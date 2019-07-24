@@ -21,7 +21,7 @@ public abstract class Repository<T>
 	private static String connectionString = String.format("jdbc:mysql://%s:%d/%s", DB_SERVER, DB_PORT, DB_NAME);
 
 	private static Connection conn;
-	
+
 	private static Connection getConnection()
 	{
 		if (conn == null)
@@ -51,7 +51,7 @@ public abstract class Repository<T>
 			{
 				statement.setString(i, params[i - 1]);
 			}
-			
+
 			return statement.executeQuery();
 		}
 		catch (Exception e)
@@ -72,7 +72,7 @@ public abstract class Repository<T>
 			{
 				statement.setString(i, params[i - 1]);
 			}
-			
+
 			statement.executeUpdate();
 		}
 		catch (Exception e)
@@ -91,16 +91,16 @@ public abstract class Repository<T>
 			{
 				statement.setString(i, params[i - 1]);
 			}
-			
+
 			statement.executeUpdate();
-			
+
 			return statement.getGeneratedKeys();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 

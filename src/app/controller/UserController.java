@@ -12,29 +12,29 @@ public class UserController
 	{
 		return UserRepository.getAll();
 	}
-	
+
 	public static void add(String name, String username, String password)
 	{
 		String hashedPassword = Hasher.hash(password);
-		
+
 		User user = new User();
 		user.setName(name);
 		user.setUsername(username);
 		user.setPassword(hashedPassword);
 		UserRepository.add(user);
 	}
-	
+
 	public static void update(int id, String name, String username, String newPassword)
 	{
 		String hashedPassword = Hasher.hash(newPassword);
-		
+
 		User user = new User();
 		user.setName(name);
 		user.setUsername(username);
 		user.setPassword(hashedPassword);
 		UserRepository.update(id, user);
 	}
-	
+
 	public static void delete(int id)
 	{
 		UserRepository.delete(id);

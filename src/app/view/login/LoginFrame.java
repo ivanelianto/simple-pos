@@ -96,31 +96,27 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 
 		this.add(panel, BorderLayout.CENTER);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		if (e.getSource() == btnLogin)
 		{
-			String errorMessage = AuthController.login(txtUsername.getText(),
-					new String(txtPassword.getPassword()));
-			
+			String errorMessage = AuthController.login(txtUsername.getText(), new String(txtPassword.getPassword()));
+
 			if (errorMessage.isEmpty())
 			{
 				this.setVisible(false);
 				txtUsername.setText("");
 				txtPassword.setText("");
-				
+
 				MainDialog mainDialog = new MainDialog();
 				mainDialog.setVisible(true);
 				this.setVisible(true);
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, 
-						errorMessage, 
-						"Stop", 
-						JOptionPane.ERROR_MESSAGE);	
+				JOptionPane.showMessageDialog(null, errorMessage, "Stop", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -173,7 +169,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 	{
 		if (txtUsername == null)
 			txtUsername = TextFieldFactory.getInstance().create();
-		
+
 		return txtUsername;
 	}
 
@@ -182,7 +178,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 	{
 		if (txtPassword == null)
 			txtPassword = (JPasswordField) TextFieldFactory.getInstance().create(true);
-		
+
 		return txtPassword;
 	}
 

@@ -2,10 +2,11 @@ package app.validator.rule.product;
 
 import app.validator.rule.IRule;
 
-public class StockRule implements IRule {
+public class StockRule implements IRule
+{
 
 	private final static int MINIMUM_STOCK = 1;
-	
+
 	private String stock;
 
 	public StockRule(String stock)
@@ -22,11 +23,12 @@ public class StockRule implements IRule {
 			return "Stock must be numeric";
 		else if (!isValidStock())
 			return "Stock must be at least 1.";
-		
+
 		return "";
 	}
-	
-	private boolean isValidStock() {
+
+	private boolean isValidStock()
+	{
 		return Integer.parseInt(stock) >= MINIMUM_STOCK;
 	}
 }

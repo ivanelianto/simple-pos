@@ -7,18 +7,18 @@ import javax.swing.JTextField;
 public interface IProductDialog
 {
 	JLabel getNameLabel();
-	
+
 	JLabel getStockLabel();
-	
+
 	JLabel getPriceLabel();
-	
+
 	JTextField getNameField();
-	
+
 	JTextField getStockField();
-	
+
 	JTextField getPriceField();
-	
+
 	JButton getCancelButton();
-	
+
 	JButton getSaveButton();
 }

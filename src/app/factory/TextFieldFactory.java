@@ -12,7 +12,7 @@ public class TextFieldFactory
 {
 	private final static int DEFAULT_WIDTH = 150;
 	private final static int DEFAULT_HEIGHT = 25;
-	
+
 	private static TextFieldFactory instance;
 
 	private TextFieldFactory()

@@ -16,7 +16,7 @@ public class PasswordRule implements IRule
 	{
 		if (isEmpty())
 			return "Password must be filled.";
-		
+
 		return "";
 	}
 

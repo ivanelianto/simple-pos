@@ -2,18 +2,21 @@ package app.validator.rule.product;
 
 import app.validator.rule.IRule;
 
-public class PriceRule implements IRule {
+public class PriceRule implements IRule
+{
 
 	private final static double MINIMUM_PRICE = 1000.0;
 
 	private String price;
 
-	public PriceRule(String price) {
+	public PriceRule(String price)
+	{
 		this.price = price;
 	}
 
 	@Override
-	public String validate() {
+	public String validate()
+	{
 		if (price.isEmpty())
 			return "Price must be filled.";
 		else if (!isNumeric(price))
@@ -24,7 +27,8 @@ public class PriceRule implements IRule {
 		return "";
 	}
 
-	private boolean isValidPrice() {
+	private boolean isValidPrice()
+	{
 		return Double.parseDouble(price) >= MINIMUM_PRICE;
 	}
 

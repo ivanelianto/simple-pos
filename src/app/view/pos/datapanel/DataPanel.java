@@ -23,23 +23,19 @@ import app.controller.ProductController;
 import app.dto.CartDTO;
 import app.model.Product;
 import app.view.pos.Cart;
-import app.view.pos.IPOSPanel;
 import util.Formatter;
 
 public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 {
 	private JTable table;
-	private IPOSPanel POSPanel;
 
-	public DataPanel(Cart transaction, IPOSPanel panel)
+	public DataPanel(Cart transaction)
 	{
 		super(transaction);
-		
-		this.POSPanel = panel;
 
 		this.setLayout(new BorderLayout());
 		JScrollPane scrollPane = new JScrollPane(getMainTable());
-		
+
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		this.add(scrollPane, BorderLayout.CENTER);
 
@@ -105,7 +101,7 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 
 								String subtotalWithCurrencies = Formatter
 										.formatToCurrency(getSubtotal(qtyInRow, dto.getPrice()));
-								
+
 								data.setValueAt(subtotalWithCurrencies, i, CartDTO.SUBTOTAL_INDEX);
 
 								isExist = true;
@@ -120,13 +116,13 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 							fields.add(dto.getName());
 							fields.add(dto.getQuantity() + "");
 							fields.add(dto.getPrice() + "");
-							
+
 							double subtotal = dto.getQuantity() * dto.getPrice();
 							fields.add(Formatter.formatToCurrency(subtotal));
-							
+
 							data.addRow(fields);
 						}
-						
+
 						setTableView(data);
 					}
 				}
@@ -198,8 +194,8 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 		}
 
 		String[] encodedProductFields = lines.get(0).split("#");
-		return new CartDTO(Integer.valueOf(encodedProductFields[CartDTO.ID_INDEX]), encodedProductFields[CartDTO.NAME_INDEX],
-				Integer.valueOf(encodedProductFields[CartDTO.QUANTITY_INDEX]),
+		return new CartDTO(Integer.valueOf(encodedProductFields[CartDTO.ID_INDEX]),
+				encodedProductFields[CartDTO.NAME_INDEX], Integer.valueOf(encodedProductFields[CartDTO.QUANTITY_INDEX]),
 				Double.valueOf(encodedProductFields[CartDTO.PRICE_INDEX]));
 	}
 }

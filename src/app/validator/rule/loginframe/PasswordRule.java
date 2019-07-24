@@ -17,10 +17,10 @@ public class PasswordRule implements IRule
 	public String validate()
 	{
 		String password = new String(this.passwordField.getPassword());
-		
+
 		if (password.isEmpty())
 			return "Password must be filled.";
-		
+
 		return "";
 	}
 

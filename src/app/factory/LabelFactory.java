@@ -21,14 +21,14 @@ public class LabelFactory
 
 		return instance;
 	}
-	
+
 	private void setDefaultStyle(JLabel label)
 	{
 		label.setBackground(Color.WHITE);
 		label.setForeground(MyColor.getAccentBackground());
 		label.setOpaque(true);
 	}
-	
+
 	public JLabel create(String text)
 	{
 		JLabel lbl = new JLabel(text);

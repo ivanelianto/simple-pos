@@ -16,7 +16,7 @@ public class UsernameRule implements IRule
 	{
 		if (username.isEmpty())
 			return "Username must be filled.";
-		
+
 		return "";
 	}
 

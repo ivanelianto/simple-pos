@@ -52,7 +52,7 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 				JOptionPane.showMessageDialog(null, "You don\'t add any item yet.", "Stop", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			
+
 			ArrayList<CartDTO> carts = new ArrayList<>();
 			DefaultTableModel tableData = Main.subject.getData();
 			for (int i = 0; i < tableData.getRowCount(); i++)
@@ -64,12 +64,11 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 				dto.setPrice(Double.valueOf(tableData.getValueAt(i, CartDTO.PRICE_INDEX).toString()));
 				carts.add(dto);
 			}
-			
+
 			TransactionController.add(carts);
-			
-			JOptionPane.showMessageDialog(null, "Transaction completed.", "Success",
-					JOptionPane.INFORMATION_MESSAGE);
-			
+
+			JOptionPane.showMessageDialog(null, "Transaction completed.", "Success", JOptionPane.INFORMATION_MESSAGE);
+
 			Main.subject.setData(null);
 		}
 		else if (e.getSource() == getPendingButton())
@@ -144,7 +143,7 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 	{
 		if (dataPanel == null)
 		{
-			dataPanel = new DataPanel(Main.subject, this);
+			dataPanel = new DataPanel(Main.subject);
 		}
 
 		return dataPanel;

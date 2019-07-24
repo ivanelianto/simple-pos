@@ -41,34 +41,30 @@ public class LoginFrameController
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				boolean isValid = Validator.validate(
-						new UsernameRule(loginFrameComponents.getUsernameField()),
+				boolean isValid = Validator.validate(new UsernameRule(loginFrameComponents.getUsernameField()),
 						new PasswordRule(loginFrameComponents.getPasswordField()));
-				
+
 				if (!isValid)
 				{
-					JOptionPane.showMessageDialog(null, 
-							Validator.getErrorMessages().get(0), 
-							"Stop", 
-							JOptionPane.ERROR_MESSAGE);	
+					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop",
+							JOptionPane.ERROR_MESSAGE);
 				}
 				else
 				{
 					String username = loginFrameComponents.getUsernameField().getText();
-					String hashedPassword = Hasher.hash(new String(loginFrameComponents.getPasswordField().getPassword()));
+					String hashedPassword = Hasher
+							.hash(new String(loginFrameComponents.getPasswordField().getPassword()));
 					ArrayList<User> users = UserRepository.findUserByUsernameAndPassword(username, hashedPassword);
 
 					if (users.size() < 1)
 					{
-						JOptionPane.showMessageDialog(null, 
-								"Invalid Username or Password.", 
-								"Stop", 
-								JOptionPane.ERROR_MESSAGE);	
+						JOptionPane.showMessageDialog(null, "Invalid Username or Password.", "Stop",
+								JOptionPane.ERROR_MESSAGE);
 					}
 					else
 					{
 						Main.currentUser = users.get(0);
-						
+
 						// Open Main Window
 					}
 				}

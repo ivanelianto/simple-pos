@@ -6,8 +6,8 @@ import javax.swing.JTable;
 public interface IPendingTransactionDialog
 {
 	JTable getTable();
-	
+
 	JButton getCancelButton();
-	
+
 	JButton getRestoreButton();
 }

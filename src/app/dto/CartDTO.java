@@ -7,7 +7,7 @@ public class CartDTO
 	public static final int QUANTITY_INDEX = 2;
 	public static final int PRICE_INDEX = 3;
 	public static final int SUBTOTAL_INDEX = 4;
-	
+
 	private int id;
 
 	private String name;
@@ -15,8 +15,10 @@ public class CartDTO
 	private int quantity;
 
 	private double price;
-	
-	public CartDTO(){}
+
+	public CartDTO()
+	{
+	}
 
 	public CartDTO(int id, String name, int quantity, double price)
 	{
