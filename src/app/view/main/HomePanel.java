@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import app.factory.ButtonFactory;
 import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
+import app.view.pos.datapanel.TransactionUserScreenFrame;
+import main.Main;
 import util.FileHelper;
 
 public class HomePanel extends JPanel implements ActionListener, IHomePanel {
@@ -43,7 +45,8 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel {
 	{
 		if (e.getSource() == btnCastToCustomerViewScreen)
 		{
-			
+			TransactionUserScreenFrame frame = new TransactionUserScreenFrame(Main.subject);
+			frame.setVisible(true);
 		}
 		else if (e.getSource() == btnRestorePendingTransaction)
 		{

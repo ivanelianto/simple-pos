@@ -2,21 +2,23 @@ package app.view.pos;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dialog.ModalExclusionType;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 
 import app.factory.ButtonFactory;
 import app.view.custom_component.MyImageButton;
 import app.view.pos.datapanel.DataPanel;
+import app.view.pos.datapanel.TransactionUserScreenFrame;
+import main.Main;
 import util.FileHelper;
 
 public class POSPanel extends JPanel implements ActionListener, IPOSPanel
@@ -43,11 +45,13 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 	{
 		if (e.getSource() == getProcessButton())
 		{
-
+			// TODO: Insert Into DB
 		}
 		else if (e.getSource() == getPendingButton())
 		{
-
+			ArrayList<DefaultTableModel> pendingTransactions = Main.subject.getPendingTransactions();
+			pendingTransactions.add(Main.subject.getData());
+			Main.subject.setData(null);
 		}
 	}
 
@@ -60,8 +64,8 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/done-icon.png"));
 				btnProcess = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image);
-				btnProcess.addActionListener(this);
 				btnProcess.setPreferredSize(new Dimension(50, 50));
+				btnProcess.addActionListener(this);
 			}
 			catch (Exception ex)
 			{
@@ -81,8 +85,8 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 			{
 				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/pending-icon.png"));
 				btnPending = ButtonFactory.getInstance().create("", MyImageButton.LEFT, image);
-				btnPending.addActionListener(this);
 				btnPending.setPreferredSize(new Dimension(50, 50));
+				btnPending.addActionListener(this);
 			}
 			catch (Exception ex)
 			{
@@ -98,19 +102,10 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 	{
 		if (dataPanel == null)
 		{
-			Cart subject = new Cart();
+			dataPanel = new DataPanel(Main.subject);
 
-			JFrame frame = new JFrame();
-			frame.setModalExclusionType(ModalExclusionType.TOOLKIT_EXCLUDE);
-			frame.setSize(500, 500);
-			frame.setAlwaysOnTop(true);
-			frame.setResizable(false);
-			frame.setLocationRelativeTo(null);
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			frame.add(new DataPanel(subject), BorderLayout.CENTER);
+			TransactionUserScreenFrame frame = new TransactionUserScreenFrame(Main.subject);
 			frame.setVisible(true);
-
-			dataPanel = new DataPanel(subject);
 		}
 
 		return dataPanel;

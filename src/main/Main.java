@@ -3,18 +3,21 @@ package main;
 import javax.swing.SwingUtilities;
 
 import app.model.User;
-import app.view.login.LoginFrame;
+import app.view.main.MainDialog;
+import app.view.pos.Cart;
 
 public class Main
 {
+	public static Cart subject = new Cart();
+	
 	public static User currentUser = null;
 	
 	public Main()
 	{
-		LoginFrame loginFrame = new LoginFrame();
-		loginFrame.setVisible(true);
+//		LoginFrame loginFrame = new LoginFrame();
+//		loginFrame.setVisible(true);
 		
-//		new MainDialog().setVisible(true);
+		new MainDialog().setVisible(true);
 	}
 
 	public static void main(String[] args)

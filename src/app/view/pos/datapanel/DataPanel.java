@@ -18,7 +18,6 @@ import javax.swing.JTable;
 import javax.swing.TransferHandler;
 import javax.swing.table.DefaultTableModel;
 
-import app.view.pos.ObservableTransactionPanel;
 import app.view.pos.Cart;
 import util.Formatter;
 
@@ -131,17 +130,16 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 	public void update()
 	{
 		DefaultTableModel data = subscribedSubject.getData();
-		this.table.setModel(data);
+		setTableView(data);
 	}
 	
-
 	@Override
 	public JTable getMainTable()
 	{
 		if (table == null)
 		{
-			table = new JTable(subscribedSubject.getData());
-			table.removeColumn(table.getColumnModel().getColumn(0));
+			table = new JTable();
+			setTableView(subscribedSubject.getData());
 		}
 
 		return table;
@@ -150,5 +148,11 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 	private double getSubtotal(int quantity, double price)
 	{
 		return quantity * price;
+	}
+
+	private void setTableView(DefaultTableModel data)
+	{
+		this.table.setModel(data);
+		table.removeColumn(table.getColumnModel().getColumn(0));
 	}
 }
