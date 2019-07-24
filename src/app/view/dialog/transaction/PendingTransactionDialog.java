@@ -1,13 +1,10 @@
 package app.view.dialog.transaction;
 
-import java.awt.Color;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTable;
 
 import app.factory.ButtonFactory;
-import app.view.custom_component.MyColor;
 
 public class PendingTransactionDialog extends JDialog implements IPendingTransactionDialog
 {
@@ -18,8 +15,12 @@ public class PendingTransactionDialog extends JDialog implements IPendingTransac
 	@Override
 	public JTable getTable()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if (table == null)
+		{
+			table = new JTable();
+		}
+		
+		return table;
 	}
 
 	@Override
@@ -27,7 +28,7 @@ public class PendingTransactionDialog extends JDialog implements IPendingTransac
 	{
 		if (btnCancel == null)
 		{
-			btnCancel = ButtonFactory.getInstance().create("Cancel");
+			btnCancel = ButtonFactory.getInstance().create("Cancel", ButtonFactory.INVERTED_ACCENT_STYLE);
 		}
 		
 		return btnCancel;
@@ -38,9 +39,7 @@ public class PendingTransactionDialog extends JDialog implements IPendingTransac
 	{
 		if (btnRestore == null)
 		{
-			btnRestore = ButtonFactory.getInstance().create("Restore");
-			btnRestore.setBackground(MyColor.getPrimaryBackground());
-			btnRestore.setForeground(Color.WHITE);
+			btnRestore = ButtonFactory.getInstance().create("Restore", ButtonFactory.PRIMARY_STYLE);
 		}
 		
 		return btnRestore;

@@ -8,12 +8,10 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
 
 import app.factory.ButtonFactory;
 import app.view.custom_component.MyImageButton;
@@ -55,8 +53,7 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 
 			if (confirmationResult == JOptionPane.YES_OPTION)
 			{
-				ArrayList<DefaultTableModel> pendingTransactions = Main.subject.getPendingTransactions();
-				pendingTransactions.add(Main.subject.getData());
+				Main.subject.pendingTransaction(Main.subject.getData());
 				Main.subject.setData(null);
 				
 				JOptionPane.showMessageDialog(null, 

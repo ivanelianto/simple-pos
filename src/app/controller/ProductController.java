@@ -8,9 +8,9 @@ import app.repository.ProductRepository;
 public class ProductController
 {
 	private static ArrayList<Product> products;
-	
+
 	private static boolean isChanged = false;
-	
+
 	public static ArrayList<Product> getAllProducts()
 	{
 		if (products == null || isChanged)
@@ -18,10 +18,21 @@ public class ProductController
 			products = ProductRepository.getAllProducts();
 			isChanged = false;
 		}
-		
+
 		return products;
 	}
-	
+
+	public static Product getProductByID(int id)
+	{
+		for (Product product : getAllProducts())
+		{
+			if (product.getId() == id)
+				return product;
+		}
+		
+		return null;
+	}
+
 	public static void add(String name, int stock, double price)
 	{
 		Product product = new Product();
@@ -31,7 +42,7 @@ public class ProductController
 		ProductRepository.add(product);
 		isChanged = true;
 	}
-	
+
 	public static void update(int id, String name, int stock, double price)
 	{
 		Product product = new Product();
@@ -41,7 +52,7 @@ public class ProductController
 		ProductRepository.update(id, product);
 		isChanged = true;
 	}
-	
+
 	public static void delete(int id)
 	{
 		ProductRepository.delete(id);

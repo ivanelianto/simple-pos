@@ -1,6 +1,7 @@
 package app.view.pos;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
@@ -13,11 +14,19 @@ public class Cart implements ICartSubject
 
 	private DefaultTableModel data;
 
-	private ArrayList<DefaultTableModel> pendingTransactions = new ArrayList<>();
+	private ArrayList<Transaction> pendingTransactions = new ArrayList<>();
 
-	public ArrayList<DefaultTableModel> getPendingTransactions()
+	public ArrayList<Transaction> getPendingTransactions()
 	{
 		return this.pendingTransactions;
+	}
+
+	public void pendingTransaction(DefaultTableModel data)
+	{
+		Transaction transaction = new Transaction();
+		transaction.setOccurrence(new Date());
+		transaction.setTransaction(data);
+		pendingTransactions.add(transaction);
 	}
 
 	private DefaultTableModel getDefaultTableModel()
@@ -49,7 +58,6 @@ public class Cart implements ICartSubject
 		return data;
 	}
 
-	
 	@Override
 	public void setData(DefaultTableModel tableModel)
 	{
@@ -78,4 +86,29 @@ public class Cart implements ICartSubject
 		}
 	}
 
+	class Transaction
+	{
+		private Date occurrence;
+		private DefaultTableModel transaction;
+
+		public Date getOccurrence()
+		{
+			return occurrence;
+		}
+
+		public void setOccurrence(Date occurrence)
+		{
+			this.occurrence = occurrence;
+		}
+
+		public DefaultTableModel getTransaction()
+		{
+			return transaction;
+		}
+
+		public void setTransaction(DefaultTableModel transaction)
+		{
+			this.transaction = transaction;
+		}
+	}
 }

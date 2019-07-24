@@ -17,6 +17,12 @@ public class Main
 //		LoginFrame loginFrame = new LoginFrame();
 //		loginFrame.setVisible(true);
 		
+		// TODO: Pas Add Product, Create File Dengan Format {}#{}#{}#{}
+		// TODO: Save Ke Folder "products"
+		// TODO: Restore Pending Transaction
+		// TODO: Search Transaction
+		// TODO: Research Tentang Chart
+		
 		new MainDialog().setVisible(true);
 	}
 

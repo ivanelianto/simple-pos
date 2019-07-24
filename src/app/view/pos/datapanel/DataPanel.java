@@ -8,8 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
@@ -21,6 +19,7 @@ import javax.swing.TransferHandler;
 import javax.swing.table.DefaultTableModel;
 
 import app.controller.ProductController;
+import app.dto.CartDTO;
 import app.model.Product;
 import app.view.pos.Cart;
 import util.Formatter;
@@ -28,6 +27,7 @@ import util.Formatter;
 public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 {
 	private static final int ID_INDEX = 0;
+	private static final int NAME_INDEX = 1;
 	private static final int QUANTITY_INDEX = 2;
 	private static final int PRICE_INDEX = 3;
 	private static final int SUBTOTAL_INDEX = 4;
@@ -77,47 +77,33 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 
 					for (File file : files)
 					{
-						List<String> lines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
-						String[] encodedProductFields = lines.get(0).split("#");
-						Vector<String> productFields = new Vector<String>();
-						productFields.addAll(Arrays.asList(encodedProductFields));
-
-						int quantity = Integer.valueOf(encodedProductFields[QUANTITY_INDEX]);
-						double price = Double.valueOf(encodedProductFields[PRICE_INDEX]);
-						productFields.add(Formatter.formatToCurrency(getSubtotal(quantity, price)));
+						CartDTO dto = parseToCartDTO(file);
 
 						boolean isExist = false;
 
 						DefaultTableModel data = subscribedSubject.getData();
-
 						for (int i = 0; i < data.getRowCount(); i++)
 						{
-							String id = String.valueOf(data.getValueAt(i, ID_INDEX));
-							quantity = Integer.valueOf(data.getValueAt(i, QUANTITY_INDEX).toString());
-							
-							ArrayList<Product> products = ProductController.getAllProducts();
-							for (Product product : products)
-							{
-								if (Integer.valueOf(productFields.get(ID_INDEX)) == product.getId())
-								{
-									if ((quantity + 1) > product.getStock())
-									{
-										JOptionPane.showMessageDialog(null, 
-												"Insufficient stock.",
-												"Stop",
-												JOptionPane.ERROR_MESSAGE);
-										
-										return false;
-									}
-								}
-							}
+							int idInRow = Integer.parseInt(data.getValueAt(i, ID_INDEX).toString());
+							int qtyInRow = Integer.parseInt(data.getValueAt(i, QUANTITY_INDEX).toString());
 
-							if (productFields.get(ID_INDEX).equals(id))
+							if (dto.getId() == idInRow)
 							{
-								data.setValueAt(++quantity, i, QUANTITY_INDEX);
+								Product product = ProductController.getProductByID(idInRow);
+
+								if (!isValidQuantity(qtyInRow, product))
+								{
+									JOptionPane.showMessageDialog(null, "Insufficient stock.", "Stop",
+											JOptionPane.ERROR_MESSAGE);
+
+									return false;
+								}
+
+								data.setValueAt(++qtyInRow, i, QUANTITY_INDEX);
 
 								String subtotalWithCurrencies = Formatter
-										.formatToCurrency(getSubtotal(quantity, price));
+										.formatToCurrency(getSubtotal(qtyInRow, dto.getPrice()));
+								
 								data.setValueAt(subtotalWithCurrencies, i, SUBTOTAL_INDEX);
 
 								isExist = true;
@@ -126,7 +112,18 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 						}
 
 						if (!isExist)
-							data.addRow(productFields);
+						{
+							Vector<String> fields = new Vector<>();
+							fields.add(dto.getId() + "");
+							fields.add(dto.getName());
+							fields.add(dto.getQuantity() + "");
+							fields.add(dto.getPrice() + "");
+							
+							double subtotal = dto.getQuantity() * dto.getPrice();
+							fields.add(Formatter.formatToCurrency(subtotal));
+							
+							data.addRow(fields);
+						}
 
 						setTableView(data);
 					}
@@ -141,6 +138,11 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 				}
 
 				return true;
+			}
+
+			private boolean isValidQuantity(int quantity, Product product)
+			{
+				return (quantity + 1) <= product.getStock();
 			}
 		};
 
@@ -174,8 +176,28 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 	private void setTableView(DefaultTableModel data)
 	{
 		this.table.setModel(data);
-		
+
 		if (data.getRowCount() == 0)
 			table.removeColumn(table.getColumnModel().getColumn(0));
+	}
+
+	private CartDTO parseToCartDTO(File file)
+	{
+		List<String> lines;
+
+		try
+		{
+			lines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+
+		String[] encodedProductFields = lines.get(0).split("#");
+		return new CartDTO(Integer.valueOf(encodedProductFields[ID_INDEX]), encodedProductFields[NAME_INDEX],
+				Integer.valueOf(encodedProductFields[QUANTITY_INDEX]),
+				Double.valueOf(encodedProductFields[PRICE_INDEX]));
 	}
 }
