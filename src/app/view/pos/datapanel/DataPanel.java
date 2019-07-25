@@ -2,6 +2,8 @@ package app.view.pos.datapanel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -41,6 +43,21 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 		if (table == null)
 		{
 			table = new JTable();
+			table.addKeyListener(new KeyAdapter()
+			{
+
+				@Override
+				public void keyPressed(KeyEvent e)
+				{
+					if (e.getKeyCode() == KeyEvent.VK_DELETE)
+					{
+						int row = getMainTable().getSelectedRow();
+						subscribedSubject.getData().removeRow(row);
+					}
+				}
+				
+			});
+			
 			setTableView(subscribedSubject.getData());
 		}
 
@@ -55,4 +72,5 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 		if (data.getRowCount() == 0)
 			table.removeColumn(table.getColumnModel().getColumn(0));
 	}
+	
 }
