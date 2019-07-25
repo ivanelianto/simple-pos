@@ -126,12 +126,9 @@ public class CartTransferHandler extends TransferHandler
 				this.dataPanel.setTableView(data);
 			}
 		}
-		catch (UnsupportedFlavorException e)
+		catch (Exception e)
 		{
-			e.printStackTrace();
-		}
-		catch (IOException e)
-		{
+			JOptionPane.showMessageDialog(null, "Invalid file content.", "Stop", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 
@@ -143,28 +140,26 @@ public class CartTransferHandler extends TransferHandler
 		return quantity * price;
 	}
 
-	private CartDTO parseToCartDTO(File file)
+	private CartDTO parseToCartDTO(File file) throws Exception
 	{
 		List<String> lines;
 
 		try
 		{
 			lines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
+			
+			String productRawString = Encryptor.decodeBase64(lines.get(0));
+
+			String[] encodedProductFields = productRawString.split("#");
+
+			return new CartDTO(Integer.valueOf(encodedProductFields[CartDTO.ID_INDEX]),
+					encodedProductFields[CartDTO.NAME_INDEX], Integer.valueOf(encodedProductFields[CartDTO.QUANTITY_INDEX]),
+					Double.valueOf(encodedProductFields[CartDTO.PRICE_INDEX]));
 		}
-		catch (IOException e)
+		catch (Exception e)
 		{
 			e.printStackTrace();
-			return null;
+			throw new Exception();
 		}
-		
-		String productRawString = Encryptor.decodeBase64(lines.get(0));
-
-		String[] encodedProductFields = productRawString.split("#");
-
-		return new CartDTO(Integer.valueOf(encodedProductFields[CartDTO.ID_INDEX]),
-				encodedProductFields[CartDTO.NAME_INDEX], Integer.valueOf(encodedProductFields[CartDTO.QUANTITY_INDEX]),
-				Double.valueOf(encodedProductFields[CartDTO.PRICE_INDEX]));
 	}
-
-
 }
