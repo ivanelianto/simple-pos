@@ -73,7 +73,7 @@ public class Cart implements ICartSubject
 		}
 		else
 			this.data = tableModel;
-
+		
 		announce();
 	}
 

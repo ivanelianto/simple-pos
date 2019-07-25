@@ -8,6 +8,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.TransferHandler;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import app.view.pos.Cart;
@@ -43,9 +45,9 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 		if (table == null)
 		{
 			table = new JTable();
+			
 			table.addKeyListener(new KeyAdapter()
 			{
-
 				@Override
 				public void keyPressed(KeyEvent e)
 				{
@@ -55,9 +57,9 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 						subscribedSubject.getData().removeRow(row);
 					}
 				}
-				
+
 			});
-			
+
 			setTableView(subscribedSubject.getData());
 		}
 
@@ -72,5 +74,4 @@ public class DataPanel extends ObservableTransactionPanel implements IDataPanel
 		if (data.getRowCount() == 0)
 			table.removeColumn(table.getColumnModel().getColumn(0));
 	}
-	
 }

@@ -3,6 +3,15 @@ package app.view.pos.datapanel;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragSourceDragEvent;
+import java.awt.dnd.DragSourceDropEvent;
+import java.awt.dnd.DragSourceEvent;
+import java.awt.dnd.DragSourceListener;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,17 +44,14 @@ public class CartTransferHandler extends TransferHandler
 	{
 		try
 		{
-			List<File> files = (List<File>) support.getTransferable()
+			List<?> files = (List<?>) support.getTransferable()
 					.getTransferData(DataFlavor.javaFileListFlavor);
 			
-			for (File file : files)
+			for (File file : (File[]) files.toArray())
 				if (!file.getName().endsWith(".iv"))
 					return false;
 		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		catch (Exception e) { }
 
 		return true;
 	}
@@ -83,7 +89,7 @@ public class CartTransferHandler extends TransferHandler
 					{
 						product = ProductController.getProductByID(idInRow);
 
-						if (!product.isAvailableStock(qtyInRow))
+						if (!product.isAvailableStock(qtyInRow + 1))
 						{
 							JOptionPane.showMessageDialog(null, "Insufficient stock.", "Stop",
 									JOptionPane.ERROR_MESSAGE);
@@ -159,4 +165,6 @@ public class CartTransferHandler extends TransferHandler
 				encodedProductFields[CartDTO.NAME_INDEX], Integer.valueOf(encodedProductFields[CartDTO.QUANTITY_INDEX]),
 				Double.valueOf(encodedProductFields[CartDTO.PRICE_INDEX]));
 	}
+
+
 }

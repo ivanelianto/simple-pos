@@ -46,14 +46,6 @@ public class MainDialog extends JDialog implements IMainDialog
 		panel.add(contentPanel, BorderLayout.CENTER);
 
 		this.add(panel, BorderLayout.CENTER);
-		this.addWindowListener(new WindowAdapter()
-		{
-			@Override
-			public void windowClosed(WindowEvent e)
-			{
-				System.exit(0);
-			}
-		});
 	}
 
 	@Override
