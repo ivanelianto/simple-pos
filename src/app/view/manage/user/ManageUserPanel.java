@@ -18,6 +18,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingWorker;
 
 import app.controller.UserController;
 import app.factory.ButtonFactory;
@@ -111,27 +112,39 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 	{
 		getMainPanel().removeAll();
 
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.fill = GridBagConstraints.BOTH;
+		new UserDataFetcher().execute();
+	}
 
-		ArrayList<User> users = UserController.getAllUsers();
-
-		for (int i = 0; i < users.size(); i++)
+	class UserDataFetcher extends SwingWorker<Void, User>
+	{
+		@Override
+		protected Void doInBackground() throws Exception
 		{
-			User user = users.get(i);
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridx = 0;
+			c.fill = GridBagConstraints.BOTH;
 
-			UserComponent userItem = new UserComponent(user, this);
-			userItem.setPreferredSize(new Dimension(500, 80));
+			ArrayList<User> users = UserController.getAllUsers();
 
-			userItem.getIDButton().setText(user.getId() + "");
-			userItem.getNameLabel().setText(user.getName());
-			userItem.getUsernameLabel().setText(user.getUsername());
+			for (int i = 0; i < users.size(); i++)
+			{
+				User user = users.get(i);
 
-			c.gridy = i;
-			getMainPanel().add(userItem, c);
+				UserComponent userItem = new UserComponent(user, ManageUserPanel.this);
+				userItem.setPreferredSize(new Dimension(500, 80));
+
+				userItem.getIDButton().setText(user.getId() + "");
+				userItem.getNameLabel().setText(user.getName());
+				userItem.getUsernameLabel().setText(user.getUsername());
+
+				c.gridy = i;
+				getMainPanel().add(userItem, c);
+			}
+
+			getMainPanel().revalidate();
+			getMainPanel().repaint();
+
+			return null;
 		}
-		getMainPanel().revalidate();
-		getMainPanel().repaint();
 	}
 }

@@ -2,6 +2,7 @@ package app.view.login;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -29,10 +30,11 @@ import util.FileHelper;
 
 public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 {
-	JButton btnLogin;
-	JLabel lblTitle, lblUsername, lblPassword;
-	JTextField txtUsername;
-	JPasswordField txtPassword;
+	private JButton btnLogin;
+	private JLabel lblTitle, lblUsername, lblPassword;
+	private JTextField txtUsername;
+	private JPasswordField txtPassword;
+	private MainDialog mainDialog;
 
 	public LoginFrame()
 	{
@@ -40,7 +42,8 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		setSize(500, 300);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-
+		setResizable(false);
+		setIconImage(new ImageIcon(FileHelper.getAssetsPath() + "/logo-colored.png").getImage());
 		initializeComponent();
 	}
 
@@ -95,6 +98,9 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		panel.add(getLoginButton(), c);
 
 		this.add(panel, BorderLayout.CENTER);
+
+		if (mainDialog == null)
+			mainDialog = new MainDialog();
 	}
 
 	@Override
@@ -108,11 +114,11 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 			{
 				this.setVisible(false);
 				txtUsername.setText("");
+				txtUsername.requestFocus();
 				txtPassword.setText("");
-
-				MainDialog mainDialog = new MainDialog();
+				
 				mainDialog.setVisible(true);
-				this.setVisible(true);
+				LoginFrame.this.setVisible(true);
 			}
 			else
 			{

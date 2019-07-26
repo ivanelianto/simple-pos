@@ -17,5 +17,6 @@ public class MyDialog extends JDialog
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setSize(new Dimension(350, 350));
 		this.setLocationRelativeTo(null);
+		this.setResizable(false);
 	}
 }

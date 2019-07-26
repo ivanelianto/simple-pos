@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
+import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableModel;
 
 import app.controller.ProductController;
 import app.factory.ButtonFactory;
@@ -43,9 +45,7 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 		addButtonPanel.setOpaque(false);
 		addButtonPanel.add(getAddButton());
 		this.add(addButtonPanel, BorderLayout.NORTH);
-
 		this.setBackground(Color.WHITE);
-
 		this.refreshData();
 	}
 
@@ -113,30 +113,47 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 	public void refreshData()
 	{
 		getMainPanel().removeAll();
-
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.fill = GridBagConstraints.BOTH;
-
-		ArrayList<Product> products = ProductController.getAllProducts();
-
-		for (int i = 0; i < products.size(); i++)
-		{
-			Product product = products.get(i);
-
-			ProductComponent productItem = new ProductComponent(product, ManageProductPanel.this);
-			productItem.setPreferredSize(new Dimension(500, 100));
-
-			productItem.getIDButton().setText(product.getId() + "");
-			productItem.getNameLabel().setText(product.getName());
-			productItem.getPriceLabel().setText(Formatter.formatToCurrency(product.getPrice()));
-			productItem.getStockLabel().setText("Stock : " + product.getStock());
-
-			c.gridy = i;
-			getMainPanel().add(productItem, c);
-		}
-		getMainPanel().revalidate();
-		getMainPanel().repaint();
+		
+		new ProductDataFetcher().execute();
 	}
 
+	class ProductDataFetcher extends SwingWorker<ArrayList<Product>, Product>
+	{
+		private DefaultTableModel tableData;
+		private ArrayList<Product> products;
+		private GridBagConstraints c;
+
+		public ProductDataFetcher()
+		{
+			c = new GridBagConstraints();
+			c.gridx = 0;
+			c.fill = GridBagConstraints.BOTH;
+
+			products = new ArrayList<>();
+		}
+
+		@Override
+		protected ArrayList<Product> doInBackground() throws Exception
+		{
+			products = ProductController.getAllProducts();
+
+			for (int i = 0; i < products.size(); i++)
+			{
+				Product product = products.get(i);
+				ProductComponent productItem = new ProductComponent(product, ManageProductPanel.this);
+				productItem.setPreferredSize(new Dimension(500, 100));
+				productItem.getIDButton().setText(product.getId() + "");
+				productItem.getNameLabel().setText(product.getName());
+				productItem.getPriceLabel().setText(Formatter.formatToCurrency(product.getPrice()));
+				productItem.getStockLabel().setText("Stock : " + product.getStock());
+
+				c.gridy = i;
+				getMainPanel().add(productItem, c);
+				getMainPanel().revalidate();
+				getMainPanel().repaint();
+			}
+
+			return products;
+		}
+	}
 }

@@ -2,6 +2,7 @@ package app.view.main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,9 +23,9 @@ public class MainDialog extends JDialog implements IMainDialog
 	{
 		setTitle("SIVle POS");
 		setModal(true);
-		setResizable(false);
 		setSize(825, 600);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		initializeComponent();
 	}

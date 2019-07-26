@@ -54,7 +54,9 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 			}
 
 			ArrayList<CartDTO> carts = new ArrayList<>();
+
 			DefaultTableModel tableData = Main.subject.getData();
+			
 			for (int i = 0; i < tableData.getRowCount(); i++)
 			{
 				CartDTO dto = new CartDTO();
@@ -148,5 +150,4 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 
 		return dataPanel;
 	}
-
 }
