@@ -121,6 +121,13 @@ public class PendingTransactionDialog extends MyDialog
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+			
+			if (Main.subject.getData().getRowCount() > 0)
+			{
+				JOptionPane.showMessageDialog(null, "There\'s running transaction. Please complete or pending it first.", "Stop",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
 			TransactionDTO dto = Main.subject.getPendingTransactions().get(row);
 			Main.subject.setData(dto.getTransaction());
