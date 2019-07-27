@@ -13,22 +13,19 @@ public class ProductController
 {
 	private static ArrayList<Product> products;
 
-	private static boolean isChanged = false;
-
-	public static ArrayList<Product> getAllProducts()
+	public static ArrayList<Product> getProductsPerPage(int page)
 	{
-		if (products == null || isChanged)
-		{
-			products = ProductRepository.getAllProducts();
-			isChanged = false;
-		}
-
-		return products;
+		return ProductRepository.getProductsPerPage(page);
+	}
+	
+	public static int getTotalProduct()
+	{
+		return ProductRepository.getTotalProduct();
 	}
 
 	public static Product getProductByID(int id)
 	{
-		for (Product product : getAllProducts())
+		for (Product product : products)
 		{
 			if (product.getId() == id)
 				return product;
@@ -48,8 +45,6 @@ public class ProductController
 		String data = String.format("%d#%s#%d#%f", generatedId, name, 1, price);
 		
 		FileHelper.writeFile(FileHelper.getProductsPath(), data, true);
-		
-		isChanged = true;
 	}
 
 	public static void update(int id, String name, int stock, double price)
@@ -59,7 +54,6 @@ public class ProductController
 		product.setStock(stock);
 		product.setPrice(price);
 		ProductRepository.update(id, product);
-		isChanged = true;
 	}
 
 	public static void delete(int id)
@@ -76,6 +70,5 @@ public class ProductController
 		}
 		
 		ProductRepository.delete(id);
-		isChanged = true;
 	}
 }

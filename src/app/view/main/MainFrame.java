@@ -21,11 +21,11 @@ public class MainFrame extends JFrame implements IMainFrame
 	public MainFrame()
 	{
 		setTitle("SIVle POS");
-//		setModal(true);
 		setSize(825, 600);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setIconImage(new ImageIcon(FileHelper.getAssetsPath("logo-colored.png")).getImage());
 		initializeComponent();
 	}
 

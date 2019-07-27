@@ -7,7 +7,7 @@ import java.util.Date;
 
 import app.dto.CartDTO;
 import main.Main;
-import util.Formatter;
+import util.MyFormatter;
 
 public class TransactionRepository extends Repository<CartDTO>
 {
@@ -18,7 +18,7 @@ public class TransactionRepository extends Repository<CartDTO>
 		String headerQuery = String.format("INSERT INTO transaction_header (occurrence, user_id) VALUES (?, ?)");
 
 		ResultSet generatedKeys = ProductRepository.executeUpdate(true, headerQuery,
-				Formatter.formatToSQLDate(new Date()), Main.currentUser.getId() + "");
+				MyFormatter.formatToSQLDate(new Date()), Main.currentUser.getId() + "");
 
 		try
 		{

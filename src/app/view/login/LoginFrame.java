@@ -47,7 +47,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
-		setIconImage(new ImageIcon(FileHelper.getAssetsPath() + "/logo-colored.png").getImage());
+		setIconImage(new ImageIcon(FileHelper.getAssetsPath("logo-colored.png")).getImage());
 		getRootPane().setDefaultButton(getLoginButton());
 		initializeComponent();
 	}

@@ -1,8 +1,11 @@
 package util;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class MyFormatter
 {
@@ -23,5 +26,14 @@ public class MyFormatter
 	public static String formatToCurrency(double price)
 	{
 		return numberFormatter.format(price);
+	}
+	
+	public static String formatToNumberWithSeparator(double number)
+	{
+		DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+		DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+		symbols.setGroupingSeparator('.');
+		formatter.setDecimalFormatSymbols(symbols);
+		return formatter.format(number);
 	}
 }

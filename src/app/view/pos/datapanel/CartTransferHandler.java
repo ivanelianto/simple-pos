@@ -28,7 +28,7 @@ import app.controller.ProductController;
 import app.dto.CartDTO;
 import app.model.Product;
 import util.Encryptor;
-import util.Formatter;
+import util.MyFormatter;
 
 public class CartTransferHandler extends TransferHandler
 {
@@ -99,7 +99,7 @@ public class CartTransferHandler extends TransferHandler
 
 						data.setValueAt(++qtyInRow, i, CartDTO.QUANTITY_INDEX);
 
-						String subtotalWithCurrencies = Formatter
+						String subtotalWithCurrencies = MyFormatter
 								.formatToCurrency(getSubtotal(qtyInRow, dto.getPrice()));
 
 						data.setValueAt(subtotalWithCurrencies, i, CartDTO.SUBTOTAL_INDEX);
@@ -118,7 +118,7 @@ public class CartTransferHandler extends TransferHandler
 					fields.add(dto.getPrice() + "");
 
 					double subtotal = dto.getQuantity() * dto.getPrice();
-					fields.add(Formatter.formatToCurrency(subtotal));
+					fields.add(MyFormatter.formatToCurrency(subtotal));
 
 					data.addRow(fields);
 				}
