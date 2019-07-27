@@ -33,6 +33,32 @@ public class FileHelper
 		return System.getProperty("user.dir") + "/assets";
 	}
 	
+	public static String getAssetsPath(String fileName)
+	{
+		String path = getAssetsPath() + "/" + fileName;
+		
+		try
+		{
+			File file = new File(path);
+			
+			if (!file.exists())
+			{
+				JOptionPane.showMessageDialog(null, 
+						"Missing assets. Please ask IV18-1 for assets file. Application will be closed.",
+						"Stop",
+						JOptionPane.ERROR_MESSAGE);
+				
+				System.exit(0);
+			}
+		}
+		catch (Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		
+		return path;
+	}
+	
 	public static String getProductsPath()
 	{
 		return System.getProperty("user.dir") + "/products";
