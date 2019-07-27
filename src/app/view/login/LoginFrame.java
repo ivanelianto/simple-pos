@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 
 import app.controller.AuthController;
@@ -26,6 +28,7 @@ import app.factory.TextFieldFactory;
 import app.view.custom_component.MyColor;
 import app.view.main.MainDialog;
 import util.FileHelper;
+import util.MessageBox;
 
 public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 {
@@ -108,22 +111,8 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 	{
 		if (e.getSource() == btnLogin)
 		{
-			String errorMessage = AuthController.login(txtUsername.getText(), new String(txtPassword.getPassword()));
-
-			if (errorMessage.isEmpty())
-			{
-				this.setVisible(false);
-				txtUsername.setText("");
-				txtUsername.requestFocus();
-				txtPassword.setText("");
-				
-				mainDialog.setVisible(true);
-				LoginFrame.this.setVisible(true);
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(null, errorMessage, "Stop", JOptionPane.ERROR_MESSAGE);
-			}
+			getLoginButton().setText("Authenticating...");
+			new AuthWorker().execute();
 		}
 	}
 
@@ -188,4 +177,56 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		return txtPassword;
 	}
 
+	class AuthWorker extends SwingWorker<String, String>
+	{
+		private boolean isFound = false;
+
+		@Override
+		protected String doInBackground() throws Exception
+		{
+			String errorMessage = AuthController.login(txtUsername.getText(), new String(txtPassword.getPassword()));
+			
+			/**
+			 * Just Decoration
+			 */
+			Thread.sleep(500);
+
+			publish(errorMessage);
+
+			return errorMessage;
+		}
+
+		@Override
+		protected void process(List<String> chunks)
+		{
+			String errorMessage = chunks.get(chunks.size() - 1);
+
+			if (errorMessage.isEmpty())
+				isFound = true;
+			else
+			{
+				isFound = false;
+				JOptionPane.showMessageDialog(null, errorMessage, "Stop", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+
+		@Override
+		protected void done()
+		{
+			getLoginButton().setText("Login");
+			
+			if (isFound)
+			{
+				txtUsername.setText("");
+				txtUsername.requestFocus();
+				txtPassword.setText("");
+
+				MessageBox.success("Logged in.");
+				
+				LoginFrame.this.setVisible(false);
+				mainDialog.setVisible(true);
+				LoginFrame.this.setVisible(true);
+			}
+		}
+	}
 }
