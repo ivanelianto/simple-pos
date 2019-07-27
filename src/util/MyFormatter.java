@@ -4,7 +4,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Formatter
+public class MyFormatter
 {
 	private static NumberFormat numberFormatter = NumberFormat.getCurrencyInstance();
 
