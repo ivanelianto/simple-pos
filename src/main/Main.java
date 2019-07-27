@@ -1,6 +1,6 @@
 package main;
 
-import javax.swing.SwingUtilities;
+import java.awt.EventQueue;
 
 import app.model.User;
 import app.view.login.LoginFrame;
@@ -17,36 +17,36 @@ public class Main
 		/**
 		 * Generate Products File
 		 */
-//		ArrayList<Product> products = ProductRepository.getAllProducts();
-//		for (Product product : products)
-//		{
-//			String data = String.format("%d#%s#%d#%f", 
-//					product.getId(),
-//					product.getName(),
-//					1,
-//					product.getPrice());
-//			FileHelper.writeFile(FileHelper.getProductsPath(), data, true);
-//		}
-		
+		// ArrayList<Product> products = ProductRepository.getAllProducts();
+		// for (Product product : products)
+		// {
+		// String data = String.format("%d#%s#%d#%f",
+		// product.getId(),
+		// product.getName(),
+		// 1,
+		// product.getPrice());
+		// FileHelper.writeFile(FileHelper.getProductsPath(), data, true);
+		// }
+
 		/**
 		 * Comment For Debugging
 		 */
 		LoginFrame loginFrame = new LoginFrame();
 		loginFrame.setVisible(true);
-		
+
 		/**
 		 * Uncomment For Debugging
 		 */
-//		MainDialog dialog = new MainDialog();
-//		dialog.addWindowListener(new WindowAdapter()
-//		{
-//			@Override
-//			public void windowClosed(WindowEvent e)
-//			{
-//				System.exit(0);
-//			}
-//		});
-//		dialog.setVisible(true);
+		// MainDialog dialog = new MainDialog();
+		// dialog.addWindowListener(new WindowAdapter()
+		// {
+		// @Override
+		// public void windowClosed(WindowEvent e)
+		// {
+		// System.exit(0);
+		// }
+		// });
+		// dialog.setVisible(true);
 	}
 
 	public static void main(String[] args)

@@ -2,7 +2,6 @@ package app.view.login;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -44,6 +43,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setIconImage(new ImageIcon(FileHelper.getAssetsPath() + "/logo-colored.png").getImage());
+		getRootPane().setDefaultButton(getLoginButton());
 		initializeComponent();
 	}
 
