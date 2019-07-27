@@ -2,7 +2,7 @@ package app.view.main;
 
 import javax.swing.JLabel;
 
-public interface IMainDialog
+public interface IMainFrame
 {
 	JLabel getTitleLabel();
 

@@ -12,5 +12,7 @@ public interface ISidePanel
 
 	MyImageButton getPOSButton();
 
+	MyImageButton getGameButton();
+	
 	MyImageButton getLogoutButton();
 }

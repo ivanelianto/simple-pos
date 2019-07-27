@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.Box;
@@ -26,7 +28,7 @@ import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.factory.TextFieldFactory;
 import app.view.custom_component.MyColor;
-import app.view.main.MainDialog;
+import app.view.main.MainFrame;
 import util.FileHelper;
 import util.MessageBox;
 
@@ -36,7 +38,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 	private JLabel lblTitle, lblUsername, lblPassword;
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
-	private MainDialog mainDialog;
+	private MainFrame mainDialog;
 
 	public LoginFrame()
 	{
@@ -103,7 +105,17 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		this.add(panel, BorderLayout.CENTER);
 
 		if (mainDialog == null)
-			mainDialog = new MainDialog();
+		{
+			mainDialog = new MainFrame();
+			mainDialog.addWindowListener(new WindowAdapter()
+			{
+				@Override
+				public void windowClosed(WindowEvent e)
+				{
+					LoginFrame.this.setVisible(true);
+				}
+			});
+		}
 	}
 
 	@Override
@@ -225,7 +237,6 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 				
 				LoginFrame.this.setVisible(false);
 				mainDialog.setVisible(true);
-				LoginFrame.this.setVisible(true);
 			}
 		}
 	}

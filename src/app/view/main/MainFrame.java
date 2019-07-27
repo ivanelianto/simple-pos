@@ -2,27 +2,26 @@ package app.view.main;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import app.factory.LabelFactory;
 import util.FileHelper;
 
-public class MainDialog extends JDialog implements IMainDialog
+public class MainFrame extends JFrame implements IMainFrame
 {
 	private JLabel lblTitle;
 	private SidePanel sidePanel;
 	private ContentPanel contentPanel;
 
-	public MainDialog()
+	public MainFrame()
 	{
 		setTitle("SIVle POS");
-		setModal(true);
+//		setModal(true);
 		setSize(825, 600);
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -53,7 +52,7 @@ public class MainDialog extends JDialog implements IMainDialog
 		if (lblTitle == null)
 		{
 			lblTitle = LabelFactory.getInstance().create("");
-			lblTitle.setIcon(new ImageIcon(FileHelper.getAssetsPath() + "/logo.png"));
+			lblTitle.setIcon(new ImageIcon(FileHelper.getAssetsPath("logo.png")));
 			lblTitle.setHorizontalAlignment(JButton.CENTER);
 		}
 

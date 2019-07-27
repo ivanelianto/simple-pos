@@ -24,12 +24,12 @@ public class SidePanel extends JPanel implements ActionListener, ISidePanel
 	private MyImageButton btnManageUser;
 	private MyImageButton btnManageProduct;
 	private MyImageButton btnPOS;
-	private MyImageButton btnReport;
+	private MyImageButton btnGame;
 	private MyImageButton btnLogout;
 	
-	private IMainDialog components;
+	private IMainFrame components;
 
-	public SidePanel(IMainDialog components)
+	public SidePanel(IMainFrame components)
 	{
 		this.components = components;
 		
@@ -62,9 +62,12 @@ public class SidePanel extends JPanel implements ActionListener, ISidePanel
 		this.add(getPOSButton(), c);
 
 		c.gridy = 5;
+		this.add(getGameButton(), c);
+		
+		c.gridy = 6;
 		this.add(getLogoutButton(), c);
 
-		c.gridy = 6;
+		c.gridy = 7;
 		c.weighty = 3;
 		JPanel blankPanel = new JPanel();
 		blankPanel.setOpaque(false);
@@ -91,6 +94,10 @@ public class SidePanel extends JPanel implements ActionListener, ISidePanel
 		else if (e.getSource() == btnPOS)
 		{
 			layout.show(components.getContentPanel(), ContentPanel.POS_PANEL);
+		}
+		else if (e.getSource() == btnGame)
+		{
+			layout.show(components.getContentPanel(), ContentPanel.GAME_PANEL);
 		}
 		else if (e.getSource() == btnLogout)
 		{
@@ -189,6 +196,30 @@ public class SidePanel extends JPanel implements ActionListener, ISidePanel
 		}
 
 		return btnPOS;
+	}
+	
+	@Override
+	public MyImageButton getGameButton()
+	{
+		if (btnGame == null)
+		{
+			try
+			{
+				Image image = ImageIO.read(new File(FileHelper.getAssetsPath() + "/game-icon.png"));
+
+				btnGame = (MyImageButton) ButtonFactory.getInstance().create("I\'m Boring", MyImageButton.LEFT, image,
+						ButtonFactory.INVERTED_PRIMARY_STYLE);
+				btnGame.setImageSize(32, 32);
+				btnGame.setText(setLeftButtonStyle(btnGame.getText()));
+				btnGame.addActionListener(this);
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		return btnGame;
 	}
 
 	@Override
