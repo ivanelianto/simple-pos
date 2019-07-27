@@ -1,18 +1,43 @@
 package app.repository;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import app.model.User;
 
 public class UserRepository extends Repository<User>
 {
+	private final static int ITEM_PER_PAGE = 10;
 	private final static String TABLE_NAME = "User";
 
-	public static ArrayList<User> getAll()
+	public static ArrayList<User> getUsersPerPage(int page)
 	{
-		ResultSet result = Repository.getAll(TABLE_NAME);
+		String query = String.format("SELECT * FROM `User` LIMIT %d,%d",
+				(page - 1) * ITEM_PER_PAGE, ITEM_PER_PAGE);
+		
+		ResultSet result = Repository.executeQuery(query);
+
 		return Repository.toModel(User.class, result);
+	}
+	
+	public static int getTotalUser()
+	{
+		String query = String.format("SELECT COUNT(*) FROM User");
+		
+		ResultSet result = Repository.executeQuery(query);
+		
+		try
+		{
+			result.next();
+			return result.getInt(1);
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return -1;
 	}
 
 	public static ArrayList<User> findUserByUsername(String username)

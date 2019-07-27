@@ -21,7 +21,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.SwingWorker;
@@ -29,7 +28,6 @@ import javax.swing.SwingWorker;
 import app.controller.ProductController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
-import app.factory.TextFieldFactory;
 import app.model.Product;
 import app.view.custom_component.MyImageButton;
 import app.view.dialog.product.ProductDialog;
@@ -38,9 +36,7 @@ import util.MyFormatter;
 
 public class ManageProductPanel extends JPanel implements ActionListener, IManageProductPanel
 {
-	private JLabel lblTotalLoadedProduct, lblSearch;
-
-	private JTextField txtSearch;
+	private JLabel lblTotalLoadedProduct;
 
 	private MyImageButton btnAdd;
 
@@ -84,32 +80,10 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 	{
 		if (lblTotalLoadedProduct == null)
 		{
-			lblTotalLoadedProduct = LabelFactory.getInstance().create("Total Loaded Product : 0 / " 
-					+ MyFormatter.formatToNumberWithSeparator(totalProduct));
+			lblTotalLoadedProduct = LabelFactory.getInstance()
+					.create("Total Loaded Product : 0 / " + MyFormatter.formatToNumberWithSeparator(totalProduct));
 		}
 		return lblTotalLoadedProduct;
-	}
-
-	@Override
-	public JLabel getSearchLabel()
-	{
-		if (lblSearch == null)
-		{
-			lblSearch = LabelFactory.getInstance().create("Search Product : ");
-		}
-
-		return lblSearch;
-	}
-
-	@Override
-	public JTextField getSearchField()
-	{
-		if (txtSearch == null)
-		{
-			txtSearch = TextFieldFactory.getInstance().create(250, 35);
-		}
-
-		return txtSearch;
 	}
 
 	@Override
@@ -149,7 +123,6 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 			scrollPane.setLayout(new ScrollPaneLayout());
 			scrollPane.getViewport().setBackground(Color.WHITE);
 			scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
 			JScrollBar scrollbar = scrollPane.getVerticalScrollBar();
 			scrollbar.addAdjustmentListener(new AdjustmentListener()
 			{
@@ -160,13 +133,15 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 					{
 						if (e.getValue() == scrollbar.getMaximum() - scrollbar.getVisibleAmount())
 						{
-							lastLoadedProductPage++;
-							refreshData();
+							if (totalProduct != getMainPanel().getComponentCount())
+							{
+								lastLoadedProductPage++;
+								refreshData();
+							}
 						}
 					}
 				}
 			});
-
 			this.add(scrollPane, BorderLayout.CENTER);
 		}
 
@@ -177,13 +152,12 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 	public void refreshData()
 	{
 		totalProduct = ProductController.getTotalProduct();
-		
+
 		new ProductDataFetcher().execute();
 	}
 
 	class ProductDataFetcher extends SwingWorker<Void, Product>
 	{
-		private ArrayList<Product> products;
 		private GridBagConstraints c;
 
 		public ProductDataFetcher()
@@ -191,21 +165,15 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 			c = new GridBagConstraints();
 			c.gridx = 0;
 			c.fill = GridBagConstraints.BOTH;
-
-			products = new ArrayList<>();
 		}
 
 		@Override
 		protected Void doInBackground() throws Exception
 		{
-			products = ProductController.getProductsPerPage(lastLoadedProductPage);
+			ArrayList<Product> products = ProductController.getProductsPerPage(lastLoadedProductPage);
 
-			int totalProduct = products.size();
-
-			for (int i = 0; i < totalProduct; i++)
-			{
-				publish(products.get(i));
-			}
+			for (Product product : products)
+				publish(product);
 
 			return null;
 		}
@@ -229,7 +197,7 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 		@Override
 		protected void done()
 		{
-			getTotalLoadedProductLabel().setText("Total Loaded Product : " + getMainPanel().getComponentCount() + " / " 
+			getTotalLoadedProductLabel().setText("Total Loaded Product : " + getMainPanel().getComponentCount() + " / "
 					+ MyFormatter.formatToNumberWithSeparator(totalProduct));
 			getMainPanel().revalidate();
 			getMainPanel().repaint();

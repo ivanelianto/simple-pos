@@ -8,9 +8,14 @@ import util.Encryptor;
 
 public class UserController
 {
-	public static ArrayList<User> getAllUsers()
+	public static ArrayList<User> getUsersPerPage(int page)
 	{
-		return UserRepository.getAll();
+		return UserRepository.getUsersPerPage(page);
+	}
+	
+	public static int getTotalUser()
+	{
+		return UserRepository.getTotalUser();
 	}
 
 	public static void add(String name, String username, String password)
