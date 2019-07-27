@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.Driver;
 
 import app.annotation.Table;
@@ -34,7 +36,8 @@ public abstract class Repository<T>
 			}
 			catch (Exception e)
 			{
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "You don't have appropriate database yet. Please contact IV18-1 for more detail. Application will be closed.", "Stop", JOptionPane.ERROR_MESSAGE);
+				System.exit(0);
 			}
 		}
 
