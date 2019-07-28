@@ -36,18 +36,17 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 	private JButton btnID;
 	private JLabel lblName, lblUsername;
 	private MyImageButton btnEdit, btnDelete;
-	private Callable<Void> onEdit, onDelete;
+	private Callable<Void> onChange;
 	private User user;
 
-	public UserComponent(User user, Callable<Void> onEdit)
+	public UserComponent(User user, Callable<Void> onChange)
 	{
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		this.setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.add(getIDButton(), BorderLayout.WEST);
 		this.setPreferredSize(new Dimension(500, 80));
-		this.onEdit = onEdit;
-		this.onDelete = onDelete;
+		this.onChange = onChange;
 		this.user = user;
 		
 		getIDButton().setText(user.getId() + "");
@@ -80,7 +79,7 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 				dialog.setVisible(true);
 				
 				if (dialog.getDialogResult() == MyDialog.UPDATE_MODE)
-					onEdit.call();
+					onChange.call();
 			}
 			catch (Exception ex)
 			{
@@ -103,7 +102,7 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 				
 				try
 				{
-					onDelete.call();
+					onChange.call();
 				}
 				catch (Exception e1)
 				{

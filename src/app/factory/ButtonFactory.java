@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JButton;
 
@@ -60,6 +62,35 @@ public class ButtonFactory
 		button.setBackground(MyColor.getAccentBackground());
 		button.setFocusPainted(false);
 		button.setBorderPainted(false);
+		button.addFocusListener(new FocusListener()
+		{
+			@Override
+			public void focusLost(FocusEvent arg0)
+			{
+				button.setBackground(MyColor.getAccentBackground());
+			}
+			
+			@Override
+			public void focusGained(FocusEvent arg0)
+			{
+				button.setBackground(MyColor.getAccentDarkerBackground());
+			}
+		});
+		
+//		button.addMouseListener(new MouseAdapter()
+//		{
+//			@Override
+//			public void mousePressed(MouseEvent e)
+//			{
+//				button.setBackground(MyColor.getAccentDarkerBackground());
+//			}
+//
+//			@Override
+//			public void mouseReleased(MouseEvent e)
+//			{
+//				button.setBackground(MyColor.getAccentBackground());
+//			}
+//		});
 		button.setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 	}
 

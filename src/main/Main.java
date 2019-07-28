@@ -39,7 +39,9 @@ public class Main
 		/**
 		 * Uncomment For Debugging
 		 */
-		
+		currentUser = new User();
+		currentUser.setId(1);
+		currentUser.setName("Ivan");
 		MainFrame frame = new MainFrame();
 		frame.addWindowListener(new WindowAdapter()
 		{
@@ -50,11 +52,6 @@ public class Main
 			}
 		});
 		frame.setVisible(true);
-
-		/**
-		 * Adventing WaRZ Game
-		 */
-		// MainFrame frame = new MainFrame();
 	}
 
 	public static void main(String[] args)

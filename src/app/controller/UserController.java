@@ -34,7 +34,7 @@ public class UserController
 		UserRepository.add(user);
 	}
 
-	public static void update(int id, String name, String username, String newPassword)
+	public static void update(int id, String name, String username, String newPassword, boolean updatePassword)
 	{
 		String hashedPassword = Encryptor.hashSHA256(newPassword);
 
@@ -43,7 +43,7 @@ public class UserController
 		user.setName(name);
 		user.setUsername(username);
 		user.setPassword(hashedPassword);
-		UserRepository.update(id, user);
+		UserRepository.update(id, user, updatePassword);
 	}
 
 	public static void delete(int id)

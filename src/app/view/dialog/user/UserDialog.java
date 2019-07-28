@@ -68,6 +68,8 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 
 	private void initializeComponent()
 	{
+		getRootPane().setDefaultButton(getSaveButton());
+		
 		mainPanel = new JPanel(new GridBagLayout());
 		mainPanel.setBackground(Color.WHITE);
 		this.add(mainPanel, BorderLayout.CENTER);
@@ -149,6 +151,8 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 			}
 			else
 			{
+				boolean updatePassword = false;
+				
 				ArrayList<IRule> rules = new ArrayList<>();
 
 				rules.add(new NameRule(getNameField().getText()));
@@ -156,6 +160,7 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 
 				if (!getNewPasswordField().getText().isEmpty() || !getOldPasswordField().getText().isEmpty())
 				{
+					updatePassword = true;
 					rules.add(new PasswordRule(getOldPasswordField().getText()));
 					rules.add(new PasswordConfirmRule(user.getId(), getOldPasswordField().getText(),
 							getNewPasswordField().getText()));
@@ -167,7 +172,7 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 				if (isValid)
 				{
 					UserController.update(user.getId(), getNameField().getText(), getUsernameField().getText(),
-							getNewPasswordField().getText());
+							getNewPasswordField().getText(), updatePassword);
 					message = "User data updated.";
 					this.dialogResult = UPDATE_MODE;
 				}

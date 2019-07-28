@@ -98,15 +98,25 @@ public class UserRepository extends Repository<User>
 		}
 	}
 
-	public static void update(int id, User user)
+	public static void update(int id, User user, boolean updatePassword)
 	{
 		int updatedUserIndex = IntStream.range(0, users.size())
 				.filter(x -> Integer.valueOf(id).equals(users.get(x).getId())).findFirst().getAsInt();
 
 		users.set(updatedUserIndex, user);
 
-		String query = String.format("UPDATE User SET name=?, username=?,password=? WHERE id=?");
-		UserRepository.executeUpdate(query, user.getName(), user.getUsername(), user.getPassword(), id + "");
+		String query = "";
+		
+		if (updatePassword)
+		{
+			query = String.format("UPDATE User SET name=?, username=?,password=? WHERE id=?");
+			UserRepository.executeUpdate(query, user.getName(), user.getUsername(), user.getPassword(), id + "");
+		}
+		else
+		{
+			query = String.format("UPDATE User SET name=?, username=? WHERE id=?");
+			UserRepository.executeUpdate(query, user.getName(), user.getUsername(), id + "");
+		}
 	}
 
 	public static void delete(int id)

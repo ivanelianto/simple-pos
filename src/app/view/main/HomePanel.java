@@ -13,9 +13,11 @@ import java.io.IOException;
 import java.security.InvalidParameterException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import app.factory.ButtonFactory;
+import app.factory.LabelFactory;
 import app.view.custom_component.MyImageButton;
 import app.view.dialog.transaction.PendingTransactionDialog;
 import app.view.pos.datapanel.TransactionUserScreenFrame;
@@ -24,6 +26,8 @@ import util.FileHelper;
 
 public class HomePanel extends JPanel implements ActionListener, IHomePanel
 {
+	private JLabel lblCurrentUserName;
+	
 	private MyImageButton btnCastToCustomerViewScreen, btnRestorePendingTransaction;
 
 	public HomePanel()
@@ -61,6 +65,17 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel
 				ex.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public JLabel getCurrentUserNameLabel()
+	{
+		if (lblCurrentUserName == null)
+		{
+			lblCurrentUserName = LabelFactory.getInstance().create("Hello, " + Main.currentUser.getName());
+		}
+		
+		return lblCurrentUserName;
 	}
 
 	@Override

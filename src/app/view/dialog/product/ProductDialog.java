@@ -63,6 +63,8 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 
 	private void initializeComponent()
 	{
+		getRootPane().setDefaultButton(getSaveButton());
+		
 		mainPanel = new JPanel(new GridBagLayout());
 		mainPanel.setBackground(Color.WHITE);
 		this.add(mainPanel, BorderLayout.CENTER);
