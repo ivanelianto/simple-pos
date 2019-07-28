@@ -29,8 +29,10 @@ import app.factory.LabelFactory;
 import app.factory.TextFieldFactory;
 import app.view.custom_component.MyColor;
 import app.view.main.MainFrame;
+import main.Main;
 import util.FileHelper;
 import util.MessageBox;
+import util.Speaker;
 
 public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 {
@@ -123,6 +125,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 	{
 		if (e.getSource() == btnLogin)
 		{
+			Speaker.speak("Authenticating...");
 			getLoginButton().setText("Authenticating...");
 			new AuthWorker().execute();
 		}
@@ -201,7 +204,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 			/**
 			 * Just Decoration
 			 */
-			Thread.sleep(500);
+			Thread.sleep(1200);
 
 			publish(errorMessage);
 
@@ -233,7 +236,11 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 				txtUsername.requestFocus();
 				txtPassword.setText("");
 
-				MessageBox.success("Logged in.");
+				String message = "Welcome Back, " + Main.currentUser.getName();
+				
+				Speaker.speak(message);
+				
+				MessageBox.success(message);
 				
 				LoginFrame.this.setVisible(false);
 				mainDialog.setVisible(true);
