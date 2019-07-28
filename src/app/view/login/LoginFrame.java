@@ -16,7 +16,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -27,6 +26,9 @@ import app.controller.AuthController;
 import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.factory.TextFieldFactory;
+import app.validator.Validator;
+import app.validator.rule.loginframe.PasswordRule;
+import app.validator.rule.loginframe.UsernameRule;
 import app.view.custom_component.MyColor;
 import app.view.main.MainFrame;
 import main.Main;
@@ -125,9 +127,23 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 	{
 		if (e.getSource() == btnLogin)
 		{
-			Speaker.speak("Authenticating...");
-			getLoginButton().setText("Authenticating...");
-			new AuthWorker().execute();
+			boolean isValid = Validator.validate(
+					new UsernameRule(getUsernameField()),
+					new PasswordRule(getPasswordField())
+					);
+			
+			if (isValid)
+			{
+				Speaker.speak("Authenticating...");
+				getLoginButton().setText("Authenticating...");
+				new AuthWorker().execute();
+			}
+			else
+			{
+				String errorMessage = Validator.getErrorMessages().get(0);
+				Speaker.speak(errorMessage);
+				MessageBox.error(errorMessage);
+			}
 		}
 	}
 
@@ -221,7 +237,8 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 			else
 			{
 				isFound = false;
-				JOptionPane.showMessageDialog(null, errorMessage, "Stop", JOptionPane.ERROR_MESSAGE);
+				Speaker.speak(errorMessage);
+				MessageBox.error(errorMessage);
 			}
 		}
 
