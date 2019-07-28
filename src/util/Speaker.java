@@ -13,7 +13,7 @@ public class Speaker
 	{
 		voiceManager = VoiceManager.getInstance();
 		voice = voiceManager.getVoice("kevin16");
-		voice.setRate(180f);
+		voice.setRate(160f);
 		voice.allocate();
 	}
 	
