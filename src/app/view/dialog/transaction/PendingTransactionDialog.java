@@ -10,7 +10,6 @@ import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,7 +19,9 @@ import app.dto.TransactionDTO;
 import app.factory.ButtonFactory;
 import app.view.dialog.MyDialog;
 import main.Main;
+import util.MessageBox;
 import util.MyFormatter;
+import util.Speaker;
 
 public class PendingTransactionDialog extends MyDialog
 		implements IPendingTransactionDialog, AutoCloseable, ActionListener
@@ -117,24 +118,27 @@ public class PendingTransactionDialog extends MyDialog
 
 			if (row < 0)
 			{
-				JOptionPane.showMessageDialog(null, "You didn\'t select any pending transaction.", "Stop",
-						JOptionPane.ERROR_MESSAGE);
+				String errorMessage = "You didn\'t select any pending transaction.";
+				Speaker.speak(errorMessage);
+				MessageBox.error(errorMessage);
 				return;
 			}
 			
 			if (Main.subject.getData().getRowCount() > 0)
 			{
-				JOptionPane.showMessageDialog(null, "There\'s running transaction. Please complete or pending it first.", "Stop",
-						JOptionPane.ERROR_MESSAGE);
+				String errorMessage = "There\'s running transaction. Please complete or pending it first.";
+				Speaker.speak(errorMessage);
+				MessageBox.error(errorMessage);
 				return;
 			}
 
 			TransactionDTO dto = Main.subject.getPendingTransactions().get(row);
 			Main.subject.setData(dto.getTransaction());
 			Main.subject.reopenPendingTrasaction(dto);
-
-			JOptionPane.showMessageDialog(null, "Pending transaction re-open.", "Success",
-					JOptionPane.INFORMATION_MESSAGE);
+			
+			String message = "Pending transaction re-open.";
+			Speaker.speak(message);
+			MessageBox.success(message);
 
 			table.setModel(getRefreshedData());
 

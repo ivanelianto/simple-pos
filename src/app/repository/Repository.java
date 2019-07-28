@@ -7,11 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import com.mysql.jdbc.Driver;
 
 import app.annotation.Table;
+import util.MessageBox;
 
 public abstract class Repository<T>
 {
@@ -36,7 +35,7 @@ public abstract class Repository<T>
 			}
 			catch (Exception e)
 			{
-				JOptionPane.showMessageDialog(null, "You don't have appropriate database yet. Please contact IV18-1 for more detail. Application will be closed.", "Stop", JOptionPane.ERROR_MESSAGE);
+				MessageBox.error("You don't have appropriate database yet. Please contact IV18-1 for more detail. Application will be closed.");
 				System.exit(0);
 			}
 		}

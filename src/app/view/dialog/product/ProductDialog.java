@@ -13,7 +13,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -27,6 +26,8 @@ import app.validator.rule.product.PriceRule;
 import app.validator.rule.product.StockRule;
 import app.validator.rule.user.NameRule;
 import app.view.dialog.MyDialog;
+import util.MessageBox;
+import util.Speaker;
 
 public class ProductDialog extends MyDialog implements ActionListener, AutoCloseable, IProductDialog
 {
@@ -123,8 +124,9 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop",
-							JOptionPane.ERROR_MESSAGE);
+					String errorMessage = Validator.getErrorMessages().get(0);
+					Speaker.speak(errorMessage);
+					MessageBox.error(errorMessage);
 					return;
 				}
 			}
@@ -138,13 +140,15 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, Validator.getErrorMessages().get(0), "Stop",
-							JOptionPane.ERROR_MESSAGE);
+					String errorMessage = Validator.getErrorMessages().get(0);
+					Speaker.speak(errorMessage);
+					MessageBox.error(errorMessage);
 					return;
 				}
 			}
 
-			JOptionPane.showMessageDialog(null, message, "Success", JOptionPane.INFORMATION_MESSAGE);
+			Speaker.speak(message);
+			MessageBox.success(message);
 
 			try
 			{

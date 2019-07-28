@@ -24,6 +24,8 @@ import app.model.Product;
 import app.view.custom_component.MyImageButton;
 import app.view.dialog.product.ProductDialog;
 import util.FileHelper;
+import util.MessageBox;
+import util.Speaker;
 
 public class ProductComponent extends JPanel implements ActionListener, IProductComponent
 {
@@ -77,8 +79,9 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 		}
 		else if (e.getSource() == getDeleteButton())
 		{
-			int confirmationResult = JOptionPane.showConfirmDialog(null, "Are you sure ?", "Confirmation",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			String question = "Are you sure ?";
+			Speaker.speak(question);
+			int confirmationResult = MessageBox.confirmation(question);
 
 			if (confirmationResult == JOptionPane.YES_OPTION)
 			{

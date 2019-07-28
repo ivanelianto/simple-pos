@@ -22,6 +22,8 @@ import app.view.custom_component.MyImageButton;
 import app.view.pos.datapanel.DataPanel;
 import main.Main;
 import util.FileHelper;
+import util.MessageBox;
+import util.Speaker;
 
 public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 {
@@ -45,11 +47,15 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		String message = "";
+		
 		if (e.getSource() == getProcessButton())
 		{
 			if (Main.subject.getData().getRowCount() < 1)
 			{
-				JOptionPane.showMessageDialog(null, "You don\'t add any item yet.", "Stop", JOptionPane.ERROR_MESSAGE);
+				message = "You don\'t add any item yet.";
+				Speaker.speak(message);
+				MessageBox.error(message);
 				return;
 			}
 
@@ -69,7 +75,9 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 
 			TransactionController.add(carts);
 
-			JOptionPane.showMessageDialog(null, "Transaction completed.", "Success", JOptionPane.INFORMATION_MESSAGE);
+			message = "Transaction completed.";
+			Speaker.speak(message);
+			MessageBox.success(message);
 
 			Main.subject.setData(null);
 		}
@@ -77,21 +85,24 @@ public class POSPanel extends JPanel implements ActionListener, IPOSPanel
 		{
 			if (Main.subject.getData().getRowCount() < 1)
 			{
-				JOptionPane.showMessageDialog(null, "You don\'t add any item yet.", "Stop", JOptionPane.ERROR_MESSAGE);
+				message = "You don\'t add any item yet.";
+				Speaker.speak(message);
+				MessageBox.success(message);
 				return;
 			}
+			
+			message = "Are you sure want to pending this transaction ?"; 
+			Speaker.speak(message);
 
-			int confirmationResult = JOptionPane.showConfirmDialog(null,
-					"Are you sure want to pending this transaction ?", "Confirmation", JOptionPane.YES_NO_OPTION,
-					JOptionPane.QUESTION_MESSAGE);
+			int confirmationResult = MessageBox.confirmation(message);
 
 			if (confirmationResult == JOptionPane.YES_OPTION)
 			{
 				Main.subject.pendingTransaction(Main.subject.getData());
 				Main.subject.setData(null);
 
-				JOptionPane.showMessageDialog(null, "Transaction postponed.", "Success",
-						JOptionPane.INFORMATION_MESSAGE);
+				message = "Transaction postponed.";
+				MessageBox.success(message);
 			}
 		}
 	}

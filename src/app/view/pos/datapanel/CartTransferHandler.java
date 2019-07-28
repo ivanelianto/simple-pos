@@ -2,25 +2,13 @@ package app.view.pos.datapanel;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragSourceDragEvent;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DragSourceEvent;
-import java.awt.dnd.DragSourceListener;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,34 +16,37 @@ import app.controller.ProductController;
 import app.dto.CartDTO;
 import app.model.Product;
 import util.Encryptor;
+import util.MessageBox;
 import util.MyFormatter;
+import util.Speaker;
 
 public class CartTransferHandler extends TransferHandler
 {
 	private DataPanel dataPanel;
-	
+
 	public CartTransferHandler(DataPanel dataPanel)
 	{
 		this.dataPanel = dataPanel;
 	}
-	
+
 	@Override
 	public boolean canImport(TransferSupport support)
 	{
 		try
 		{
-			List<?> files = (List<?>) support.getTransferable()
-					.getTransferData(DataFlavor.javaFileListFlavor);
-			
+			List<?> files = (List<?>) support.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
+
 			for (File file : (File[]) files.toArray())
 				if (!file.getName().endsWith(".iv"))
 					return false;
 		}
-		catch (Exception e) { }
+		catch (Exception e)
+		{
+		}
 
 		return true;
 	}
-	
+
 	@Override
 	public boolean importData(JComponent comp, Transferable t)
 	{
@@ -66,13 +57,14 @@ public class CartTransferHandler extends TransferHandler
 			for (File file : files)
 			{
 				CartDTO dto = parseToCartDTO(file);
-				
+
 				Product product = ProductController.getProductByID(dto.getId());
-				
+
 				if (!product.isAvailableStock(1))
 				{
-					JOptionPane.showMessageDialog(null, "Insufficient stock.", "Stop",
-							JOptionPane.ERROR_MESSAGE);
+					String message = "Insufficient stock.";
+					Speaker.speak(message);
+					MessageBox.error(message);
 
 					return false;
 				}
@@ -91,8 +83,9 @@ public class CartTransferHandler extends TransferHandler
 
 						if (!product.isAvailableStock(qtyInRow + 1))
 						{
-							JOptionPane.showMessageDialog(null, "Insufficient stock.", "Stop",
-									JOptionPane.ERROR_MESSAGE);
+							String message = "Insufficient stock.";
+							Speaker.speak(message);
+							MessageBox.error(message);
 
 							return false;
 						}
@@ -128,7 +121,9 @@ public class CartTransferHandler extends TransferHandler
 		}
 		catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(null, "Invalid file content.", "Stop", JOptionPane.ERROR_MESSAGE);
+			String message = "Invalid file content.";
+			Speaker.speak(message);
+			MessageBox.error(message);
 			e.printStackTrace();
 		}
 
@@ -147,13 +142,14 @@ public class CartTransferHandler extends TransferHandler
 		try
 		{
 			lines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
-			
+
 			String productRawString = Encryptor.decodeBase64(lines.get(0));
 
 			String[] encodedProductFields = productRawString.split("#");
 
 			return new CartDTO(Integer.valueOf(encodedProductFields[CartDTO.ID_INDEX]),
-					encodedProductFields[CartDTO.NAME_INDEX], Integer.valueOf(encodedProductFields[CartDTO.QUANTITY_INDEX]),
+					encodedProductFields[CartDTO.NAME_INDEX],
+					Integer.valueOf(encodedProductFields[CartDTO.QUANTITY_INDEX]),
 					Double.valueOf(encodedProductFields[CartDTO.PRICE_INDEX]));
 		}
 		catch (Exception e)

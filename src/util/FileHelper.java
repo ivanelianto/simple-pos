@@ -3,8 +3,6 @@ package util;
 import java.io.File;
 import java.io.FileWriter;
 
-import javax.swing.JOptionPane;
-
 import app.dto.CartDTO;
 
 public class FileHelper
@@ -17,10 +15,7 @@ public class FileHelper
 			
 			if (!file.exists())
 			{
-				JOptionPane.showMessageDialog(null, 
-						"Missing assets. Please ask IV18-1 for assets file. Application will be closed.",
-						"Stop",
-						JOptionPane.ERROR_MESSAGE);
+				MessageBox.error("Missing assets. Please ask IV18-1 for assets file. Application will be closed.");
 				
 				System.exit(0);
 			}
@@ -43,10 +38,7 @@ public class FileHelper
 			
 			if (!file.exists())
 			{
-				JOptionPane.showMessageDialog(null, 
-						"Missing assets. Please ask IV18-1 for assets file. Application will be closed.",
-						"Stop",
-						JOptionPane.ERROR_MESSAGE);
+				MessageBox.error("Missing assets. Please ask IV18-1 for assets file. Application will be closed.");
 				
 				System.exit(0);
 			}

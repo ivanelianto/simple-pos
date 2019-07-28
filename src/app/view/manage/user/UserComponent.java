@@ -25,6 +25,8 @@ import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
 import app.view.dialog.user.UserDialog;
 import util.FileHelper;
+import util.MessageBox;
+import util.Speaker;
 
 public class UserComponent extends JPanel implements ActionListener, IUserComponent
 {
@@ -76,8 +78,9 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 		}
 		else if (e.getSource() == getDeleteButton())
 		{
-			int confirmationResult = JOptionPane.showConfirmDialog(null, "Are you sure ?", "Confirmation",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			String question = "Are you sure ?";
+			Speaker.speak(question);
+			int confirmationResult = MessageBox.confirmation(question);
 
 			if (confirmationResult == JOptionPane.YES_OPTION)
 			{
