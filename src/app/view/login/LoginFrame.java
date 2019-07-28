@@ -42,7 +42,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 	private JLabel lblTitle, lblUsername, lblPassword;
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
-	private MainFrame mainDialog;
+	private MainFrame mainFrame;
 
 	public LoginFrame()
 	{
@@ -107,19 +107,6 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		panel.add(getLoginButton(), c);
 
 		this.add(panel, BorderLayout.CENTER);
-
-		if (mainDialog == null)
-		{
-			mainDialog = new MainFrame();
-			mainDialog.addWindowListener(new WindowAdapter()
-			{
-				@Override
-				public void windowClosed(WindowEvent e)
-				{
-					LoginFrame.this.setVisible(true);
-				}
-			});
-		}
 	}
 
 	@Override
@@ -127,11 +114,9 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 	{
 		if (e.getSource() == btnLogin)
 		{
-			boolean isValid = Validator.validate(
-					new UsernameRule(getUsernameField()),
-					new PasswordRule(getPasswordField())
-					);
-			
+			boolean isValid = Validator.validate(new UsernameRule(getUsernameField()),
+					new PasswordRule(getPasswordField()));
+
 			if (isValid)
 			{
 				Speaker.speak("Authenticating...");
@@ -208,6 +193,26 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		return txtPassword;
 	}
 
+	@Override
+	public MainFrame getMainFrame()
+	{
+		if (mainFrame == null)
+		{
+			mainFrame = new MainFrame();
+
+			mainFrame.addWindowListener(new WindowAdapter()
+			{
+				@Override
+				public void windowClosed(WindowEvent e)
+				{
+					LoginFrame.this.setVisible(true);
+				}
+			});
+		}
+
+		return mainFrame;
+	}
+
 	class AuthWorker extends SwingWorker<String, String>
 	{
 		private boolean isFound = false;
@@ -216,7 +221,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		protected String doInBackground() throws Exception
 		{
 			String errorMessage = AuthController.login(txtUsername.getText(), new String(txtPassword.getPassword()));
-			
+
 			/**
 			 * Just Decoration
 			 */
@@ -246,7 +251,7 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 		protected void done()
 		{
 			getLoginButton().setText("Login");
-			
+
 			if (isFound)
 			{
 				txtUsername.setText("");
@@ -254,13 +259,13 @@ public class LoginFrame extends JFrame implements ActionListener, ILoginFrame
 				txtPassword.setText("");
 
 				String message = "Welcome Back, " + Main.currentUser.getName();
-				
+
 				Speaker.speak(message);
-				
+
 				MessageBox.success(message);
-				
+
 				LoginFrame.this.setVisible(false);
-				mainDialog.setVisible(true);
+				getMainFrame().setVisible(true);
 			}
 		}
 	}

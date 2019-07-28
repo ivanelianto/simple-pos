@@ -1,11 +1,9 @@
 package main;
 
 import java.awt.EventQueue;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 import app.model.User;
-import app.view.main.MainFrame;
+import app.view.login.LoginFrame;
 import app.view.pos.Cart;
 
 public class Main
@@ -33,25 +31,25 @@ public class Main
 		/**
 		 * Comment For Debugging
 		 */
-//		LoginFrame loginFrame = new LoginFrame();
-//		loginFrame.setVisible(true);
+		LoginFrame loginFrame = new LoginFrame();
+		loginFrame.setVisible(true);
 
 		/**
 		 * Uncomment For Debugging
 		 */
-		currentUser = new User();
-		currentUser.setId(1);
-		currentUser.setName("Ivan");
-		MainFrame frame = new MainFrame();
-		frame.addWindowListener(new WindowAdapter()
-		{
-			@Override
-			public void windowClosed(WindowEvent e)
-			{
-				System.exit(0);
-			}
-		});
-		frame.setVisible(true);
+//		currentUser = new User();
+//		currentUser.setId(1);
+//		currentUser.setName("Ivan");
+//		MainFrame frame = new MainFrame();
+//		frame.addWindowListener(new WindowAdapter()
+//		{
+//			@Override
+//			public void windowClosed(WindowEvent e)
+//			{
+//				System.exit(0);
+//			}
+//		});
+//		frame.setVisible(true);
 	}
 
 	public static void main(String[] args)

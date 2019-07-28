@@ -5,6 +5,8 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import app.view.main.MainFrame;
+
 public interface ILoginFrame
 {
 	JButton getLoginButton();
@@ -18,4 +20,6 @@ public interface ILoginFrame
 	JTextField getUsernameField();
 
 	JPasswordField getPasswordField();
+	
+	MainFrame getMainFrame();
 }

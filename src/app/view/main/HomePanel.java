@@ -1,7 +1,9 @@
 package app.view.main;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.security.InvalidParameterException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -33,17 +36,27 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel
 	public HomePanel()
 	{
 		this.setBackground(Color.WHITE);
+		this.setLayout(new BorderLayout());
+		
+		JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		headerPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+		headerPanel.setOpaque(false);
+		headerPanel.add(getCurrentUserNameLabel());
+		this.add(headerPanel, BorderLayout.NORTH);
 
 		GridBagConstraints c = new GridBagConstraints();
-		this.setLayout(new GridBagLayout());
+		JPanel panel = new JPanel(new GridBagLayout());
+		panel.setOpaque(false);
 
 		c.gridx = 0;
 		c.insets = new Insets(0, 0, 0, 5);
-		this.add(getCastToCustomerViewScreenButton(), c);
+		panel.add(getCastToCustomerViewScreenButton(), c);
 
 		c.gridx = 1;
 		c.insets = new Insets(0, 5, 0, 0);
-		this.add(getRestorePendingTransactionButton(), c);
+		panel.add(getRestorePendingTransactionButton(), c);
+		
+		this.add(panel, BorderLayout.CENTER);
 	}
 
 	@Override
@@ -72,7 +85,10 @@ public class HomePanel extends JPanel implements ActionListener, IHomePanel
 	{
 		if (lblCurrentUserName == null)
 		{
-			lblCurrentUserName = LabelFactory.getInstance().create("Hello, " + Main.currentUser.getName());
+			lblCurrentUserName = LabelFactory.getInstance().create("");
+			
+			if (Main.currentUser != null)
+				lblCurrentUserName.setText("Hello, " + Main.currentUser.getName());
 		}
 		
 		return lblCurrentUserName;
