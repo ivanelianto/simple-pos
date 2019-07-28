@@ -82,7 +82,7 @@ public class ProductRepository extends Repository<Product>
 	public static void update(int id, Product product)
 	{
 		int updatedProductIndex = IntStream.range(0, products.size())
-				.filter(x -> Integer.valueOf(x).equals(products.get(x).getId())).findFirst().getAsInt();
+				.filter(x -> Integer.valueOf(id).equals(products.get(x).getId())).findFirst().getAsInt();
 
 		products.set(updatedProductIndex, product);
 

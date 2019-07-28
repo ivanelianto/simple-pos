@@ -220,7 +220,6 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 				User user = chunks.get(i);
 				
 				UserComponent component = new UserComponent(user, 
-						() -> { refreshData(true, true); return null; }, 
 						() -> { refreshData(true, true); return null; });
 				
 				getMainPanel().add(component, c);

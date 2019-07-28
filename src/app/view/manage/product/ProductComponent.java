@@ -34,13 +34,13 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	private JButton btnID;
 	private JLabel lblName, lblStock, lblPrice;
 	private MyImageButton btnEdit, btnDelete;
-	private Callable<Void> refreshDataMethod;
+	private Callable<Void> onDataChange;
 	private Product product;
 
-	public ProductComponent(Product product, Callable<Void> refreshDataMethod)
+	public ProductComponent(Product product, Callable<Void> onDataChange)
 	{
 		this.product = product;
-		this.refreshDataMethod = refreshDataMethod;
+		this.onDataChange = onDataChange;
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		this.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -74,7 +74,7 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 				dialog.setVisible(true);
 
 				if (dialog.getDialogResult() == MyDialog.UPDATE_MODE)
-					refreshDataMethod.call();
+					onDataChange.call();
 			}
 			catch (Exception ex)
 			{
@@ -97,7 +97,7 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 				
 				try
 				{
-					refreshDataMethod.call();
+					onDataChange.call();
 				}
 				catch (Exception e1)
 				{

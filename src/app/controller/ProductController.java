@@ -12,7 +12,7 @@ import util.FileHelper;
 public class ProductController
 {
 	private static ArrayList<Product> products;
-	
+
 	public static ArrayList<Product> getAllProducts()
 	{
 		return ProductRepository.getAllProducts();
@@ -22,7 +22,7 @@ public class ProductController
 	{
 		return ProductRepository.getProductsPerPage(page);
 	}
-	
+
 	public static int getTotalProduct()
 	{
 		return ProductRepository.getTotalProduct();
@@ -46,9 +46,9 @@ public class ProductController
 		product.setStock(stock);
 		product.setPrice(price);
 		int generatedId = ProductRepository.add(product);
-		
+
 		String data = String.format("%d#%s#%d#%f", generatedId, name, 1, price);
-		
+
 		FileHelper.writeFile(FileHelper.getProductsPath(), data, true);
 	}
 
@@ -60,12 +60,25 @@ public class ProductController
 		product.setStock(stock);
 		product.setPrice(price);
 		ProductRepository.update(id, product);
+
+		String fileLocation = String.format("%s/%d.iv", FileHelper.getProductsPath(), id);
+
+		try
+		{
+			Files.deleteIfExists(Paths.get(fileLocation));
+			String data = String.format("%d#%s#%d#%f", id, name, 1, price);
+			FileHelper.writeFile(FileHelper.getProductsPath(), data, true);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public static void delete(int id)
 	{
 		String fileLocation = String.format("%s/%d.iv", FileHelper.getProductsPath(), id);
-		
+
 		try
 		{
 			Files.deleteIfExists(Paths.get(fileLocation));
@@ -74,7 +87,7 @@ public class ProductController
 		{
 			e.printStackTrace();
 		}
-		
+
 		ProductRepository.delete(id);
 	}
 }

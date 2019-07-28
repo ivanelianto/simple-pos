@@ -39,7 +39,7 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 	private Callable<Void> onEdit, onDelete;
 	private User user;
 
-	public UserComponent(User user, Callable<Void> onEdit, Callable<Void> onDelete)
+	public UserComponent(User user, Callable<Void> onEdit)
 	{
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
