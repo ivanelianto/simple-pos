@@ -31,9 +31,6 @@ import util.Speaker;
 
 public class ProductDialog extends MyDialog implements ActionListener, AutoCloseable, IProductDialog
 {
-	public final static int INSERT_MODE = 0;
-	public final static int UPDATE_MODE = 1;
-
 	private JLabel lblName;
 	private JLabel lblStock;
 	private JLabel lblPrice;
@@ -121,6 +118,7 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 
 					ProductController.add(name, stock, price);
 					message = "New product added.";
+					this.dialogResult = INSERT_MODE;
 				}
 				else
 				{
@@ -137,6 +135,7 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 					ProductController.update(product.getId(), getNameField().getText(),
 							Integer.parseInt(getStockField().getText()), Double.parseDouble(getPriceField().getText()));
 					message = "Product data updated.";
+					this.dialogResult = UPDATE_MODE;
 				}
 				else
 				{
@@ -164,6 +163,7 @@ public class ProductDialog extends MyDialog implements ActionListener, AutoClose
 		{
 			try
 			{
+				this.dialogResult = CANCELED;
 				this.close();
 			}
 			catch (Exception e1)

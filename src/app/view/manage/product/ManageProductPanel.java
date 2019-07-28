@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -151,13 +152,25 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 	@Override
 	public void refreshData()
 	{
+//		getMainPanel().removeAll();
 		totalProduct = ProductController.getTotalProduct();
-
 		new ProductDataFetcher().execute();
+	}
+
+	public void refreshData(boolean isFetchAll) throws Exception
+	{
+		if (!isFetchAll)
+			throw new Exception("Argument should be true.");
+
+//		getMainPanel().removeAll();
+		totalProduct = ProductController.getTotalProduct();
+		new ProductDataFetcher(isFetchAll).execute();
 	}
 
 	class ProductDataFetcher extends SwingWorker<Void, Product>
 	{
+		private boolean isFetchAll = false;
+
 		private GridBagConstraints c;
 
 		public ProductDataFetcher()
@@ -167,10 +180,21 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 			c.fill = GridBagConstraints.BOTH;
 		}
 
+		public ProductDataFetcher(boolean isFetchAll)
+		{
+			this();
+			this.isFetchAll = isFetchAll;
+		}
+
 		@Override
 		protected Void doInBackground() throws Exception
 		{
-			ArrayList<Product> products = ProductController.getProductsPerPage(lastLoadedProductPage);
+			ArrayList<Product> products = null;
+
+			if (!isFetchAll)
+				products = ProductController.getProductsPerPage(lastLoadedProductPage);
+			else
+				products = ProductController.getAllProducts();
 
 			for (Product product : products)
 				publish(product);
@@ -184,7 +208,15 @@ public class ManageProductPanel extends JPanel implements ActionListener, IManag
 			for (int i = 0; i < chunks.size(); i++)
 			{
 				Product product = chunks.get(i);
-				ProductComponent productItem = new ProductComponent(product, ManageProductPanel.this);
+				ProductComponent productItem = new ProductComponent(product, new Callable<Void>()
+				{
+					@Override
+					public Void call() throws Exception
+					{
+						refreshData(true);
+						return null;
+					}
+				});
 				productItem.setPreferredSize(new Dimension(500, 100));
 				productItem.getIDButton().setText(product.getId() + "");
 				productItem.getNameLabel().setText(product.getName());

@@ -35,9 +35,6 @@ import util.Speaker;
 
 public class UserDialog extends MyDialog implements ActionListener, AutoCloseable, IUserDialog
 {
-	public final static int INSERT_MODE = 0;
-	public final static int UPDATE_MODE = 1;
-
 	private JLabel lblName;
 	private JLabel lblUsername;
 	private JLabel lblOldPassword;
@@ -54,7 +51,7 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 	private User user;
 
 	private int currentMode = INSERT_MODE;
-
+	
 	public UserDialog()
 	{
 		initializeComponent();
@@ -140,6 +137,7 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 
 					UserController.add(name, username, password);
 					message = "New user added.";
+					this.dialogResult = INSERT_MODE;
 				}
 				else
 				{
@@ -151,7 +149,6 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 			}
 			else
 			{
-
 				ArrayList<IRule> rules = new ArrayList<>();
 
 				rules.add(new NameRule(getNameField().getText()));
@@ -172,6 +169,7 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 					UserController.update(user.getId(), getNameField().getText(), getUsernameField().getText(),
 							getNewPasswordField().getText());
 					message = "User data updated.";
+					this.dialogResult = UPDATE_MODE;
 				}
 				else
 				{
@@ -188,6 +186,7 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 			try
 			{
 				this.close();
+				
 			}
 			catch (Exception e1)
 			{
@@ -199,6 +198,7 @@ public class UserDialog extends MyDialog implements ActionListener, AutoCloseabl
 		{
 			try
 			{
+				this.dialogResult = CANCELED;
 				this.close();
 			}
 			catch (Exception e1)

@@ -29,18 +29,21 @@ import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.model.User;
 import app.view.custom_component.MyImageButton;
+import app.view.dialog.MyDialog;
 import app.view.dialog.user.UserDialog;
 import util.FileHelper;
 import util.MyFormatter;
 
 public class ManageUserPanel extends JPanel implements ActionListener, IManageUserPanel
 {
+	private static final long serialVersionUID = -2791913324294467264L;
+
 	private JLabel lblTotalLoadedUser;
-	
+
 	private JPanel mainPanel;
 
 	private MyImageButton btnAdd;
-	
+
 	private int lastLoadedUserPage = 1, totalUser = 0;
 
 	public ManageUserPanel()
@@ -67,7 +70,12 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 			try (UserDialog dialog = new UserDialog())
 			{
 				dialog.setVisible(true);
-				this.refreshData();
+
+				if (dialog.getDialogResult() == MyDialog.INSERT_MODE)
+				{
+					++totalUser;
+					this.refreshData(true, true);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -81,10 +89,10 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 	{
 		if (lblTotalLoadedUser == null)
 		{
-			lblTotalLoadedUser = LabelFactory.getInstance().create("Total Loaded User : 0 / " 
-					+ MyFormatter.formatToNumberWithSeparator(totalUser));
+			lblTotalLoadedUser = LabelFactory.getInstance()
+					.create("Total Loaded User : 0 / " + MyFormatter.formatToNumberWithSeparator(totalUser));
 		}
-		
+
 		return lblTotalLoadedUser;
 	}
 
@@ -109,7 +117,8 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 				{
 					if (!e.getValueIsAdjusting())
 					{
-						if (e.getValue() == scrollbar.getMaximum() - scrollbar.getVisibleAmount())
+						if (e.getValue() > 0 
+							&& e.getValue() == scrollbar.getMaximum() - scrollbar.getVisibleAmount())
 						{
 							if (totalUser != getMainPanel().getComponentCount())
 							{
@@ -153,14 +162,27 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 	public void refreshData()
 	{
 		totalUser = UserController.getTotalUser();
-
 		new UserDataFetcher().execute();
+	}
+
+	public void refreshData(boolean isFetchAll, boolean shouldClearPanel) throws Exception
+	{
+		if (!isFetchAll)
+			throw new Exception("Argument should be true.");
+
+		if (shouldClearPanel)
+			getMainPanel().removeAll();
+		
+		totalUser = UserController.getTotalUser();
+		new UserDataFetcher(isFetchAll).execute();
 	}
 
 	class UserDataFetcher extends SwingWorker<Void, User>
 	{
+		private boolean isFetchAll = false;
+
 		private GridBagConstraints c;
-		
+
 		public UserDataFetcher()
 		{
 			c = new GridBagConstraints();
@@ -168,10 +190,21 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 			c.fill = GridBagConstraints.BOTH;
 		}
 
+		public UserDataFetcher(boolean isFetchAll)
+		{
+			this();
+			this.isFetchAll = isFetchAll;
+		}
+
 		@Override
 		protected Void doInBackground() throws Exception
 		{
-			ArrayList<User> users = UserController.getUsersPerPage(lastLoadedUserPage);
+			ArrayList<User> users = null;
+
+			if (!isFetchAll)
+				users = UserController.getUsersPerPage(lastLoadedUserPage);
+			else
+				users = UserController.getAllUsers();
 
 			for (User user : users)
 				publish(user);
@@ -185,16 +218,15 @@ public class ManageUserPanel extends JPanel implements ActionListener, IManageUs
 			for (int i = 0; i < chunks.size(); i++)
 			{
 				User user = chunks.get(i);
-
-				UserComponent userItem = new UserComponent(user, ManageUserPanel.this);
-				userItem.setPreferredSize(new Dimension(500, 80));
-				userItem.getIDButton().setText(user.getId() + "");
-				userItem.getNameLabel().setText(user.getName());
-				userItem.getUsernameLabel().setText(user.getUsername());
-				getMainPanel().add(userItem, c);
+				
+				UserComponent component = new UserComponent(user, 
+						() -> { refreshData(true, true); return null; }, 
+						() -> { refreshData(true, true); return null; });
+				
+				getMainPanel().add(component, c);
 			}
 		}
-
+		
 		@Override
 		protected void done()
 		{

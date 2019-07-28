@@ -9,6 +9,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.concurrent.Callable;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -23,6 +24,7 @@ import app.factory.LabelFactory;
 import app.model.User;
 import app.view.custom_component.MyColor;
 import app.view.custom_component.MyImageButton;
+import app.view.dialog.MyDialog;
 import app.view.dialog.user.UserDialog;
 import util.FileHelper;
 import util.MessageBox;
@@ -30,20 +32,27 @@ import util.Speaker;
 
 public class UserComponent extends JPanel implements ActionListener, IUserComponent
 {
+	private static final long serialVersionUID = 3341570976079231957L;
 	private JButton btnID;
 	private JLabel lblName, lblUsername;
 	private MyImageButton btnEdit, btnDelete;
-	private IManageUserPanel manageUserPanel;
+	private Callable<Void> onEdit, onDelete;
 	private User user;
 
-	public UserComponent(User user, IManageUserPanel panel)
+	public UserComponent(User user, Callable<Void> onEdit, Callable<Void> onDelete)
 	{
-		this.user = user;
-		this.manageUserPanel = panel;
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		this.setBorder(new EmptyBorder(10, 10, 10, 10));
 		this.add(getIDButton(), BorderLayout.WEST);
+		this.setPreferredSize(new Dimension(500, 80));
+		this.onEdit = onEdit;
+		this.onDelete = onDelete;
+		this.user = user;
+		
+		getIDButton().setText(user.getId() + "");
+		getNameLabel().setText(user.getName());
+		getUsernameLabel().setText(user.getUsername());
 
 		JPanel contentPanel = new JPanel(new BorderLayout());
 		contentPanel.setOpaque(false);
@@ -69,7 +78,9 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 			try (UserDialog dialog = new UserDialog(this.user))
 			{
 				dialog.setVisible(true);
-				manageUserPanel.refreshData();
+				
+				if (dialog.getDialogResult() == MyDialog.UPDATE_MODE)
+					onEdit.call();
 			}
 			catch (Exception ex)
 			{
@@ -85,7 +96,19 @@ public class UserComponent extends JPanel implements ActionListener, IUserCompon
 			if (confirmationResult == JOptionPane.YES_OPTION)
 			{
 				UserController.delete(Integer.parseInt(getIDButton().getText()));
-				manageUserPanel.refreshData();
+
+				String message = "User data deleted.";
+				Speaker.speak(message);
+				MessageBox.success(message);
+				
+				try
+				{
+					onDelete.call();
+				}
+				catch (Exception e1)
+				{
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

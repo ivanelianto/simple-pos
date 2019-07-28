@@ -3,6 +3,7 @@ package app.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 import app.model.Product;
 
@@ -10,22 +11,33 @@ public class ProductRepository extends Repository<Product>
 {
 	public final static int ITEM_PER_PAGE = 25;
 
+	private final static ArrayList<Product> products = new ArrayList<Product>();
+
+	public static ArrayList<Product> getAllProducts()
+	{
+		if (products.size() < 1)
+			products.addAll(getProductsPerPage(1));
+
+		return products;
+	}
+
 	public static ArrayList<Product> getProductsPerPage(int page)
 	{
-		String query = String.format("SELECT * FROM Product LIMIT %d,%d",
-				(page - 1) * ITEM_PER_PAGE, ITEM_PER_PAGE);
-		
+		String query = String.format("SELECT * FROM Product LIMIT %d,%d", (page - 1) * ITEM_PER_PAGE, ITEM_PER_PAGE);
 		ResultSet result = Repository.executeQuery(query);
 
-		return Repository.toModel(Product.class, result);
+		ArrayList<Product> loadedProducts = Repository.toModel(Product.class, result);
+		products.addAll(loadedProducts);
+
+		return loadedProducts;
 	}
 
 	public static int getTotalProduct()
 	{
 		String query = String.format("SELECT COUNT(*) FROM Product");
-		
+
 		ResultSet result = Repository.executeQuery(query);
-		
+
 		try
 		{
 			result.next();
@@ -35,7 +47,7 @@ public class ProductRepository extends Repository<Product>
 		{
 			e.printStackTrace();
 		}
-		
+
 		return -1;
 	}
 
@@ -50,7 +62,13 @@ public class ProductRepository extends Repository<Product>
 		{
 			if (generatedKeys.next())
 			{
-				return generatedKeys.getInt(1);
+				int generatedId = generatedKeys.getInt(1);
+
+				product.setId(generatedId);
+
+				products.add(product);
+
+				return generatedId;
 			}
 		}
 		catch (SQLException e)
@@ -63,16 +81,27 @@ public class ProductRepository extends Repository<Product>
 
 	public static void update(int id, Product product)
 	{
-		String query = String.format("UPDATE Product SET name=?, stock=?, price=? WHERE id=?");
+		int updatedProductIndex = IntStream.range(0, products.size())
+				.filter(x -> Integer.valueOf(x).equals(products.get(x).getId())).findFirst().getAsInt();
 
+		products.set(updatedProductIndex, product);
+
+		String query = String.format("UPDATE Product SET name=?, stock=?, price=? WHERE id=?");
 		ProductRepository.executeUpdate(query, product.getName(), String.valueOf(product.getStock()),
 				String.valueOf(product.getPrice()), id + "");
 	}
 
 	public static void delete(int id)
 	{
-		String query = String.format("DELETE FROM Product WHERE ID=?");
+		Product deletedProduct = products.stream()
+				.filter(x -> x.getId() == id)
+				.findAny()
+				.orElse(null);
 
+		if (deletedProduct != null)
+			products.remove(deletedProduct);
+		
+		String query = String.format("DELETE FROM Product WHERE ID=?");
 		ProductRepository.executeUpdate(query, id + "");
 	}
 }

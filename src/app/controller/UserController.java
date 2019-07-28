@@ -8,6 +8,11 @@ import util.Encryptor;
 
 public class UserController
 {
+	public static ArrayList<User> getAllUsers()
+	{
+		return UserRepository.getAllUsers();
+	}
+	
 	public static ArrayList<User> getUsersPerPage(int page)
 	{
 		return UserRepository.getUsersPerPage(page);
@@ -34,6 +39,7 @@ public class UserController
 		String hashedPassword = Encryptor.hashSHA256(newPassword);
 
 		User user = new User();
+		user.setId(id);
 		user.setName(name);
 		user.setUsername(username);
 		user.setPassword(hashedPassword);

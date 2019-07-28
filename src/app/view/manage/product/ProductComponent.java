@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.concurrent.Callable;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -22,6 +23,7 @@ import app.factory.ButtonFactory;
 import app.factory.LabelFactory;
 import app.model.Product;
 import app.view.custom_component.MyImageButton;
+import app.view.dialog.MyDialog;
 import app.view.dialog.product.ProductDialog;
 import util.FileHelper;
 import util.MessageBox;
@@ -32,13 +34,13 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 	private JButton btnID;
 	private JLabel lblName, lblStock, lblPrice;
 	private MyImageButton btnEdit, btnDelete;
-	private IManageProductPanel manageProductPanel;
+	private Callable<Void> refreshDataMethod;
 	private Product product;
 
-	public ProductComponent(Product product, IManageProductPanel panel)
+	public ProductComponent(Product product, Callable<Void> refreshDataMethod)
 	{
 		this.product = product;
-		this.manageProductPanel = panel;
+		this.refreshDataMethod = refreshDataMethod;
 		this.setOpaque(false);
 		this.setLayout(new BorderLayout());
 		this.setBorder(new EmptyBorder(10, 10, 10, 10));
@@ -70,7 +72,9 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 			try (ProductDialog dialog = new ProductDialog(this.product))
 			{
 				dialog.setVisible(true);
-				manageProductPanel.refreshData();
+
+				if (dialog.getDialogResult() == MyDialog.UPDATE_MODE)
+					refreshDataMethod.call();
 			}
 			catch (Exception ex)
 			{
@@ -86,7 +90,19 @@ public class ProductComponent extends JPanel implements ActionListener, IProduct
 			if (confirmationResult == JOptionPane.YES_OPTION)
 			{
 				ProductController.delete(Integer.parseInt(getIDButton().getText()));
-				manageProductPanel.refreshData();
+				
+				String message = "Product data deleted.";
+				Speaker.speak(message);
+				MessageBox.success(message);
+				
+				try
+				{
+					refreshDataMethod.call();
+				}
+				catch (Exception e1)
+				{
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

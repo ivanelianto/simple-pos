@@ -12,6 +12,11 @@ import util.FileHelper;
 public class ProductController
 {
 	private static ArrayList<Product> products;
+	
+	public static ArrayList<Product> getAllProducts()
+	{
+		return ProductRepository.getAllProducts();
+	}
 
 	public static ArrayList<Product> getProductsPerPage(int page)
 	{
@@ -50,6 +55,7 @@ public class ProductController
 	public static void update(int id, String name, int stock, double price)
 	{
 		Product product = new Product();
+		product.setId(id);
 		product.setName(name);
 		product.setStock(stock);
 		product.setPrice(price);
