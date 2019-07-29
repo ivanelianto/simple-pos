@@ -32,6 +32,17 @@ public class ProductRepository extends Repository<Product>
 		return loadedProducts;
 	}
 
+	public static Product getProductByID(int id)
+	{
+		for (Product product : products)
+		{
+			if (product.getId() == id)
+				return product;
+		}
+
+		return null;
+	}
+
 	public static int getTotalProduct()
 	{
 		String query = String.format("SELECT COUNT(*) FROM Product");

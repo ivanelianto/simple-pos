@@ -142,9 +142,10 @@ public class CartTransferHandler extends TransferHandler
 		try
 		{
 			lines = Files.readAllLines(Paths.get(file.getAbsolutePath()));
+			
 
 			String productRawString = Encryptor.decodeBase64(lines.get(0));
-
+			
 			String[] encodedProductFields = productRawString.split("#");
 
 			return new CartDTO(Integer.valueOf(encodedProductFields[CartDTO.ID_INDEX]),
@@ -154,7 +155,6 @@ public class CartTransferHandler extends TransferHandler
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 			throw new Exception();
 		}
 	}

@@ -11,8 +11,6 @@ import util.FileHelper;
 
 public class ProductController
 {
-	private static ArrayList<Product> products;
-
 	public static ArrayList<Product> getAllProducts()
 	{
 		return ProductRepository.getAllProducts();
@@ -30,13 +28,7 @@ public class ProductController
 
 	public static Product getProductByID(int id)
 	{
-		for (Product product : products)
-		{
-			if (product.getId() == id)
-				return product;
-		}
-
-		return null;
+		return ProductRepository.getProductByID(id);
 	}
 
 	public static void add(String name, int stock, double price)
